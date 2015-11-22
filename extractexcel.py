@@ -1,3 +1,6 @@
+import datechecker
+
+
 def extract(myfile):
     i = 0
     for line in myfile:
@@ -10,13 +13,12 @@ def extract(myfile):
                # print word
                 word = word.replace("<<:>>","")
                 word = word.replace("<<.>>","")
-                print word
+                #print word
+                datechecker.check_date(word)
             
-            
-        i += 1
-        if i > 20:
-            break
-
+        #i += 1
+        #if i > 2:
+         #   break
 def main():
 
     myfile = open("September 2015 Samples De-Identified2.csv","r")
