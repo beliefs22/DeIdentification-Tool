@@ -51,13 +51,15 @@ def check_word(word):
     patterns = ['[0-9]{1,2}[/\.-][0-9]{1,2}[/\.-][0-9]{2,4}','january',
                 'february','march','april','may','june','july','august',
                 'september','october','december','^\d+\.\d+$']
-    other = ['^\w+[/:-]\w+$']
-
+    other = '^\w+[/:-]\w+$'
+    
     word = word.lower()
     for mark in punctuation:
         if word.endswith(mark):
             word = word[:len(word)-1]
-            break    
+            break
+    if re.search(other,word):
+        print "I found something here"
    
     for pattern in patterns:
         if re.search(pattern,word):
@@ -72,6 +74,7 @@ def main():
     print check_word("September, 2015")
     print check_word("1.2.2015")
     print check_word("1-2-2015")
+    print check_word("1343/13443")
     print check_word("1.2")
     print check_word("quentin")
     print check_word("Quentin")
