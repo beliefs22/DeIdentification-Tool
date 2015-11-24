@@ -59,7 +59,17 @@ def check_word(word):
             word = word[:len(word)-1]
             break
     if re.search(other,word):
-        print "I found something here"
+        found = True
+        options =['/',':',':','-']
+        for option in options:
+            if option in word:
+                temp = word.split(option)                 
+                for item in temp:                    
+                    if not check_word(item):
+                        found = False
+        return found
+            
+        
    
     for pattern in patterns:
         if re.search(pattern,word):
@@ -70,16 +80,12 @@ def check_word(word):
     
 
 def main():    
-    print check_word("1/2/2015")
-    print check_word("September, 2015")
-    print check_word("1.2.2015")
-    print check_word("1-2-2015")
-    print check_word("1343/13443")
-    print check_word("1.2")
-    print check_word("quentin")
-    print check_word("Quentin")
-    print check_word("fractures")
-    print check_word("fractures..")
+
+    words = ['1.2.2015','jessica','Jessica', '10/20/15','n/a','4.5',
+             'September 2015','4/15','nk/efas','Quentis','Sally']
+
+    for word in words:
+        print word, check_word(word)
 
     
 
