@@ -47,23 +47,22 @@ def check_date(date):
     test_pattern(date,pattern)
 
 def check_word(word):
-    punctuation = ['.',',',':','"',]
+    punctuation = r'\w+[./,:;\]\}\)([{]$'
     patterns = ['[0-9]{1,2}[/\.-][0-9]{1,2}[/\.-][0-9]{2,4}','january',
                 'february','march','april','may','june','july','august',
                 'september','october','december','^\d+\.\d+$']
-    other = '^\w+[/:-]\w+$'
+    other = '^\w+[/:-;()[\]{\}]\w+$'
     
     word = word.lower()
-    for mark in punctuation:
-        if word.endswith(mark):
-            word = word[:len(word)-1]
-            break
+    if re.search(punctuation,word):
+        word = word[:len(word)-1]
+ 
     if re.search(other,word):
         found = True
-        options =['/',':',':','-']
+        options =['/',':',':','-',';','(',')','[',']','{','}']
         for option in options:
             if option in word:
-                temp = word.split(option)                 
+                temp = word.split(option)                
                 for item in temp:                    
                     if not check_word(item):
                         found = False
@@ -82,7 +81,7 @@ def check_word(word):
 def main():    
 
     words = ['1.2.2015','jessica','Jessica', '10/20/15','n/a','4.5',
-             'September 2015','4/15','nk/efas','Quentis','Sally']
+             'September 2015','4/15','nk/efas','Quentis','Sally','house(1']
 
     for word in words:
         print word, check_word(word)

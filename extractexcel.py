@@ -52,20 +52,15 @@ def extract(myfile):
     all_words = []
     for line in myfile:
         temp = line.rstrip("\n").split(",")
-        #print temp
+        
         for item in temp:
             a = item.split(" ")
             for word in a:
-               # print word
-               # print word
+               
                 word = word.replace("<<:>>","")
                 word = word.replace("<<.>>",",")
                 all_words.append(word)
     return all_words
-            
-        #i += 1
-        #if i > 2:
-         #   break
 
 def clean(data):
 
@@ -86,7 +81,7 @@ def main():
     #test_Excel.show_subjects()
     subjects = test_Excel.export_subjects()
     print len(subjects)    
-    clean(subjects[2].getData())
+    clean(subjects[26].getData())
     
 
 main()
