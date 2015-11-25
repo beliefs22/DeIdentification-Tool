@@ -80,8 +80,9 @@ def main():
     #test_Excel.show_headers()
     #test_Excel.show_subjects()
     subjects = test_Excel.export_subjects()
-    print len(subjects)    
-    clean(subjects[26].getData())
+    print len(subjects)
+    for subject in subjects:
+        clean(subject.getData())
     
 
 main()
