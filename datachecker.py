@@ -40,32 +40,42 @@ def test_pattern(text, patterns=[]):
                 s = match.start()
                 e = match.end()
                 print '  %2d  :  %2d = "%s"' % \
-                      (s, e-1, text[s:e])
-        
+                      (s, e-1, text[s:e])        
     return
                   
-def check_date(date):
-
-    pattern = ['[0-9]{1,2}/[0-9]{1,2}/[0-9]{2,4}','[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{2,4}',
-               'January','February','March','April','May','June',
-               'July','August','September','October','December','^\d+\.\d+$']
-
-    test_pattern(date,pattern)
 
 def check_word(word):
-    punctuation = r'\w+[./,:;\]\}\)([{]$'
-    patterns = ['[0-9]{1,2}[/\.-][0-9]{1,2}[/\.-][0-9]{2,4}','january',
+    punctuation_end =  re.compile(r'\w+\W+$')
+    punctuation_begin = re.compile(r'^\W+\w+$')
+    enclosed = re.compile(r'^\W{1}\w+\W{1}$')
+    
+    patterns = [re.compile(p) for p in['[0-9]{1,2}[/\.-][0-9]{1,2}[/\.-][0-9]{2,4}','january',
                 'february','march','april','may','june','july','august',
-                'september','october','december','^\d+\.\d+$']
-    other = '^\w+[/:\-;()[\]{\}]\w+$'
+                'september','october','december','^\d+\.\d+$']]
+    other = re.compile('^\w+[/:\-;()[\]{\}]\w+$')
     
     word = word.lower()
-    if re.search(punctuation,word):
+    if  punctuation_end.search(word):        
+        punct = re.compile(r'\W+$')                           
+        match = punct.search(word)        
+        word = word[:match.start()]
+
+    if punctuation_begin.search(word):
+        punct = re.compile(r'^\W+')
+        match = punct.search(word)
+        word = word[match.end():]
+
+    if enclosed.search(word):
+        inside = re.complie(r'[^\W]\w+[^\W]')
+        match = inside.search(word)
+        start = match.start()
+        end = match.end()
+        word = word[start:end]
         
-        word = word[:len(word)-1]
+        
  
-    if re.search(other,word):
-        
+    if other.search(word):
+               
         found = True
         options =['/',':',':','-',';','(',')','[',']','{','}']
         for option in options:
@@ -75,11 +85,10 @@ def check_word(word):
                     if not check_word(item):
                         found = False
         return found
-    
-        
+
    
     for pattern in patterns:
-        if re.search(pattern,word):
+        if pattern.search(word):
             return True
         
     return word in dictionary or word in med_dictionary or word in firstnames \
@@ -90,7 +99,8 @@ def main():
 
     words = ['1.2.2015','jessica','Jessica', '10/20/15','n/a','4.5',
              'September 2015','4/15','nk/efas','Quentis','Sally','house(1',
-             'vancomycin','left-sided']
+             'vancomycin','left-sided','hello...::::','hello.',"..hello",
+             '(hello)','(2.2)']
 
     for word in words:
         print word, check_word(word)
