@@ -63,16 +63,30 @@ def extract(myfile):
     return all_words
 
 def clean(data):
+    allowed = {}
+    not_allowed = {}
+    indeterminate = {}
 
     for entry in data:
         temp = entry.split(" ")
         for item in temp:
-            
-            if datachecker.check_word(item.lower()):
-                pass
-            else:
-                print item, "is unknown word"
-        
+            stats, allow = datachecker.check_word(item)            
+            if allow == "allowed":
+                if item in allowed:
+                    allowed[item] = allowed[item] + 1
+                else:
+                    allowed[item] = 1
+            if allow == "not allowed":
+                if item in not_allowed:
+                    not_allowed[item] = not_allowed[item] + 1
+                else:
+                    not_allowed[item] = 1
+            if allow == "indeterminate":
+                if item in indeterminate:
+                    indeterminate[item] = indeterminate[item] + 1
+                else:
+                    indeterminate[item] = 1
+    return allowed, not_allowed, indeterminate
 def main():
 
     excelfile = open('September 2015 Samples De-Identified2.csv','r')
@@ -81,8 +95,7 @@ def main():
     #test_Excel.show_subjects()
     subjects = test_Excel.export_subjects()
     print len(subjects)
-    for subject in subjects:
-        clean(subject.getData())
+    allowed, not_allowed, indeterminate = clean(subjects[0].getData())
     
 
 main()
