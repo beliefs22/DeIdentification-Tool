@@ -96,7 +96,18 @@ def main():
     subjects = test_Excel.export_subjects()
     print len(subjects)
     allowed, not_allowed, indeterminate = clean(subjects[0].getData())
-    
+    results = [[allowed,"allowed"],[not_allowed,"not_allowed"],[indeterminate,
+                "indeterminate"]]
+    for dictionary in results:
+        pairs = list(dictionary[0].items())
+        print
+        print dictionary[1].upper()
+        print "_________________________________________________"
+        print        
+               
+        for words in pairs:
+            print str(words[0]) + "|" + str(words[1])
+
 
 main()
         

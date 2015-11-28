@@ -23,29 +23,28 @@ for line in med_dictionary_file:
 
 def test_pattern(text, patterns=[]):
     """Given source text and a list of patterns, look for
-    matches for each patternwithin the text and print
+    matches for each patternwithin the text and ###print
     them to stdout.
     """
     
     # Show the character positions and input text
     for pattern in patterns:
         if re.search(pattern,text):
-            print
-            print ''.join(str(i/10 or ' ') for i in range(len(text)))
-            print ''.join(str(i%10) for i in range(len(text)))
-            print text        
-            print
-            print 'Matching %s' % pattern
+            ##print
+            ##print ''.join(str(i/10 or ' ') for i in range(len(text)))
+            ##print ''.join(str(i%10) for i in range(len(text)))
+            ##print text        
+            ##print
+            ##print 'Matching %s' % pattern
             for match in re.finditer(pattern,text):
                 s = match.start()
                 e = match.end()
-                print '  %2d  :  %2d = "%s"' % \
-                      (s, e-1, text[s:e])        
+                ##print '  %2d  :  %2d = "%s"' % (s, e-1, text[s:e])        
     return
                   
 def check_pattern(word):
-    print word
-    print "check pattern ran"
+    #print word
+    #print "check pattern ran"
     found = False    
     final_allowed = "allowed"
     patterns = [re.compile(p) for p in['[0-9]{1,2}[/\.-][0-9]{1,2}[/\.-][0-9]{2,4}',
@@ -54,18 +53,18 @@ def check_pattern(word):
         if pattern.search(word):
             found = True
 
-            print "pattern ran"
+            #print "pattern ran"
             return True, "not allowed"
     
     if not found:
-        print "not found"
+        #print "not found"
         words = remove_punctuation(word)
         for item in words:
-            print "item is", item
+            #print "item is", item
             status , allowed = check_word(item)
-            print "status",status, "allowed",allowed
+            #print "status",status, "allowed",allowed
             if status == False:
-                print "false ran"
+                #print "false ran"
                 return status, allowed
             if allowed == 'not allowed':
                 final_allowed = 'not allowed'
@@ -73,7 +72,7 @@ def check_pattern(word):
     
     
 def remove_punctuation(word):
-    print "remove ran"    
+    #print "remove ran"    
     words = []
     punctuation = re.compile(r'\w+')
     matches =  punctuation.finditer(word)
@@ -81,7 +80,7 @@ def remove_punctuation(word):
         s = match.start()
         e = match.end()
         words.append(word[s:e])
-    print "words is", words
+    #print "words is", words
     return words
                      
 def check_word(word):
@@ -89,47 +88,43 @@ def check_word(word):
     months = ['january','february','march','april','may','june',
               'july','august','september','october','november','december']
     single = re.compile(r'^\W*$')
-    punctuaction_present = re.compile(r'[\w]+\W[\w]')
-    if punctuaction_present.search(word):
+    single_item = True if single.search(word) else False
+    punctuaction_present = re.compile(r'\W')
+    if not single_item and punctuaction_present.search(word):
         status , allowed = check_pattern(word)
         return status, allowed
     else:
-        print "not puncht"
-        print word
-        single_item = True if single.search(word) else False
+        #print "not puncht"
+        #print word        
         allowed = word in dictionary or word in med_dictionary or word.isdigit()\
                   or single_item
-        print allowed
+        #print allowed
         not_allowed = word in firstnames or word in lastnames or word in months
-        print not_allowed
+        #print not_allowed
 
         if allowed and not_allowed:
-            print "indeterm"
+            #print "indeterm"
             return True, "indeterminate" 
         if not_allowed:
-            print "not allowed ran"
+            #print "not allowed ran"
             return True, "not allowed"
         if allowed:
-            print  "allowed ran"
+            #print  "allowed ran"
             return True, "allowed"
 
         if not allowed and not not_allowed:
-            print "found neither"
+            #print "found neither"
             return False, "indeterminate"
    
 
 def main():    
 
-    words = ['..hello']
+    words = ['right','no','in','given','second','vena','tiny','good']
+
+    print 'no' in firstnames, 'no' in lastnames
     
     for word in words:       
         print word, check_word(word)
-    
-        
-
-    
 
 if __name__ == '__main__':
     main()
-    
-    
