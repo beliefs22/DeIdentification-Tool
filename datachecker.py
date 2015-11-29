@@ -47,8 +47,9 @@ def check_pattern(word):
     #print "check pattern ran"
     found = False    
     final_allowed = "allowed"
-    patterns = [re.compile(p) for p in['[0-9]{1,2}[/\.-][0-9]{1,2}[/\.-][0-9]{2,4}',
-                                       '^\d{1,2}[\W]\d{2,4}$']]    
+    patterns = [re.compile(p) for p in \
+                ['[0-9]{1,2}[/\.-][0-9]{1,2}[/\.-][0-9]{2,4}',
+                '^\d{1,2}[\W]\d{2,4}$']]    
     for pattern in patterns:        
         if pattern.search(word):
             found = True

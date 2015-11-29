@@ -1,0 +1,23 @@
+Algorithm for finding words
+
+Loading patients
+Each excel file remove all new lines, and replace all "," with special character, this ensures when 
+it is changed to a csv each line represents a single line from the excel sheet
+
+Use Excel class to creat an object that contains data on the headers in the file and each subject
+in the file.
+
+Subjects
+Each Subject object contains a list where each item in list is a string corresponding to information
+from a single cell in the subjects excel file.
+
+Checking for words
+Given a single entry for  a subject
+1. run check pattern - this will check for patterns that are dependent on punctuation
+and aren't allowed such as dates. if a pattern is found, replace that part of the string 
+with -redacted-(some version that fits)
+2. run check for words - this will first remove all left over punctuation, and then check for
+any items that are known words or numbers
+3. if anything is leftover after this pass, it will be labeled as indeterminate. The only things that 
+should be left over at this point are mispelled words, and words that must be manually looked at
+such as abbreviations. 

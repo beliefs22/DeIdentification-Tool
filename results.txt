@@ -1,282 +1,1946 @@
-30
+allowed
+_________________________________________________________
+represent: 2
+Feeding: 1
+partial: 1
+Borderline: 1
+limited: 1
+results: 1
+mild: 4
+debris: 2
+per: 10
+morphology: 1
+enteric: 2
+worrisome: 1
+increase: 3
+feeding: 1
+microscopically: 1
+pneumoniae: 2
+overlying: 4
+removal: 2
+0: 23
+biliary: 1
+excluded: 1
+Massive: 1
+Partially: 1
+Clindamycin: 5
+worse: 1
+cardiomegaly: 1
+continues: 1
+consolidation: 4
+SERRATIA: 1
+coursing: 2
+continued: 1
+hydronephrosis: 1
+positions: 1
+notes: 8
+surgical: 1
+subsegmental: 1
+vagal: 1
+minimal: 1
+noted: 1
+Klebsiella: 6
+upper: 12
+portable: 2
+findings: 3
+consistent: 1
+heterogenous: 1
+Negative: 8
+Igg: 1
+radiograph: 1
+likely: 5
+enhancement: 1
+atherosclerotic: 2
+Bacilli: 2
+Cryptococcus: 2
+appear: 3
+organisms: 4
+Methicillin: 3
+lactamase: 4
+remain: 3
+527: 1
+above: 6
+301: 1
+Escherichia: 2
+tracheostomy: 4
+residual: 2
+hours: 3
+109: 3
+102: 3
+Tubing: 1
+100: 2
+307: 1
+106: 1
+107: 2
+change: 11
+105: 1
+1848: 1
+Radiographic: 6
+33: 2
+32: 1
+31: 2
+30: 3
+37: 2
+36: 1
+35: 1
+amount: 2
+resulting: 1
+measuring: 1
+Penicillin: 1
+Category: 3
+airspace: 4
+271: 1
+Admission: 1
+336: 1
+extrapleural: 1
+visible: 2
+Decreased: 1
+opacities: 8
+withdrawing: 2
+Baclofen: 1
+remains: 3
+positive: 2
+Potassium: 1
+scan: 3
+examination: 2
+Postsurgical: 1
+6: 7
+taken: 1
+Suspected: 1
+type: 4
+Count: 1
+lungs: 8
+F: 15
+inflammatory: 1
+Trimethoprim: 22
+apparent: 1
+infection: 6
+Streptococcus: 2
+98: 1
+antibiotics: 1
+91: 2
+90: 1
+92: 1
+94: 2
+none: 60
+crosses: 1
+this: 3
+Tobramycin: 27
+Cefepime: 27
+suggestive: 2
+regions: 1
+tortuous: 1
+growing: 2
+cysts: 2
+process: 1
+Positive: 7
+performed: 1
+234: 1
+rods: 2
+costophrenic: 2
+Opacification: 1
+atelectatic: 3
+1: 25
+located: 2
+lesions: 1
+Significant: 2
+venous: 12
+A: 2
+145: 1
+Correlate: 2
+after: 1
+collection: 1
+Stenotrophomonas: 5
+emphysematous: 1
+cardiac: 3
+a: 11
+Effusion: 1
+neck: 1
+maybe: 1
+122: 1
+quadrant: 2
+cannot: 1
+correlation: 1
+regional: 1
+MIC: 6
+Removal: 1
+HAP: 6
+including: 1
+circumscribed: 1
+Extensive: 2
+Degenerative: 1
+before: 1
+24: 1
+superior: 5
+27: 5
+Multiple: 2
+exclusion: 1
+Polymorphonuclear: 32
+28: 2
+Pressure: 1
+400: 2
+decreased: 1
+sparing: 1
+junction: 2
+endotracheal: 11
+views: 1
+frontal: 1
+functional: 2
+markings: 4
+not: 7
+now: 8
+Organism: 1
+chronic: 3
+0431: 1
+Antigen: 1
+aeruginosa: 26
+Resistance: 1
+Mild: 2
+Skin: 1
+tubing: 5
+Ampicillin: 25
+clavicle: 1
+characterized: 2
+development: 1
+Acinetobacter: 3
+significantly: 1
+radiographic: 1
+jugular: 3
+abnormal: 1
+related: 1
+88: 1
+394: 1
+82: 1
+83: 2
+80: 1
+inflated: 1
+Type: 4
+84: 1
+out: 1
+endogastric: 2
+Very: 22
+since: 18
+emphysema: 1
+weighted: 1
+7: 17
+marcescens: 1
+Oxacillin: 4
+Medical: 2
+imaged: 1
+STAPHYLOCOCCUS: 5
+pneumothorax: 3
+G: 1
+Gentamicin: 27
+W: 16
+242: 1
+volumes: 1
+Corynebacterium: 1
+Peds: 4
+could: 2
+timed: 1
+Working: 1
+relate: 1
+There: 3
+one: 4
+enlarged: 1
+approximately: 1
+Probably: 1
+Cocci: 4
+discharged: 1
+size: 2
+Interstitial: 1
+Atherosclerosis: 1
+least: 1
+183: 1
+2: 40
+Adult: 2
+lumen: 1
+basilar: 4
+Date: 7
+188: 1
+cannula: 2
+B: 8
+Ceftazidime: 32
+collapse: 1
+that: 3
+asymmetric: 1
+bowel: 1
+Interval: 6
+basal: 1
+Cult: 26
+reflecting: 2
+tracheitis: 2
+infiltrate: 2
+11: 3
+10: 1
+13: 5
+15: 2
+14: 3
+17: 1
+16: 49
+19: 1
+18: 3
+aspiration: 1
+tree: 1
+infectious: 3
+pneumonia: 19
+Decrease: 1
+were: 1
+103: 1
+treated: 9
+are: 14
+and: 82
+Sulfamethoxazole: 22
+Aerobic: 1
+Suggest: 2
+unchanged: 1
+suspicious: 2
+Markedly: 1
+inpatient: 1
+retrocardiac: 1
+WBC: 1
+have: 3
+stomach: 1
+silhouette: 1
+pleural: 25
+mid: 6
+metallic: 2
+also: 1
+chest: 8
+Linezolid: 2
+generalized: 1
+which: 2
+finding: 1
+isolates: 2
+concern: 1
+patchy: 9
+203: 1
+thoracic: 14
+multiple: 1
+normal: 3
+Enterobacter: 8
+decreasing: 2
+nasal: 1
+77: 3
+75: 2
+74: 1
+Erythromycin: 5
+significant: 16
+The: 6
+78: 3
+osteopenia: 1
+mediastinal: 1
+renal: 1
+sizable: 1
+Scattered: 1
+disease: 1
+R: 27
+tubes: 5
+lying: 4
+impression: 38
+stimulator: 1
+fungal: 1
+particularly: 2
+Cardiomediastinal: 2
+scattered: 2
+Percutaneous: 1
+visualized: 2
+Recommend: 1
+superimposed: 1
+longer: 2
+apparatus: 2
+based: 1
+Frontal: 2
+aeration: 6
+should: 2
+8: 22
+partially: 1
+pointed: 1
+PICC: 9
+Ceftriaxone: 14
+rotated: 1
+vascular: 1
+fluid: 1
+120: 1
+Squamous: 31
+123: 1
+124: 2
+mainstem: 6
+CORYNEBACTERIUM: 1
+distraction: 1
+demineralized: 1
+traverses: 1
+progressive: 1
+132: 2
+medial: 4
+consolidations: 1
+esophageal: 4
+contain: 1
+Protein: 1
+Hematocrit: 1
+electrodes: 1
+culture: 3
+aerogenes: 6
+result: 4
+midline: 1
+subclavian: 7
+tunneled: 1
+Staphylococcus: 9
+Moxifloxacin: 7
+definite: 3
+3: 25
+unable: 1
+Pseudomonas: 29
+probably: 3
+approach: 1
+axillary: 1
+alveolar: 2
+exam: 3
+25: 2
+Admitted: 1
+S: 59
+selectively: 1
+20: 11
+cervical: 1
+perihilar: 1
+Otherwise: 2
+received: 1
+improved: 1
+Amikacin: 27
+resistant: 5
+HAEMOPHILUS: 1
+Serratia: 3
+against: 1
+ventriculoperitoneal: 1
+segmental: 1
+Strep: 1
+Haemophilus: 3
+otherwise: 1
+pre: 1
+unclear: 65
+Temperature: 1
+sepsis: 3
+60: 3
+Platelet: 1
+64: 2
+65: 3
+Endotracheal: 8
+mediastinum: 1
+68: 2
+69: 1
+pulmonary: 6
+throughout: 4
+meningitidis: 1
+ct: 4
+multifocal: 1
+described: 2
+157: 1
+hemidiaphragm: 1
+appears: 4
+Antibiotics: 2
+Vague: 1
+4: 22
+Comparison: 1
+Coccidioides: 1
+concerning: 3
+atelectasis: 15
+gas: 1
+460: 1
+Resin: 1
+cavoatrial: 3
+38: 1
+personally: 1
+165: 1
+lumbar: 2
+cardiomediastinal: 3
+diffuse: 1
+present: 7
+CT: 3
+Upper: 21
+these: 2
+appearance: 1
+air: 2
+Culture: 59
+replaced: 1
+shift: 1
+cancelled: 2
+biapical: 1
+region: 2
+procedure: 1
+at: 25
+changed: 1
+is: 33
+Tip: 2
+hardware: 3
+middle: 1
+Chest: 57
+vs: 1
+abnormalities: 2
+subpulmonic: 1
+rib: 1
+id: 7
+increased: 8
+suggest: 1
+wound: 1
+nodularity: 1
+elevated: 1
+complex: 2
+subcutaneous: 1
+9: 1
+specimen: 7
+320: 2
+week: 1
+attenuation: 1
+duodenostomy: 1
+effusions: 1
+I: 4
+appearances: 1
+yesterday: 1
+cement: 1
+SVC: 3
+Ortho: 1
+leukocyte: 1
+catheter: 20
+ID: 1
+focal: 4
+recent: 2
+prescribed: 1
+abnormality: 1
+changes: 3
+stents: 1
+squamous: 2
+the: 124
+Total: 1
+plaque: 1
+Dyspnea: 1
+216: 1
+Ciprofloxacin: 27
+215: 1
+210: 1
+edema: 5
+labeled: 1
+43: 1
+underlying: 3
+proximal: 2
+yes: 126
+Remaining: 1
+previous: 5
+Tracheostomy: 6
+cloacae: 6
+rapid: 1
+interstitial: 7
+density: 1
+admission: 2
+except: 3
+improvement: 2
+thickening: 1
+Tetracycline: 19
+internal: 1
+extends: 1
+location: 2
+Tazobactam: 26
+extensive: 1
+Support: 2
+Diplococci: 1
+knob: 1
+Osseous: 2
+elevation: 1
+definitive: 1
+Cells: 33
+possible: 7
+possibly: 3
+fusion: 1
+inflation: 2
+T: 63
+unique: 1
+advanced: 2
+ruled: 2
+acute: 1
+displaced: 1
+appearing: 2
+Vancomycin: 5
+54: 1
+56: 1
+51: 1
+50: 5
+53: 1
+Spinal: 1
+Aristotle: 1
+sidehole: 1
+lateral: 3
+ENTEROBACTER: 1
+towards: 1
+effusion: 13
+malignancy: 1
+HR: 1
+Bilirubin: 1
+some: 7
+identified: 1
+252: 1
+hydropneumothorax: 2
+111: 1
+72: 4
+esophagus: 1
+Minimal: 2
+Moderate: 4
+for: 21
+1850: 1
+tube: 35
+though: 2
+thoracostomy: 1
+Ertapenem: 11
+423: 1
+moderate: 5
+sided: 1
+demonstrated: 1
+fractures: 2
+Susceptibility: 9
+Aztreonam: 27
+Bilateral: 2
+overlies: 2
+M: 15
+osteophytes: 1
+confluent: 3
+O: 5
+oblique: 1
+nasogastric: 6
+although: 1
+Lactate: 1
+abdominal: 1
+by: 2
+central: 12
+Scan: 3
+of: 52
+compatible: 3
+Epithelial: 27
+Creatinine: 1
+slightly: 3
+Sulbactam: 12
+nerve: 2
+aortic: 2
+71: 1
+into: 1
+within: 12
+Two: 1
+Rate: 1
+appropriate: 1
+because: 1
+Increasing: 2
+polymorphonuclear: 1
+additional: 1
+Normal: 22
+Rajah: 1
+osseous: 2
+there: 2
+Piperacillin: 26
+carbapenems: 2
+clinical: 1
+was: 2
+Cefazolin: 11
+Respiratory: 51
+complete: 1
+nodular: 1
+drains: 1
+differences: 1
+Persistent: 2
+volume: 1
+Pneumonia: 1
+Aspiration: 1
+placement: 6
+removed: 1
+with: 48
+bilateral: 11
+Heavy: 4
+persisting: 2
+made: 1
+spinal: 1
+Significantly: 1
+Unchanged: 1
+Mycology: 1
+Neurology: 2
+Cefoxitin: 11
+similar: 1
+151: 1
+150: 2
+ASPERGILLUS: 1
+associated: 1
+aorta: 2
+hemithorax: 1
+evidence: 5
+as: 7
+Clinical: 1
+epithelial: 1
+Improved: 1
+again: 1
+compared: 5
+Atherosclerotic: 1
+compressive: 2
+48: 1
+86: 2
+tip: 29
+leftward: 1
+40: 16
+terminating: 3
+5: 7
+baclofen: 1
+opacity: 9
+diagnosis: 8
+Gender: 1
+AMOXICILLIN: 1
+Meropenem: 27
+enlargement: 2
+allowing: 1
+oxacillin: 2
+ICU: 9
+Ab: 1
+shunt: 6
+Stents: 1
+interval: 8
+persistent: 1
+hyperattenuating: 1
+At: 1
+Pneumo: 1
+time: 3
+resolution: 1
+not allowed
+_________________________________________________________
+indeterminate
+_________________________________________________________
+: 241
+Lars: 1
+Hendrix: 1
+(2.2)<<:>>: 3
+pneumoniae<<:>>second: 1
+<<:>>change: 1
+<<:>>Positive<<:>>ORG: 3
+aeruginosa<<:>><<:>><<:>><<:>>Susceptibility: 1
+field-of-view.: 1
+35.7: 1
+35.4: 1
+lobes.: 1
+meropenem(: 1
+37.9: 2
+Fluconazole(: 2
+<<:>><<:>><<:>>Staphylococcus: 3
+37.1: 1
+Stain: 26
+14.54: 2
+37.6: 1
+7.11: 1
+n/a
+ETA296: 1
+<<:>><<:>>degree: 1
+pneumoniae<<:>>Respiratory: 2
+<<:>>second: 4
+white: 1
+levels<<.>>: 1
+n/a
+ETA299: 1
+11/29/15: 1
+to: 25
+morphology;<<:>><<:>><<:>><<:>>: 2
+position.: 2
+64/4: 5
+<<:>>Lines: 1
+cloacae<<:>>3000: 1
+amantadine(: 1
+tube.<<:>>Ventriculoperitoneal: 1
+45.8: 1
+<<:>>Normal: 1
+Duke: 1
+right-sided: 2
+pneumonia.: 5
+147/70: 1
+specimen<<:>>Moderate: 9
+VAP: 10
+<<:>>so: 2
+<<:>>Probable: 2
+<<:>><<:>>ground: 1
+Flora<<:>><<:>><<:>>Respiratory: 15
+<<:>>Good: 14
+Vent: 1
+<<:>><<:>><<:>>Haemophilus: 2
+<<:>><<:>><<:>><<:>><<:>>: 18
+ug/mL"">>32: 1
+abdomen.<<:>>: 1
+present.: 4
+congestion.<<:>>Bilateral: 2
+Cult<<:>><<:>><<:>>: 8
+large: 1
+micafungin(1: 2
+09/26/16: 1
+small: 5
+Hess: 1
+Marshall: 1
+level.<<:>>: 1
+pneumoniae<<:>>ORG: 2
+morphology;: 5
+clindamycin(1: 2
+3.12: 2
+<<:>><<:>>Aztreonam<<:>><<:>>S<<:>>: 3
+<=0.25: 5
+PCU: 1
+tube<<.>>: 14
+second: 1
+fractures<<.>>: 1
+Collins: 1
+<<:>><<:>>Moxifloxacin<<:>><<:>><=0.5: 1
+37.2: 1
+position.<<:>>Bilateral: 1
+<<:>><<:>>2.: 2
+change.: 5
+mycetoma.: 1
+Lowe: 1
+levoscoliosis.<<:>>Right: 1
+<<:>>catheters: 1
+exam.: 1
++: 111
+<<:>>scarring.<<:>>Unchanged: 1
+hazy: 2
+spine.: 2
+<<:>>Haemophilus: 3
+AUREUS-MRSA<<:>>Respiratory: 2
+149/60: 2
+Cefepime(: 3
+14.32: 1
+AUREUS-MRSA<<:>><<:>><<:>><<:>>Susceptibility: 1
+abx: 1
+new: 4
+exam.<<:>><<:>>Tracheostomy: 1
+<<:>><<:>>Streptomycin-Syn<<:>><<:>>>1000: 1
+1:<<:>>Moderate: 5
+place.: 1
+can: 1
+Agn: 1
+Vance: 1
+regions.: 1
+09/25/16: 1
+n/a
+ETA307: 1
+days)<<.>>: 19
+C-reactive: 1
+Light: 36
+Age: 1
+<<:>><<:>>Amikacin<<:>><<:>>S<<:>><<:>>: 2
+aorta.<<:>>Diffusely: 1
+<<:>>shunt: 1
+Radiographi: 3
+edema<<.>>: 1
+cm<<.>>: 1
+CFU/mL<<:>>: 2
+azithromycin(1: 1
+<<:>>above: 1
+effusions.: 2
+double-lumen: 1
+consolidation.: 2
+penicillins<<.>>: 2
+Fischer: 1
+Clark: 1
+<<:>>venous: 2
+study: 6
+Ill-defined: 2
+<<:>>compared: 1
+prior: 16
+n/a
+ETA317: 1
+striatum<<:>><<:>><<:>>Respiratory: 1
+Tazobactam<<:>><<:>>S<<:>><<:>>: 1
+<<:>>right: 4
+<=0.5: 34
+(HH)<<:>>Respiratory: 12
+Shaffer: 1
+Burn: 3
+described.<<:>>: 1
+0.8: 5
+DOB: 1
+Top: 2
+Culture<<:>><<:>>: 9
+14.91: 2
+Jacobs: 1
+Mcconnell: 1
+Richmond: 1
+2.87: 1
+Lucian: 1
+aeruginosa<<:>>Light<<:>>: 1
+36.8: 1
+lungs.<<:>>Blunting: 1
+lung.: 1
+09/13/15: 1
+"Gram: 1
+<<:>>disease.<<:>>New: 1
+Sanders: 1
+<<:>>epithelial: 1
+<<:>>Minimal: 2
+from: 6
+August: 1
+<<:>><<:>>Ciprofloxacin<<:>><<:>>I<<:>><<:>>: 1
+Right-sided: 3
+catheter.<<:>>Grossly: 1
+urethra.: 1
+1:<<:>>Very: 2
+left-sided: 4
+coli<<:>>ORG: 1
+lung<<.>>: 1
+ertapenem(: 1
+impression
+ETA300: 1
+right.: 1
+<<:>>Adequate: 10
+minor: 1
+more: 5
+gentamicin(: 1
+Stain<<.>>: 3
+Spears: 1
+<<:>><<:>>Trimethoprim: 12
+stable: 2
+size.<<:>>Nasogastric: 1
+<<:>><<:>>relative: 1
+Epithelial<<:>>Cells<<:>>Heavy: 2
+glass: 1
+Emerson: 1
+Gould: 1
+loss: 1
+side<<.>>: 1
+Avram: 1
+pattern.<<:>>: 1
+<<:>>rib: 1
+03/04/15: 1
+<<:>>mainstem: 1
+Plaza: 1
+seen.: 1
+unchanged.: 6
+recollected.<<:>><<:>><<:>>Respiratory: 1
+etiology<<.>>: 1
+n/a
+ETA301: 1
+13.31: 1
+n/a
+ETA303: 1
+n/a
+ETA302: 1
+Lung: 1
+n/a
+ETA304: 1
+Yeast<<.>>: 1
+n/a
+ETA309: 1
+n/a
+ETA308: 1
+<<:>>Very: 6
+0.9: 5
+heart: 4
+<<:>><<:>>Amikacin<<:>><<:>>S<<:>>: 3
+<<:>>lungs: 1
+8.02: 1
+conclududed: 1
+Chains<<:>>Blood: 1
+<<:>>consistent: 1
+0.3: 5
+0.2: 1
+0.5: 6
+0.4: 2
+0.7: 2
+0.6: 5
+sample: 4
+neoformans<<:>><<:>><<:>><<:>>: 1
+<<:>><<:>>Erythromycin<<:>><<:>><=0.5: 1
+hours.: 1
+Pacheco: 1
+<<:>><<:>>Meropenem<<:>><<:>><=0.5: 3
+<<:>>history<<.>>: 1
+previously.: 1
+appearance.: 1
+<<:>><<:>><<:>><<:>>Susceptibility: 7
+rather: 1
+n/a
+ETA319: 1
+75.4: 1
+BP<<:>>: 1
+Flora<<:>><<:>><<:>>: 1
+23.5: 1
+Mccullough: 1
+<<:>><<:>>bronchus.: 2
+03/09/15: 1
+<<:>>through: 1
+<<:>><<:>>Ampicillin: 5
+<<:>>cavoatrial: 3
+significantly.: 1
+Mcpherson: 1
+clear.<<:>>: 2
+<<:>>noted: 1
+bilaterally.<<:>>Trace: 2
+junction.: 1
+bilaterally<<.>>: 1
+<<:>>there: 1
+<<:>><<:>>Tobramycin<<:>><<:>>S<<:>>: 3
+may: 1
+hemidiaphragm.: 1
+Bacilli<<:>>Light: 1
+107/61: 1
+Castro: 1
+catheter.: 1
+bactrim(5: 2
+<<:>>Lungs: 3
+08/18/15: 1
+Cells<<:>>Heavy: 2
+such: 1
+study.<<:>>2.: 1
+<<:>>lung.: 1
+Large: 1
+atovaquone(>: 1
+gone.: 1
+<<:>><<:>><<:>><<:>><<:>><<:>>Respiratory: 8
+pneumonia
+ETA310: 1
+<<:>><<:>>Cefazolin<<:>><<:>>R<<:>><<:>>: 1
+(1)<<:>>: 4
+light: 10
+Sulfamethoxazole<<:>><<:>>S<<:>>: 6
+Tracheostomy.: 1
+99/61: 1
+junction.<<:>>Stable: 2
+4/4: 2
+Brennan: 1
+Drew: 1
+118/46: 1
+malfunctioning.: 1
+11.33: 1
+<<:>><<:>>Cefoxitin<<:>><<:>>>16: 1
+<<:>><<:>>Ceftriaxone<<:>><<:>><=1: 1
+1:<<:>>Light: 1
+Cells<<:>>Moderate: 6
+stimulator.<<:>>Dextroscoliosis: 1
+baumannii/calcoaceticus: 5
+6.45: 1
+PaO2: 1
+ampicillin(1: 1
+Cult<<:>><<:>>: 2
+silhouette.<<:>>Stable: 1
+<<:>>approximately: 1
+size.<<:>>3.: 1
+<<:>><<:>>Vancomycin<<:>><<:>>S<<:>>: 2
+MICU: 4
+view:: 2
+course: 1
+ug/mL<<:>><<:>>R<<:>>: 5
+6.1: 1
+signs: 3
+<<:>>and: 1
+apex.: 1
+<<:>>thoracentesis.: 1
+no(trach: 9
+hypoinflation.<<:>>Retrocardiac: 1
+aeruginosa<<:>>Moderate<<:>>second: 1
+126/88: 2
+09/14/16: 1
+<<:>>tubes: 1
+<<:>><<:>>with: 1
+<<:>><<:>>Aztreonam<<:>><<:>>8: 3
+2:: 2
+position.<<:>><<:>>Vascular: 1
+hemithorax<<.>>: 1
+<<:>>trachea.: 1
+RA: 1
+11/21/15: 1
+junction.<<:>><<:>>*: 2
+106/50: 1
+<: 2
+activity.<<:>><<:>><<:>>Respiratory: 1
+atrium.<<:>>Interval: 1
+<<:>>due: 1
+.10: 1
+good: 1
+<<:>>catheter: 1
+arteries.<<:>><<:>>2.: 1
+<<:>>present.: 1
+devices:: 2
+<<:>><<:>>": 3
+<<:>><<:>>Ertapenem<<:>><<:>>S<<:>><<:>>: 1
+2/2/2015: 1
+<<:>><<:>>without: 1
+<<:>><<:>>Tetracycline<<:>><<:>><=0.5: 1
+Right: 8
+32.2: 1
+chest.<<:>>: 1
+<<:>>thoracic: 2
+day: 2
+26.1: 1
+impression
+ETA297: 1
+impression
+ETA295: 1
+<<:>><<:>>basilar: 1
+Ray: 1
+<<:>>overlying: 1
+<<:>>since: 1
+CFU/mL<<:>>second: 2
+24.5: 1
+aeruginosa<<:>>Heavy<<:>>: 2
+24.7: 1
+Emmanuel: 1
+impression
+ETA298: 1
+<<:>>Escherichia: 1
+n/a
+ETA323: 1
+probe<<.>>: 2
+structures:: 2
+137/67: 1
+<<:>><<:>>Ceftazidime<<:>><<:>>1: 2
+u...<<:>><<:>>S<<:>>: 3
+<<:>><<:>>Ceftazidime<<:>><<:>>2: 2
+change<<:>>: 2
+bone: 1
+Lungs:: 2
+specimen<<:>>Gram: 1
+<<:>><<:>>Gentamicin<<:>><<:>>S<<:>>: 3
+02/10/15: 1
+unchanged.<<:>>: 1
+n/a: 649
+<<:>>bronchus: 1
+(2.1)<<:>>: 3
+been: 4
+<<:>>terminates: 2
+8.73: 1
+<<:>><<:>>or: 1
+<<:>><<:>>Meropenem<<:>><<:>>1: 2
+lungs.: 3
+spine.<<:>><<:>>No: 1
+n/a
+ETA318: 1
+<<:>><<:>>Ampicillin<<:>><<:>>S<<:>>: 2
+Leukocytes<<:>>No: 1
+SICU: 1
+cystitis.: 1
+<<:>><<:>>inserted: 1
+Cells<<:>>Gram: 1
+<<:>>Mild: 3
+Otherwise<<.>>: 1
+amoxicillin(1: 1
+vancomycin(3: 1
+<<:>><<:>>Ceftazidime<<:>><<:>>>16: 1
+vancomycin(1: 4
+2/38: 4
+time): 1
+Key: 1
+day): 10
+silhouette:: 2
+vancomycin(>: 6
+Yeast;<<:>><<:>><<:>>Respiratory: 1
+Stone: 1
+10/16/16: 1
+4/2: 1
+02/02/16: 1
+change<<.>>: 3
+balloon: 1
+placement.<<:>><<:>><<:>>Endotracheal: 1
+GCS: 1
+base: 2
+<<:>>is: 1
+<<:>>Right-sided: 1
+<<:>>atelectasis<<.>>: 2
+02/11/16: 1
+<<:>>consolidation.<<:>>No: 1
+wall: 1
+<<:>><<:>>Ampicillin<<:>><<:>>R<<:>><<:>>: 1
+bronchus.: 4
+Nigel: 1
+<<:>>elevation: 1
+<<:>><<:>>3.: 3
+September: 1
+<<:>><<:>>volume<<.>>: 1
+(4)<<:>>: 1
+George: 2
+since<<:>>Endotracheal: 2
+parahilar: 1
+coli<<:>>: 2
+<<:>><<:>>Ertapenem<<:>><<:>>S<<:>>: 2
+place: 1
+be<<:>>treated: 2
+indidcated: 1
+Bruce: 1
+pneumothorax.<<:>>Study: 1
+left<<.>>: 2
+first: 1
+Brock: 1
+complex<<:>>Light<<:>>: 1
+unchanged.<<:>>Tracheostomy: 1
+<<:>><<:>>in: 1
+"Susceptibility: 7
+n/a
+ETA322: 1
+S<<:>><<:>>: 6
+<<:>>Recommend: 1
+normal-sized: 1
+<<:>>*: 2
+advanced<<.>>: 1
+groundglass: 1
+37.8: 1
+unchanged.<<:>><<:>>The: 1
+hemorrhage.<<:>>2.: 1
+aureus<<:>>Heavy<<:>>: 1
+amoxicillin(4: 1
+aeruginosa<<:>>: 5
+<<:>>Right: 1
+<<:>><<:>>not: 1
 
-ALLOWED
-_________________________________________________
-
-impression|3
-Ciprofloxacin|7
-0|1
-tubes,|1
-MIC|8
-none|1
-view:|1
-mid|1
-Fluconazole(|1
-including|1
-per|1
-cervical|1
-disease.|1
-enteric|2
-yes|6
-silhouette.|1
-Remaining|1
-37.6|1
-cloacae|6
-Multiple|2
-Polymorphonuclear|2
-lesions|1
-Tetracycline|3
-Tazobactam|7
-64/4|2
-8|3
-2.|1
-seen.|1
-PICC|1
-Ceftriaxone|3
-angle.|1
-inlet.|1
-right-sided|1
-specimen|1
-history,|1
-8/4|2
-Squamous|1
-T|4
-bilateral|1
-displaced|1
-as|1
-positions|1
-notes|1
-24.7|1
-cells|1
-fractures,|1
-Ampicillin|4
-Tobramycin|7
-upper|2
-morphology;|3
-heterogenous|1
-n/a|14
-<=0.25|2
-hydropneumothorax|1
-are|1
-2.3|1
-tortuous.|1
-pulmonary|1
-2.5|1
-subclavian|1
-for|2
-Very|1
-+|15
-thoracostomy|1
-Ertapenem|3
-Chest,|1
-emphysema|1
-3|1
-7|3
-Pseudomonas|8
-Unchanged|1
-approach|1
-appearances|1
-fractures|2
-Susceptibility|8
-size.|1
-Aztreonam|7
-Bilateral|3
-superior|1
-nasal|1
-Gentamicin|7
-S|69
-pleural|1
-(4)|1
-days)|2
-Stenotrophomonas|2
-days),|2
-<=8|7
-described.|1
-central|1
-Amikacin|7
-<=1|4
-<=2|20
-calculus,|1
->10,000|2
-resulting|1
-Epithelial|1
-collection|1
-<=0.5|11
-Sulbactam|2
-Probable|1
-airspace|1
-effusion|1
-within|2
-extrapleural|1
-enlarged|1
-64|1
-3000|1
-Endotracheal|1
-esophagus|1
-Moderate|3
-u...|4
-"Gram|1
-ct|1
-"|1
-additional|1
-Normal|1
-Piperacillin|7
-.|1
-(1)|2
-2|6
-basilar|1
-clinical|1
-188|1
-unchanged|1
-<=0.5/9.5|4
-B|1
-Ceftazidime|8
-that|1
-Trimethoprim|4
-concerning|1
-Interval|1
-<=2/4|1
-basal|1
-zosyn(|1
-aeruginosa|8
-R|16
-decreased|1
-90|1
-cardiomediastinal|1
-mediastinal|1
-renal|2
-Heavy|1
-Upper|1
-13|2
-Significantly|1
-contusion.|1
-16|12
->32|1
-Cefepime|7
-unchanged.|4
-Culture|10
-(2)|1
-of|1
-Cefoxitin|3
-treated|1
-31|1
-at|2
-and|6
-1.7|1
-Sulfamethoxazole|4
-aorta|1
-hemithorax|1
-is|4
-(3)|2
-0.5|1
-Cefazolin|3
-Chest|3
-Respiratory|12
-106/62|1
-epithelial|1
-changes.|1
-rib|2
-costophrenic|1
-Leukocytes|1
-maltophilia|2
-4.1|1
-4000|1
-normal.|1
--|1
-2000|1
-40|1
-1|5
-chest|1
-endotracheal|1
-subcutaneous|1
-9|1
-Cells|2
-3.|1
-opacity|2
-patchy|1
-thoracic|2
-multiple|1
-duodenostomy|1
-I|2
-Enterobacter|6
-M|1
-vancomycin(|1
-Meropenem|7
-tube,|1
->16|2
-72|1
-emphysematous|1
-cardiac|1
-silhouette|1
-The|2
-placement|1
-organisms|1
-tubes|2
-cava.|1
-interval|1
-shift.|1
-4/4|3
-cipro(6|1
-squamous|1
-hyperattenuating|1
-hemorrhage.|1
-the|6
-16/8|1
-tube|2
-findings|1
-
-NOT_ALLOWED
-_________________________________________________
-
-Lars|1
-08/07/15|1
-14.54|1
-2/2/2015|1
-
-INDETERMINATE
-_________________________________________________
-
-|542
-ug/mL"">>64/4|2
-right|6
-No|3
-in|3
-Given|1
-second|3
-vena|1
-tiny|1
-Stable|1
-seen|1
-Stain|2
-VAP|2
-Sanders|1
-CFU/mL|5
-Good|1
-from|1
-(HH)|7
-no|3
-SICU|1
-ug/mL"">>16/8|1
-hazy|1
-xray|2
-to|1
-new|1
-has|1
-ug/mL"">>16|9
-Flora|1
-see|3
-ug/mL|83
-lobe|2
-Light|1
-line|1
-ETA294|1
-Gram|1
-(HH)VC|1
-Left|2
-lower|1
-New|1
-light|1
-single|1
-near|1
-Durham|1
-left|2
+ETA311: 1
+<<:>><<:>>Oxacillin<<:>><<:>>S<<:>>: 1
+infiltrate<<.>>: 2
+given: 6
+rods<<.>>: 1
+influenzae<<:>>Beta-lactamase: 1
+Epithelial<<:>>Cells<<:>>Moderate: 2
+Slight: 4
+<<:>><<:>>beyond: 1
+Howard: 1
+Levi: 1
+<<:>><<:>>Ertapenem<<:>><<:>>0.5: 1
+<<:>>: 156
+109/57: 1
+<<:>><<:>><<:>>Acinetobacter: 3
+Roach: 1
+<<:>><<:>><<:>>MIC<<:>>: 14
+5/5/2043: 1
+Ciaran: 1
+INFLUENZAE<<:>><<:>>: 1
+<<:>>Heavy: 18
+<=0.5/9.5: 8
+Sulfamethoxazole<<:>><<:>><=0.5/9.5: 3
+While: 1
+<<:>><<:>>Moxifloxacin<<:>><<:>>S<<:>>: 3
+Spine: 1
+Procalcitonin: 1
+shallow: 1
+wall.<<:>><<:>>Right: 1
+lobe<<.>>: 1
+28.8: 1
+inhibitor<<:>>combinations<<.>>: 2
+cefepime(4: 2
+count<<.>>: 1
+spaces.: 1
+<<:>><<:>>Gentamicin<<:>><<:>><=2: 5
+cefepime(>: 1
+<<:>><<:>>Amikacin<<:>><<:>><=8: 5
+age: 1
+122/59: 1
+than: 6
+<<:>><<:>>Mild: 1
+image.<<:>>: 1
+cloacae<<:>>2000: 1
+grew: 1
+<<:>><<:>>Otherwise<<.>>: 1
+process.<<:>>: 2
+aztreonam(2: 1
+1:: 2
+<<:>>represent: 1
+<<:>><<:>><<:>>Stenotrophomonas: 1
+Light<<:>>second: 1
+<<:>><<:>>Tobramycin<<:>><<:>><=2: 5
+Sears: 1
+<<:>>esophagus: 1
+lungs<<.>>: 4
+<<:>><<:>>Oxacillin<<:>><<:>>0.5: 1
+<<:>>representing: 1
+ceftriaxone(7: 1
+ceftriaxone(6: 1
+hemidiaphragm.<<:>>Left: 1
+n/a
+ETA321: 1
+impression
+ETA314: 1
+<.2: 2
+cefazolin(1: 1
+saliva;: 1
+1.7: 2
+1.1: 1
+2:<<:>>Aspergillus: 1
+sputum<<.>>: 1
+cefazolin(8: 1
+Positive<<:>><<:>><<:>><<:>>Respiratory: 1
+<<:>>third: 1
+<<:>><<:>>Gentamicin-Syn<<:>><<:>><=500: 1
+Clusters<<:>>Light: 1
+region.: 1
+36.5: 3
+Other: 2
+<<:>><<:>>Tobramycin<<:>><<:>>S<<:>><<:>>: 2
+examination.<<:>><<:>>: 1
+ug/mL"">>8: 9
+38.4: 1
+cloacae<<:>>Light<<:>>: 2
+seen: 5
+effusion.<<:>><<:>>Cardiomegaly.: 1
+<<:>>unchanged: 1
+well: 3
+calculus<<.>>: 1
+tube.: 3
+cm: 4
+<<:>>of: 2
+<<:>>atelectasis.: 1
+-: 16
+mount: 1
+complex<<:>>: 1
+2.6: 2
+(HH)<<:>><<:>>Respiratory: 17
+<<:>><<:>>Ceftazidime<<:>><<:>><=0.5: 1
+acyclovir(: 1
+NCCU: 6
+<<:>>Unchanged: 1
+Flora<<:>><<:>><<:>><<:>>Respiratory: 1
+<<:>><<:>><<:>>No: 1
+colSpan=""2"">: 10
+<<:>>within: 1
+progression<<.>>: 1
+impression
+ETA315: 1
+<<:>><<:>><<:>>Pseudomonas: 4
+mid/lower: 1
+trace: 3
+ug/mL: 229
+<<:>><<:>>Tetracycline<<:>><<:>><=2: 2
+<<:>><<:>><<:>><<:>><<:>>Susceptibility: 1
+<<:>>intact.: 1
+Frederick: 1
+113/62: 1
+ug/mL"": 10
+afternoon.: 1
+Good: 1
+but: 3
+cardiomegaly<<.>>: 2
+hypoinflation: 3
+coin: 1
+worsened.: 1
+anti-MRSA: 2
+Tazobactam<<:>><<:>>8/4: 2
+unclear(staph: 1
+ampicillin(: 1
+ETT: 1
+slightly.: 2
+gastrojejunostomy<<.>>: 1
+<<:>><<:>>Piperacillin: 9
+Lewis: 1
+cava.: 1
+stomach.<<:>>Unremarkable: 1
+activity.<<:>>ORG: 1
+<<:>><<:>>Cefepime<<:>><<:>>S<<:>>: 3
+Sample: 1
+zosyn(3: 1
+congestion.: 3
+zosyn(1: 2
+aeruginosa<<:>>Heavy<<:>>second: 2
+cipro(: 3
+<<:>><<:>>Ciprofloxacin<<:>><<:>>S<<:>>: 3
+<<:>><<:>>Ceftriaxone<<:>><<:>>S<<:>>: 4
+<<:>><<:>><<:>>(HH)<<:>>: 6
+aureus<<:>>Moderate<<:>>: 1
+STRIATUM<<:>><<:>>: 1
+<<:>><<:>>Cefoxitin<<:>><<:>>S<<:>>: 2
+(HH): 2
+Ian: 1
+<<:>>Gram: 7
+marcescens<<:>>Moderate<<:>>: 1
+cefepime(1: 1
+FiO2: 1
+AUREUS<<:>><<:>>: 1
+Jacobson: 1
+faecalis<<:>>in: 1
+<<:>>minimal: 2
+maltophilia<<:>>: 6
+Diplococci<<.>>: 1
+Stephen: 1
+7.9: 1
+<<:>>Staphylococcus: 2
+<<:>>Enterococcus: 1
+<<:>>Trace: 1
+exam.<<:>><<:>>Tracheostomy.: 4
+negative<<:>>: 3
+clindamycin(: 1
+<<:>><<:>>Gentamicin<<:>><<:>>S<<:>><<:>>: 2
+position.<<:>>Posterior: 1
+Hull: 1
+stable.<<:>>Vascular: 2
+cardiomegaly.: 5
+congestion.<<:>>No: 1
+specimen<<:>>Light: 5
+<<:>><<:>>Ciprofloxacin<<:>><<:>><=0.5: 5
+Walton: 1
+Mcclure: 1
+maltophilia<<:>>Very: 1
+silhouette.<<:>>Tracheostomy: 1
+sequentially<<.>>: 1
+stain: 1
+well<<.>>: 1
+<<:>>demonstrate: 1
+Pneumonia?: 1
+<<:>><<:>>such: 1
+over: 3
+etc.): 1
+<<:>>upper: 3
+lobe: 6
+20.8: 1
+6.59: 2
+08/17/16: 1
+Amal: 1
+weeks): 5
+cplx<<:>><<:>>: 2
+Hazy: 1
+m.o.: 1
+<<:>>Beta: 1
+infection<<.>>: 1
+maltophilia<<:>>4000: 1
+pneumoniae<<:>>: 1
+<<:>>Acinetobacter: 1
+exam.<<:>>4.: 1
+Bacilli<<:>><<:>><<:>>Respiratory: 2
+<<:>><<:>>Left: 1
+lung.<<:>>Left-sided: 1
+specimen<<:>>Very: 3
+base.: 2
+marcescens<<:>>: 1
+Cells<<:>>Light: 3
+<<:>><<:>>Ciprofloxacin<<:>><<:>>S<<:>><<:>>: 1
+93/42: 1
+transplant<<.>>: 1
+nephroureteral: 1
+(2.3)<<:>>: 1
+aeruginosa<<:>><<:>><<:>>Respiratory: 1
+no(treatment: 1
+atelectasis.<<:>>Round<<.>>: 1
+<<:>><<:>>Vancomycin<<:>><<:>>2: 1
+<<:>><<:>>Cefazolin<<:>><<:>>>16: 1
+<<:>><<:>>Vancomycin<<:>><<:>>1: 1
+marcescens<<:>>ORG: 1
+Caleb: 1
+<<:>><<:>>left: 1
+noted.<<:>>: 1
+air-fluid: 1
+Lname: 1
+complex<<:>><<:>><<:>>Respiratory: 1
+see: 43
+infected.: 1
+36.9: 2
+aeruginosa<<:>>Moderate<<:>>: 2
+2.3: 1
+2.2: 1
+36.7: 2
+36.6: 2
+<<:>><<:>>No: 1
+2.5: 1
+<<:>>mediastinum.<<:>>Moderate: 1
+<<:>>that: 1
+cloacae<<:>>: 3
+oxacillin(: 1
+<<:>><<:>>Oxacillin<<:>><<:>>R<<:>>: 1
+study.: 2
+cephalosporins<<:>>with: 2
+113/79: 1
+12/11/15: 1
+remain.<<:>>: 2
+Sulfamethoxazole<<:>><<:>>1/19: 1
+<<:>>not: 1
+xray: 53
+favor: 1
+pump: 2
+<<:>><<:>><<:>>KB<<:>>: 1
+(2.4)<<:>>: 1
+3.7: 2
+Tazobactam<<:>><<:>>S<<:>>: 3
+<<:>>Cells: 4
+neck<<.>>: 1
+excluded.: 1
+asymmetry.: 1
+<<:>><<:>><<:>>Enterococcus: 1
+aeruginosa<<:>>Moderate<<:>><<:>><<:>><<:>>: 2
+aeruginosa<<:>>>10<<.>>000: 2
+121/59: 1
+remain.<<:>>Mild: 2
+lobes<<.>>: 2
+<<:>>.: 1
+<<:>><<:>><<:>>Neisseria: 1
+<<:>>prior: 1
+doxycycline(4: 1
+Race: 1
+<<:>><<:>><<:>>: 195
+days): 19
+<<:>>2.: 1
+Fulton: 1
+(2)<<:>>: 5
+<=8: 18
+both: 1
+<<:>><<:>>Cefepime<<:>><<:>>2: 3
+<<:>>hepatis: 1
+unchanged.<<:>><<:>>Stable: 1
+<=1: 11
+cells<<:>>No: 1
+<=4: 2
+<<:>><<:>>pleural: 1
+hypoinflation.<<:>>Spinal: 1
+I<<:>>: 16
+25.5: 1
+<<:>><<:>>recent: 1
+ug/mL"">>16/8: 4
+1.: 4
+Graham: 1
+32.6: 5
+comment: 1
+Given: 4
+<<:>><<:>><<:>>Enterobacter: 7
+Sulbactam<<:>><<:>>2/1: 1
+<<:>><<:>>Clindamycin<<:>><<:>><=0.5: 1
+R<<:>>: 50
+10/09/15: 1
+Cells<<:>>No: 3
+weeks)<<.>>: 8
+smooth<<.>>: 1
+Stain<<:>><<:>>: 6
+vena: 2
+Castillo: 1
+CICU: 1
+<<:>>(i.e.oncology<<.>>: 1
+<<:>><<:>>Aztreonam<<:>><<:>><=2: 2
+u...: 8
+<<:>>structures: 1
+better: 2
+cefazolin(: 1
+<<:>><<:>>Cefoxitin<<:>><<:>>S<<:>><<:>>: 1
+carina: 4
+Cocci<<:>>Light: 1
+ug/mL"">>2/38: 3
+cava.<<:>>Airspace: 1
+<<:>>No: 2
+tiny: 2
+.: 3
+Bottle<<:>><<:>><<:>><<:>><<:>>Susceptibility: 1
+30.3: 1
+days)<<.>>cefazolin(1: 1
+Lynch: 1
+Cherry: 1
+Tazobactam<<:>><<:>><=2/4: 1
+aureus<<:>>ORG: 1
+out<<.>>: 1
+>: 3
+<<:>><<:>>Meropenem<<:>><<:>>S<<:>>: 3
+Flora: 14
+influenzae<<:>>Moderate<<:>>Beta: 1
+malignancy.: 1
+3:: 1
+1.8: 2
+<=2/4: 3
+Magee: 1
+<<:>>PICC: 1
+zosyn(: 7
+morphology;<<:>><<:>><<:>>Respiratory: 1
+angles: 1
+silhouette.<<:>>Clear: 2
+G-tube.: 2
+negative<<:>><<:>><<:>>: 1
+<<:>><<:>>the: 3
+aorta.: 1
+38.2: 1
+AUREUS<<:>>Respiratory: 1
+maltophilia<<:>>Heavy<<:>><<:>><<:>><<:>>: 2
+0.38: 1
+<<:>><<:>>Ceftazidime<<:>><<:>>S<<:>>: 3
+Garner: 1
+near: 3
+removed.<<:>>VP: 1
+125/59: 1
+04/28/16: 1
+changes.<<:>>Probable: 1
+effusions<<.>>: 1
+<=2: 41
+<<:>><<:>>Tetracycline<<:>><<:>>S<<:>><<:>>: 2
+SVC.: 2
+HAP/VAP/HCAP: 1
+atelectasis.<<:>>Patient: 1
+beta-lactam/beta-lactamase: 2
+38.5: 1
+aureus-mrsa<<:>>: 3
+trachea<<.>>: 1
+changes.: 1
+<<:>>hemithorax.: 1
+level.: 1
+Atkinson: 1
+106/62: 1
+atelectasis.: 2
+in: 58
+11/14/16: 1
+unchanged.<<:>>Bilateral: 1
+process.<<:>><<:>>*: 2
+effusions.<<:>>Unchanged: 1
+Foley: 2
+MIC<<:>>: 31
+<<:>>Vertebroplasty: 1
+heart.: 1
+clear.: 1
+<<:>>significant: 3
+normal.: 2
+37.5: 1
+<<:>><<:>><<:>>MIC<<:>><<:>>: 2
+vanocmycin(3: 1
+tracheitis): 1
+Snow: 1
+Blood: 3
+clips.: 1
+<<:>><<:>>Cefepime<<:>><<:>>S<<:>><<:>>: 2
+clips.<<:>>: 1
+<<:>><<:>>Moxifloxacin<<:>><<:>>R<<:>>: 1
+Culture<<:>><<:>><<:>>: 2
+Whipple: 1
+Ferguson: 1
+Flora<<:>>ORG: 8
+4.4: 1
+opacities;: 1
+<<:>><<:>><<:>>Klebsiella: 3
+<<:>><<:>>and: 1
+Keegan: 1
+Lines: 1
+02/27/15: 1
+70.8: 1
+VP: 3
+Diplococci<<:>><<:>><<:>>Respiratory: 1
+<<:>><<:>>Meropenem<<:>><<:>>S<<:>><<:>>: 2
+<<:>>bilateral: 1
+4:: 1
+<<:>><<:>>Ertapenem<<:>><<:>><=0.25: 1
+<<:>>at: 1
+early: 1
+lower: 21
+effusion.<<:>>: 2
+off: 1
+37.7: 4
+<<:>><<:>><<:>><<:>>: 13
+107/68: 1
+n/a
+ETA320: 1
+shift.: 1
+5.85: 1
+Lab<<:>><<:>><<:>>Respiratory: 1
+<<:>>the: 8
+Sulfamethoxazole<<:>><<:>>R<<:>>: 1
+In: 1
+pneumothorax.: 1
+02/17/15: 1
+influenzae<<:>>Heavy<<:>>Beta: 1
+change.<<:>>: 1
+left: 36
+CFU/mL<<:>>Susceptibility: 1
+junction.<<:>><<:>>Right: 1
+trachea.: 5
+effusion.: 4
+n/a
+ETA313: 1
+<<:>><<:>>Tetracycline<<:>><<:>>S<<:>>: 6
+intact.<<:>>VP: 1
+obtained.: 1
+ug/mL"">>64/4: 3
+<<:>>probe: 2
+98/46: 1
+Dunlap: 1
+(3)<<:>>: 2
+ug/mL<<:>><<:>>S<<:>><<:>><<:>><<:>>: 1
+Ball: 1
+Sulbactam<<:>><<:>>S<<:>>: 2
+(HH)VC<<:>><<:>>Respiratory: 1
+<<:>>left: 1
+<<:>>Enterobacter: 4
+Porter: 1
+aureus<<:>>Staphylococcal: 2
+HCAP: 2
+lungs.<<:>>Mild: 2
+<<:>><<:>><<:>>Escherichia: 1
+<<:>>probably: 1
+<<:>><<:>>Cefepime<<:>><<:>><=1: 2
+infrahilar: 1
+<<:>>typical: 1
+Tazobactam<<:>><<:>>4/4: 2
+SVC.<<:>><<:>>: 1
+cefazolin(9: 1
+Justice: 1
+pneumoniae<<:>><<:>><<:>><<:>>: 1
+<<:>>edema.: 1
+volumes.: 1
+positioning.<<:>>Tracheostomy: 1
+NIGER<<:>><<:>>: 1
+<<:>>heart: 1
+size.: 5
+has: 6
+faecalis<<:>>: 1
+silhouette.<<:>>Multiple: 1
+bones.: 1
+Underwood: 1
+Low: 2
+<<:>><<:>>Ceftazidime<<:>><<:>>I<<:>><<:>>: 1
+Heart: 3
+inlet.: 2
+Many: 1
+<<:>>Pseudomonas: 12
+Overall<<.>>: 1
+influenzae<<:>>: 4
+Avila: 1
+Coby: 1
+<<:>>renal: 1
+<<:>>quadrant.: 1
+Clements: 1
+no(suspected: 1
+21.52: 1
+10.58: 1
+08/07/15: 1
+Bartlett: 1
+Flora<<:>><<:>>: 2
+<<:>>Previously: 2
+n/a
+ETA305: 1
+Hyatt: 1
+<<:>>Stenotrophomonas: 6
+collection): 2
+Durham: 1
+<<:>>Otherwise: 2
+<<:>><<:>>Pacer: 1
+view: 2
+collection?: 2
+niger<<:>>Identification: 1
+Bacilli<<:>>Moderate: 2
+<<:>>terminating: 1
+collar): 9
+12/04/14: 1
+<<:>>Less: 1
+Little: 2
+right: 45
+Fuller: 1
+negative;<<:>><<:>><<:>>Respiratory: 1
+<<:>>Venous: 1
+Burks: 1
+bauman/calc: 2
+<<:>><<:>>of: 1
+3.6: 2
+<<:>><<:>>Ceftriaxone<<:>><<:>>>32: 1
+hyperinflated.: 1
+3.2: 3
+120/64: 1
+Stable: 2
+coli<<:>>Moderate<<:>>: 1
+porta: 1
+no(on: 1
+impression
+ETA316: 1
+cephalosporins<<.>>: 2
+before.: 2
+and/or: 1
+dissection.: 1
+08/31/16: 1
+S<<:>><<:>><<:>><<:>><<:>>": 1
+13.07: 1
+<<:>><<:>>Aztreonam<<:>><<:>>R<<:>><<:>>: 2
+bactrim(: 3
+edema.: 1
+<<:>>infiltrate: 1
+prophalaxis: 1
+105/59: 1
+consolidation<<.>>: 1
+<<:>><<:>>Cefazolin<<:>><<:>>S<<:>>: 2
+2:<<:>>Heavy: 2
+Keith: 1
+maltophilia<<:>>Moderate<<:>><<:>><<:>><<:>>: 2
+<<:>><<:>>Ampicillin<<:>><<:>>1: 1
+01/08/15: 1
+be: 5
+tortuous.: 1
+156/80: 1
+<<:>>previously: 1
+Chest<<.>>: 2
+pneumonia.<<:>>3.: 1
+trachea.<<:>>Mildly: 1
+chest.: 3
+improve<<.>>: 1
+Ur: 1
+ug/mL"">>16: 30
+<<:>><<:>>Ampicillin<<:>><<:>>R<<:>>: 2
+<<:>>lobes.: 1
+Gram: 41
+27.5: 1
+post: 1
+<<:>><<:>>pneumonia: 1
+stomach.: 1
+influenzae<<:>>Light<<:>>Beta: 1
+on: 17
+3
+ETA294: 1
+unchanged.<<:>>Increased: 1
+Chains<<:>>Light: 1
+25.6: 1
+seen<<.>>: 2
+chest<<.>>: 2
+visualized.: 2
+Clusters<<:>>Very: 1
+aureus<<:>>: 4
+<<:>><<:>><<:>><<:>>Respiratory: 12
+<<:>>ORG: 6
+Roy: 1
+2:<<:>>Moderate: 3
+atrium.: 3
+23.3: 1
+06/16/15: 1
+well-expanded: 1
+metronidazole(: 1
+stable.: 1
+<<:>>spine.<<:>>: 1
+or: 11
+inlet<<.>>: 1
+<<:>><<:>>Ceftazidime<<:>><<:>>R<<:>><<:>>: 1
+158/56: 1
+33.1: 1
+No: 35
+Rigel: 1
+<<:>>Borderline: 1
+KB<<:>>: 4
+15.29: 1
+drain: 1
+87/76: 1
+lies: 1
+Aaron: 1
+4.12: 1
+lung: 15
+Blaze: 1
+<<:>><<:>>Clindamycin<<:>><<:>>S<<:>>: 2
+39.7: 1
+repositioning.<<:>>5.: 1
+39.5: 1
+seen.<<:>><<:>><<:>>Respiratory: 4
+<<:>><<:>>Lines: 2
+effusions.<<:>>Stable: 1
+Unremarkable: 1
+cell;: 1
+<<:>><<:>>On: 2
+n/a
+: 1
+zosyn(>: 1
+<<:>>lower: 1
+<<:>>fourth: 1
+opacities<<.>>: 4
+21.8: 1
+CLOACAE<<:>><<:>><<:>>: 1
+NG: 5
+n/a
+ETA312: 1
+repositioned<<.>>: 1
+1/19: 2
+<<:>>clear: 1
+9.8: 1
+morphology;<<:>>: 4
+06/22/16: 1
+Parrish: 1
+notes<<.>>: 1
+<<:>>differences: 2
+Stewart: 1
+S<<:>>: 223
+Sulbactam<<:>><<:>>S<<:>><<:>>: 2
+noted.: 1
+<<:>><<:>>Cefazolin<<:>><<:>><=1: 1
+day)<<.>>: 14
+<<:>>cultured: 1
+carina.: 4
+location.<<:>>: 1
+1:<<:>>Heavy: 3
+left.<<:>>Otherwise: 1
+<<:>><<:>><<:>>Good: 6
+change..: 1
+low: 1
+05/17/16: 1
+02/22/16: 1
+Small: 5
+line: 3
+level: 2
+spine.<<:>>No: 1
+bud: 1
+Left: 6
+Golden: 1
+8/4: 6
+contusion.: 1
+tubes<<.>>: 1
+Cough/Sputum: 1
+<<:>><<:>>Susceptibility: 28
+aureus<<:>><<:>><<:>>Respiratory: 2
+<<:>><<:>>Ampicillin<<:>><<:>><=4: 1
+31.7: 1
+below: 1
+3.5: 2
+<<:>><<:>>Erythromycin<<:>><<:>>S<<:>>: 2
+<<:>><<:>>Linezolid<<:>><<:>>S<<:>>: 1
+<<:>>tube: 1
+impression
+ETA306: 1
+<<:>>effusions: 2
+clear: 1
+31.8: 1
+<<:>><<:>>mid: 1
+<<:>>superimposed: 1
+HICU: 1
+fluconazole(>: 1
+3.1: 2
+<<:>>position.: 1
+Suboptimal: 1
+an: 2
+single: 1
+Fname: 1
+New: 2
+05/30/16: 1
+<<.>>: 1
+exam<<.>>: 1
+<<:>>pleural: 1
+4.7: 4
+4.6: 2
+4.1: 3
+no: 114
+ends: 1
+Maldonado: 1
+Quentin: 1
+4.9: 1
+MARCESCENS<<:>>Respiratory: 1
+ug/mL<<:>><<:>>S<<:>>: 63
+exam.<<:>>Tracheostomy: 1
+other: 5
+98.7: 1
+pneumoniae<<:>><<:>>: 2
+Allistair: 1
+mass: 1
+position.<<:>>Mild: 2
+03/28/16: 1
+<<:>><<:>><<:>>Moderate: 2
+Kenyon: 1
+zosyn(7: 1
+poor: 1
+Sulfamethoxazole<<:>><<:>>S<<:>><<:>>: 1
+rotation.<<:>><<:>>*: 2
+<<:>>Moderate: 14
+<<:>><<:>>: 7
+linezolid(1: 1
+effusion.<<:>>Vagal: 1
+Strep.pneumoniae<<:>>Quellung: 1
+vancomycin(: 5
+lobe.: 1
+<<:>><<:>>Cefoxitin<<:>><<:>><=4: 1
+<<:>>Small: 1
+<<:>>Serratia: 1
+<<:>>potentially: 1
+29.6: 2
+<<:>><<:>>edema.: 1
+Cells<<:>>Very: 6
+<<:>>pneumothorax.: 1
+opacity<<.>>: 1
+Flora<<:>>Respiratory: 1
+S<<:>><<:>>": 4
+<<:>>Endotracheal: 4
+<<:>>patient: 1
+specimen<<:>>Heavy: 7
+changes.<<:>>Small: 1
+<<:>>carina.<<:>>Discoid: 1
+16/4: 2
+cipro(6: 1
+calcification.<<:>><<:>>Right: 1
+prior.: 1
+Huber: 1
+angle.<<:>>Unchanged: 1
+16/8: 6
+<<:>><<:>>Ceftriaxone<<:>><<:>>R<<:>><<:>>: 1
