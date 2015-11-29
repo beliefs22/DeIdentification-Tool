@@ -23,33 +23,60 @@ for line in med_dictionary_file:
     med_dictionary[line.rstrip("\n").lower()] = None
 
 
-def check_patterns(text,pattern):
+def check_patterns(text):
+    pattern = re.compile(
+        '[0-9]{1,2}[\W][0-9]{1,2}[\W][0-9]{2,4}|^\d{1,2}[\W]\d{2,4}$')
+    
 
+    matched_word_locations = pattern.finditer(text)
+    matched_words = pattern.findall(text)
+    unmatched_words = pattern.split(text)
+    unmatched_words = " ".join(unmatched_words)
+    unmatched_words, unmatched_word_locations = \
+                     remove_punctuation(unmatched_words)
+
+    return matched_words, unmatched_words
+
+def remove_punctuation(text):
+    pattern = re.compile(r'[^\w]+')
     matches = pattern.finditer(text)
-    words = pattern.findall(text)
+    for match in matches:
+        s = match.start()
+        e = match.end()
+        #print "match was", text[s:e]
+    removed = pattern.split(text)
+    return " ".join(removed), matches
+    
 
-    return matches, words
+def check_words(text):
+    text = text.split(" ")
+    #print "text is",text
+    allowed_words = []
+    not_allowed_words = []
+    indeterminate = []
+    for word in text:
+        #print "word is",word
+        originalword = word
+        word = word.lower()
+        allowed = word in dictionary or word in med_dictionary or word.isdigit()
+        not_allowed = word in firstnames or word in lastnames or word in months
+        #print allowed, not_allowed
+        if allowed and not_allowed and word != "":
+            indeterminate.append(originalword)
+            
+        if not_allowed and not allowed:
+            #print "not allowed ran"
+            not_allowed_words.append(originalword)
+        if allowed and not not_allowed:
+           #print  "allowed ran"
+           allowed_words.append(originalword)
 
-def check_words(word):
-    word = word.lower()
-    allowed = word in dictionary or word in med_dictionary or word.isdigit()
-    not_allowed = word in firstnames or word in lastnames or word in months
-    #print allowed, not_allowed
-    if allowed and not_allowed:
-        #print "indeterm"
-        return "indeterminate" 
-    if not_allowed:
-        #print "not allowed ran"
-        return "not allowed"
-    if allowed:
-       #print  "allowed ran"
-       return "allowed"
+        if not allowed and not not_allowed and word != "":
+            #print "found neither"
+            indeterminate.append(originalword)
 
-    if not allowed and not not_allowed:
-        #print "found neither"
-        return "indeterminate"
-
-    #print "Oh no it didn't catch"
+        #print "Oh no it didn't catch"
+    return allowed_words, not_allowed_words, indeterminate
     
 
 def main():
@@ -61,38 +88,17 @@ def main():
 
     line = myfile.read()
     line = line.replace(","," ")
-    words = line.split(" ")
-    allowed = {}
-    not_allowed = {}
-    indeterminate = {}
-    
 
-    a = ["hello","simple","sample"]
-    for word in words:
-        result =check_words(word)
-        if result == 'allowed':
-            if word in allowed:
-                allowed[word] = allowed[word] + 1
-            else:
-                allowed[word] = 1
-        elif result == 'not_allowed':
-            if word in not_allowed:
-                not_allowed[word] = not_allowed[word] + 1
-            else:
-                not_allowed[word] = 1
-        else:
-            if word in indeterminate:
-                indeterminate[word] = indeterminate[word] + 1
-            else:
-                indeterminate[word] = 1
+    allowed,not_allowed,indeterminate = check_words(line)   
+
 
     a = [[allowed,"allowed"],[not_allowed,"not allowed"],
          [indeterminate,"indeterminate"]]
     for word_list in a:
         print word_list[1]
         print"_________________________________________________________"
-        for k,v in word_list[0].items():
-            print k + ":", v
+        for word in word_list[0]:
+            print word
         
     
 

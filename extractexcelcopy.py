@@ -1,5 +1,4 @@
-from patternchecker import *
-import re
+import datachecker
 
 class Excel: #creates an excel object.
 
@@ -27,6 +26,8 @@ class Excel: #creates an excel object.
 
     def export_subjects(self):
         return self.subjects
+        
+        
 
 class Subject: # creats a Subject object
     def __init__(self,headers,data):
@@ -45,6 +46,8 @@ class Subject: # creats a Subject object
     def getData(self):
         return self.data
         
+
+        
 def extract(myfile):
     all_words = []
     for line in myfile:
@@ -59,33 +62,31 @@ def extract(myfile):
                 all_words.append(word)
     return all_words
 
-def clean(entry):
-    # entry is one line in an excel file
-    allowed = []
-    not_allowed = []
-    indeterminate = []
-    pattern_matches, unmatched = check_patterns(entry)
-    #print "umatched", unmatched, len(unmatched)
-    if len(unmatched) > 1:
-        
-        allowed,not_allowed,indeterminate = check_words(unmatched)
-        #print "inde", indeterminate, "" in indeterminate, " " in indeterminate
-    not_allowed = not_allowed + pattern_matches
+def clean(data):
+    allowed = {}
+    not_allowed = {}
+    indeterminate = {}
+
+    for entry in data:
+        temp = entry.split(" ")
+        for item in temp:
+            stats, allow = datachecker.check_word(item)            
+            if allow == "allowed":
+                if item in allowed:
+                    allowed[item] = allowed[item] + 1
+                else:
+                    allowed[item] = 1
+            if allow == "not allowed":
+                if item in not_allowed:
+                    not_allowed[item] = not_allowed[item] + 1
+                else:
+                    not_allowed[item] = 1
+            if allow == "indeterminate":
+                if item in indeterminate:
+                    indeterminate[item] = indeterminate[item] + 1
+                else:
+                    indeterminate[item] = 1
     return allowed, not_allowed, indeterminate
-
-def make_re(word):
-    return r'\b(%s)\b' % word
-def replace(entry,not_allowed,indeterminate):
-    not_allowed = [re.compile(make_re(word)) for word in not_allowed]
-    indeterminate = [re.compile(make_re(word)) for word in indeterminate]
-    inside_pattern = re.compile("(\()(.*)(\))")
-    for pattern in not_allowed:
-        entry = pattern.sub("[REDACTED]",entry,1)
-    for pattern in indeterminate:
-        inside = inside_pattern.search(pattern.pattern)
-        entry = pattern.sub(inside.group(2).upper() + "[INDETERMINATE]",entry)
-    return entry
-
 def main():
 
     excelfile = open('September 2015 Samples De-Identified2.csv','r')
@@ -94,22 +95,21 @@ def main():
     #test_Excel.show_subjects()
     subjects = test_Excel.export_subjects()
     print len(subjects)
-    data = subjects[0].getData()
-    for entry in data:
-        print "entry is", entry
+    allowed, not_allowed, indeterminate = clean(subjects[0].getData())
+    results = [[allowed,"allowed"],[not_allowed,"not_allowed"],[indeterminate,
+                "indeterminate"]]
+    for dictionary in results:
+        pairs = list(dictionary[0].items())
         print
-        allowed, not_allowed, indeterminate = clean(entry)
-        results = [(allowed,"allowed"), (not_allowed,"not allowed")
-                   ,(indeterminate,"indeterminate")]
-        #for word_list in results:
-            #print word_list[1]
-           # print "__________________________________"
-            #print
-           # for word in word_list[0]:
-              #  print word
-               # print
-        print "clened entry is", replace(entry,not_allowed,indeterminate)
-        print
-        
+        print dictionary[1].upper()
+        print "_________________________________________________"
+        print        
+               
+        for words in pairs:
+            print str(words[0]) + "|" + str(words[1])
+    for item in subjects[0].getData():
+        print item
+
+
 main()
         
