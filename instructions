@@ -21,3 +21,10 @@ any items that are known words or numbers
 3. if anything is leftover after this pass, it will be labeled as indeterminate. The only things that 
 should be left over at this point are mispelled words, and words that must be manually looked at
 such as abbreviations. 
+
+Excel class: Should create an object that contains information on the Headers from the csv, and a list of Subject objects created from the data.
+Subject class: should contain a list of strings which represent the data
+
+Cleaning: Create a new subject called Clean Subject.
+For each item in subject.getData(), run cleanData(). This will first check for patterns which match any prohibitied words. It will replace those words with -[R]- for redacted.
+It will then pass this data with redacted file

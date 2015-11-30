@@ -31,29 +31,45 @@ class Excel: #creates an excel object.
 class Subject: # creats a Subject object
     def __init__(self,headers,data):
 
-        self.data = data        
+        self.data = data[:]
+        self.raw_data = data[:]
         for index in range(len(self.data)):            
             self.data[index] = self.data[index].replace("<<:>>"," ")
             self.data[index] = self.data[index].replace("<<.>>",",")          
         self.headers = headers        
 
-    def show_data(self):
-        
+    def show_data(self):        
         for header in self.headers:
             print header + ":", self.data[self.headers[header]]
+    def clean_data(self):
+        self.clean_data = []
+        for index in range(len(self.data)):
+            #print "entry is", self.data[index]
+            #print
+            #print "raw entry is", self.raw_data[index]
+            allowed, not_allowed, indeterminate = clean(self.data[index])
+            results = [(allowed,"allowed"), (not_allowed,"not allowed")
+                       ,(indeterminate,"indeterminate")]
+            self.clean_data.append(replace(self.raw_data[index],not_allowed,indeterminate))
+        return self.clean_data
+        
+    def show_raw_data(self):
+        return self.raw_data
 
     def getData(self):
         return self.data
         
 def extract(myfile):
     all_words = []
+    raw_words = []
     for line in myfile:
         temp = line.rstrip("\n").split(",")
+        print temp
         
         for item in temp:
             a = item.split(" ")
             for word in a:
-               
+                raw_words.append(word)
                 word = word.replace("<<:>>","")
                 word = word.replace("<<.>>",",")
                 all_words.append(word)
@@ -94,22 +110,8 @@ def main():
     #test_Excel.show_subjects()
     subjects = test_Excel.export_subjects()
     print len(subjects)
-    data = subjects[0].getData()
-    for entry in data:
-        print "entry is", entry
-        print
-        allowed, not_allowed, indeterminate = clean(entry)
-        results = [(allowed,"allowed"), (not_allowed,"not allowed")
-                   ,(indeterminate,"indeterminate")]
-        #for word_list in results:
-            #print word_list[1]
-           # print "__________________________________"
-            #print
-           # for word in word_list[0]:
-              #  print word
-               # print
-        print "clened entry is", replace(entry,not_allowed,indeterminate)
-        print
-        
+    print subjects[0].getData()
+    print subjects[0].clean_data()
+            
 main()
         
