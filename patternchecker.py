@@ -46,7 +46,28 @@ def remove_punctuation(text):
         #print "match was", text[s:e]
     removed = pattern.split(text)
     return " ".join(removed), matches
-    
+
+def find_user_know_words(text):
+    text = text.split(" ")
+    #print "text is",text
+    indeterminate = []
+    for word in text:
+        print "word is",word
+        originalword = word
+        word = word.lower()
+        allowed = word in dictionary or word in med_dictionary or word.isdigit()
+        not_allowed = word in firstnames or word in lastnames or word in months
+        print allowed, not_allowed
+        if allowed and not_allowed and word != "":
+            print "allowed and not allowed"
+            indeterminate.append(originalword)  
+
+        if not allowed and not not_allowed and word != "":
+            print "found neither"
+            indeterminate.append(originalword)
+
+        print "Oh no it didn't catch"
+    return indeterminate
 
 def check_words(text):
     text = text.split(" ")

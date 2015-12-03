@@ -21,6 +21,32 @@ class Excel: #creates an excel object.
         unordered_headers.sort()
         for item in unordered_headers:
             print item[0], item[1]
+    
+    def create_user_dict(self):
+        user_dict = []
+        options = ['yes','y']
+        master_indeterminate = []
+        for subject in self.subjects:
+            indeterminate = subject.first_pass()
+            for item in indeterminate:
+                master_indeterminate.append(item)
+        print 'there are %d items in dict' % len(master_indeterminate)
+        master_indeterminate = set(master_indeterminate)
+        print 'there are %d items in dict' % len(master_indeterminate)
+        print master_indeterminate
+        #for word in master_indeterminate:
+         #   choice = raw_input('Is %s an allowed word? Pleased enter y or n ' % word)
+          #  if choice.lower() in options:
+           #     user_dict.append(word)        
+        #print user_dict
+
+        myfile = open('userdictionary.txt','w')
+        for item in user_dict:
+            myfile.write(item + "\n")
+        
+        myfile.close()
+
+        return user_dict
 
     def show_subjects(self):
         print "There are %d subjects present in this file" % (len(self.subjects))
@@ -41,7 +67,15 @@ class Subject: # creats a Subject object
     def show_data(self):        
         for header in self.headers:
             print header + ":", self.data[self.headers[header]]
-    def clean_data(self):
+    def first_pass(self):
+        master_indeterminate = []
+        for index in range(len(self.data)):
+            indeterminate = find_user_know_words(self.data[index])
+            for item in indeterminate:
+                master_indeterminate.append(item)
+        return master_indeterminate                                                
+            
+    def final_pass(self):
         self.clean_data = []
         for index in range(len(self.data)):
             #print "entry is", self.data[index]
@@ -91,6 +125,7 @@ def clean(entry):
 
 def make_re(word):
     return r'\b(%s)\b' % word
+
 def replace(entry,not_allowed,indeterminate):
     not_allowed = [re.compile(make_re(word)) for word in not_allowed]
     indeterminate = [re.compile(make_re(word)) for word in indeterminate]
@@ -106,12 +141,14 @@ def main():
 
     excelfile = open('September 2015 Samples De-Identified2.csv','r')
     test_Excel = Excel(excelfile)
+    test_Excel.create_user_dict()
     #test_Excel.show_headers()
     #test_Excel.show_subjects()
     subjects = test_Excel.export_subjects()
     print len(subjects)
     print subjects[0].getData()
-    print subjects[0].clean_data()
+    
+    print subjects[0].final_pass()
             
 main()
         
