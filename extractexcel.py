@@ -3,9 +3,18 @@ import re
 import msvcrt
 import os
 
-class Excel: #creates an excel object.
+class Excel:
+    """Object Reprsenting an excel file containing subject data
+    Attributes:
+        subjects (list): list containing Subject objects which represent
+        a complete entry in the data file
+        headers (list) : list containing headers of excel file
+    """
 
     def __init__(self,excelfile):
+    """
+    excelfile (file): file object that points to csv to be de-identified
+    """
         self.excelfile = excelfile
         self.headers = {}
         self.subjects = []
@@ -18,6 +27,7 @@ class Excel: #creates an excel object.
             self.subjects.append(Subject(self.headers,data))
 
     def show_headers(self):
+    """Print headers for excel file to screen"""
         headers = self.headers.keys()
         unordered_headers = [(self.headers[header],header) for header in headers]
         unordered_headers.sort()
@@ -25,6 +35,7 @@ class Excel: #creates an excel object.
             print item[0], item[1]
     
     def clean_data(self):
+    """De-Identification Process"""
         self.user_allowed_dict = []
         self.user_not_allowed_dict = []
         if os.path.exists('useralloweddictionary.txt'):            
@@ -86,12 +97,15 @@ class Excel: #creates an excel object.
         
         
     def show_subjects(self):
+    """Print number of subjects contained in excel file"""
         print "There are %d subjects present in this file" % (len(self.subjects))
 
     def export_subjects(self):
+    """Return list of Subject objects created from excel file"""
         return self.subjects
 
     def create_final_csv(self):
+    """Create csv of cleaned excel file"""
         final_data = []
         final_data.append(",".join(self.header_list))
         for subject in self.subjects:
@@ -103,8 +117,14 @@ class Excel: #creates an excel object.
         myfile.close()
         
 
-class Subject: # creats a Subject object
+class Subject:
+    """Object representing single entry in an excel file"""
     def __init__(self,headers,data):
+    """
+    Args:
+        headers (list) : list of headers for the subjects excel file
+        data (list) : list where each index is a cell from the subjects file
+    """
 
         self.data = data[:]
         self.raw_data = data[:]
