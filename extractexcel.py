@@ -1,20 +1,22 @@
 from patternchecker import *
 import re
-import msvcrt
+#import msvcrt
 import os
 
 class Excel:
-    """Object Reprsenting an excel file containing subject data
-    Attributes:
-        subjects (list): list containing Subject objects which represent
-        a complete entry in the data file
-        headers (list) : list containing headers of excel file
+    """ Object Reprsenting an excel file containing subject data
+        Attributes:
+            subjects (list): list containing Subject objects which represent
+            a complete entry in the data file
+            headers (list) : list containing headers of excel file
     """
 
     def __init__(self,excelfile):
-    """
-    excelfile (file): file object that points to csv to be de-identified
-    """
+        """
+        Args:
+            excelfile (file): csv to be de-identified
+        """      
+
         self.excelfile = excelfile
         self.headers = {}
         self.subjects = []
@@ -27,7 +29,7 @@ class Excel:
             self.subjects.append(Subject(self.headers,data))
 
     def show_headers(self):
-    """Print headers for excel file to screen"""
+        """Print headers for excel file to screen"""
         headers = self.headers.keys()
         unordered_headers = [(self.headers[header],header) for header in headers]
         unordered_headers.sort()
@@ -35,7 +37,7 @@ class Excel:
             print item[0], item[1]
     
     def clean_data(self):
-    """De-Identification Process"""
+        """De-Identification Process"""
         self.user_allowed_dict = []
         self.user_not_allowed_dict = []
         if os.path.exists('useralloweddictionary.txt'):            
@@ -97,15 +99,15 @@ class Excel:
         
         
     def show_subjects(self):
-    """Print number of subjects contained in excel file"""
+        """Print number of subjects contained in excel file"""
         print "There are %d subjects present in this file" % (len(self.subjects))
 
     def export_subjects(self):
-    """Return list of Subject objects created from excel file"""
+        """Return list of Subject objects created from excel file"""
         return self.subjects
 
     def create_final_csv(self):
-    """Create csv of cleaned excel file"""
+        """Create csv of cleaned excel file"""
         final_data = []
         final_data.append(",".join(self.header_list))
         for subject in self.subjects:
@@ -120,8 +122,8 @@ class Excel:
 class Subject:
     """Object representing single entry in an excel file"""
     def __init__(self,headers,data):
-    """
-    Args:
+        """
+        Args:
         headers (list) : list of headers for the subjects excel file
         data (list) : list where each index is a cell from the subjects file
     """
@@ -134,11 +136,13 @@ class Subject:
             self.data[index] = self.data[index].replace("<<.>>",",")          
         self.headers = headers        
 
-    def show_data(self):        
+    def show_data(self):
+        """Print data for subject to screen with headers. Headers: data"""
         for header in self.headers:
             print header + ":", self.data[self.headers[header]]
             
     def first_pass(self):
+        """Find allowed not_allowed, and indeterminate words in file"""
         master_allowed = []
         master_not_allowed = []
         master_indeterminate = []
@@ -154,6 +158,7 @@ class Subject:
         return master_allowed, master_not_allowed, master_indeterminate                                                
             
     def final_pass(self,master_not_allowed,master_indeterminate):
+        """Replaces words in data with [Redacted] or [Indeterminate]"""
         for index in range(len(self.data)):
             #print "entry is", self.data[index]
             #print
@@ -162,31 +167,24 @@ class Subject:
         
         
     def show_raw_data(self):
+        """Return list containing raw data for subject"""
         return self.raw_data
 
     def show_clean_data(self):
+        """Return list containing de-identified data for subject"""
         return self.clean_data
 
-    def getData(self):
-        return self.data
-        
-def extract(myfile):
-    all_words = []
-    raw_words = []
-    for line in myfile:
-        temp = line.rstrip("\n").split(",")
-        print temp
-        
-        for item in temp:
-            a = item.split(" ")
-            for word in a:
-                raw_words.append(word)
-                word = word.replace("<<:>>","")
-                word = word.replace("<<.>>",",")
-                all_words.append(word)
-    return all_words
-
 def clean(entry):
+    """Cleans a single entry to data
+    Args:
+        entry (str): str representing data entry for a subject
+
+    Return:
+        allowed (list): list of words that were found that were allowed
+        not_allowed (list): list of words that are not allowed
+        indeterminate (list): list of words that found that were
+        indeterminate
+    """
     # entry is one line from one subject in an excel file
     allowed = []
     not_allowed = []
@@ -200,23 +198,30 @@ def clean(entry):
     not_allowed = not_allowed + pattern_matches
     return allowed, not_allowed, indeterminate
 
-def final_clean(entry,userdict):
-    # entry is one line in an excel file
-    allowed = []
-    not_allowed = []
-    indeterminate = []
-    pattern_matches, unmatched = check_patterns(entry)
-    #print "umatched", unmatched, len(unmatched)
-    if len(unmatched) > 1:        
-        allowed,not_allowed,indeterminate = check_words_final(unmatched,userdict)
-        #print "inde", indeterminate, "" in indeterminate, " " in indeterminate
-    not_allowed = not_allowed + pattern_matches
-    return allowed, not_allowed, indeterminate
 
 def make_re(word):
+    """Return regular expression object created from given word
+    Args:
+        word (str): word to make into a regular expression object
+
+    Return:
+        regular expression object
+    """
     return r'\b(%s)\b' % word
 
 def replace(entry,not_allowed,indeterminate):
+    """Return str representing a cleaned data entry
+    Args:
+        entry (str): entry to be claned
+        not_allowed (list): list of words that are not allowed, if a match is
+        found will be replaced with [REDACTED]
+        indeterminate (list): list of words that are indeterminate, if a match
+        is found it will be replaced with [Indeterminate]
+
+    Return:
+        str where allowed and not_allowed words have been replaced
+    """
+
     not_allowed = [re.compile(make_re(word)) for word in not_allowed]
     indeterminate = [re.compile(make_re(word)) for word in indeterminate]
     inside_pattern = re.compile("(\()(.*)(\))")
@@ -235,6 +240,7 @@ def main():
     test_Excel.clean_data()
     test_Excel.create_final_csv()
     subjects = test_Excel.export_subjects()
-            
-main()
+
+if __name__ == '__main__':
+    main()
         
