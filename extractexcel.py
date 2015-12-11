@@ -1,6 +1,6 @@
 from patternchecker import *
 import re
-#import msvcrt
+import msvcrt
 import os
 
 class Excel:
