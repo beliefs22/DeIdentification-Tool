@@ -25,6 +25,14 @@ for line in med_dictionary_file:
 
 
 def check_patterns(text):
+    """Find any sequence of characters that look like dates in given string
+    Args:
+        text (str): string to check
+
+    Return:
+        matched_words (list): list of dates found
+        unmatched_words (list): list of works that weren't dates
+    """
     pattern = re.compile(
         '[0-9]{1,2}[\W][0-9]{1,2}[\W][0-9]{2,4}|^\d{1,2}[\W]\d{2,4}$')
     
@@ -39,6 +47,14 @@ def check_patterns(text):
     return matched_words, unmatched_words
 
 def remove_punctuation(text):
+    """Return string of text without punctuation
+    Args:
+        text (str): string to modify
+
+    Return:
+        match (re match object): match objects where punctuation was found
+        string without puncuation
+    """
     pattern = re.compile(r'[^\w]+')
     matches = pattern.finditer(text)
     for match in matches:
@@ -48,29 +64,16 @@ def remove_punctuation(text):
     removed = pattern.split(text)
     return " ".join(removed), matches
 
-def find_user_know_words(text):
-    text = text.split(" ")
-    #print "text is",text
-    indeterminate = []
-    for word in text:
-        print "word is",word
-        originalword = word
-        word = word.lower()
-        allowed = word in dictionary or word in med_dictionary or word.isdigit()
-        not_allowed = word in firstnames or word in lastnames or word in months
-        print allowed, not_allowed
-        if allowed and not_allowed and word != "":
-            print "allowed and not allowed"
-            indeterminate.append(originalword)  
-
-        if not allowed and not not_allowed and word != "":
-            print "found neither"
-            indeterminate.append(originalword)
-
-        print "Oh no it didn't catch"
-    return indeterminate
-
 def check_words(text):
+    """Return list of words that are allowed, not_allowed, and indeterminate
+    Args:
+        text (str): string to check
+
+    Return:
+        allowed (list): list of allowed words
+        not_allowed (list): list of not_allowed words
+        indeterminat (list): list of indeterminate words
+    """
     user_allowed_dict = None
     user_not_allowed_dict = None
     if os.path.exists('useralloweddictionary.txt'):
@@ -125,44 +128,6 @@ def check_words(text):
 
         #print "Oh no it didn't catch"
     return allowed_words, not_allowed_words, indeterminate
-
-def check_words_final(text,userdict):
-    text = text.split(" ")
-    #print "text is",text
-    allowed_words = []
-    not_allowed_words = []
-    indeterminate = []
-    for word in text:
-        #print "word is",word
-        originalword = word
-        word = word.lower()
-        user_allowed = word in userdict
-        allowed = word in dictionary or word in med_dictionary or word.isdigit()
-        not_allowed = word in firstnames or word in lastnames or word in months
-        #print allowed, not_allowed
-
-        if user_allowed:
-            #print "user allowed ran"
-            allowed_words.append(originalword)
-            break
-        if allowed and not_allowed and word != "":
-            indeterminate.append(originalword)
-            
-        if not_allowed and not allowed:
-            #print "not allowed ran"
-            not_allowed_words.append(originalword)
-        if allowed and not not_allowed:
-           #print  "allowed ran"
-           allowed_words.append(originalword)
-
-        if not allowed and not not_allowed and word != "":
-            #print "found neither"
-            indeterminate.append(originalword)
-
-        #print "Oh no it didn't catch"
-    return allowed_words, not_allowed_words, indeterminate
-    
-   
 
 def main():
 
