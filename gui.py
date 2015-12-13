@@ -3,22 +3,25 @@ from tkFileDialog import *
 from tkMessageBox import *
 from extractexcel import *
 
-def NewFile():
-    print "New File!"
+
 def OpenFile():
     name = askopenfilename()
     myfile = open(name,'r')
     return myfile
-
+def CleanData(allowed, not_allowed, indeterminate):
+    pass
 def Run():
     excelfile = OpenFile()
     Excel_File = Excel(excelfile)
-    Excel_File.clean_data()
+    allowed, not_allowed, indeterminate = Excel_File.create_word_list()
+    
     Excel_File.create_final_csv()
     excelfile.close()
     
     
-def About():
+def About(hello):
+    print hello
+    
     showinfo("About","A program to De-Identify data")
 
 

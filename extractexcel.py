@@ -35,9 +35,25 @@ class Excel:
         unordered_headers.sort()
         for item in unordered_headers:
             print item[0], item[1]
-    
-    def clean_data(self):
+
+    def create_word_lists(self):
         """De-Identification Process"""
+        master_allowed = []
+        master_not_allowed = []
+        master_indeterminate = []
+        for subject in self.subjects:
+            allowed,not_allowed,indeterminate = subject.first_pass()
+            for item in allowed:
+                master_allowed.append(item)
+            for item in not_allowed:
+                master_not_allowed.append(item)
+            for item in indeterminate:
+                master_indeterminate.append(item)
+        master_indeterminate = list(set(sorted(master_indeterminate)))
+        return list(set(master_allowed)), list(set(master_not_allowed)), \
+               master_indeterminate
+
+    def create_user_dicts(self,user_allowed,user_not_allowed):
         self.user_allowed_dict = []
         self.user_not_allowed_dict = []
         if os.path.exists('useralloweddictionary.txt'):            
@@ -50,67 +66,18 @@ class Excel:
             for line in myfile2:
                 self.user_not_allowed_dict.append(line.rstrip("\n"))
             myfile2.close()
-
-        master_allowed = []
-        master_not_allowed = []
-        master_indeterminate = []
-        for subject in self.subjects:
-            allowed,not_allowed,indeterminate = subject.first_pass()
-            for item in allowed:
-                master_allowed.append(item)
-            for item in not_allowed:
-                master_not_allowed.append(item)
-            for item in indeterminate:
-                master_indeterminate.append(item)
-        print 'there are %d indeterm items' % len(master_indeterminate)
-        master_indeterminate = list(set(sorted(master_indeterminate)))        
-        print 'there are %d indeterm items' % len(master_indeterminate)
-        print master_indeterminate
-        for word in master_indeterminate[:]:
-            print 'Is %s an allowed word? Please enter y or n or u ' % word
-            
-            getch = getchall._Getch()
-            choice = getch()
-            
-            if choice.lower() == 'y':
-                self.user_allowed_dict.append(word)
-                master_allowed.append(word)
-                master_indeterminate.remove(word)
-            if choice.lower() == 'n':
-                self.user_not_allowed_dict.append(word)
-                master_not_allowed.append(word)
-                master_not_allowed.append(word)
-        print "choices done"        
-        master_allowed = list(set(master_allowed))
-        master_not_allowed = list(set(master_not_allowed))
-        print "setting done"
-        for subject in self.subjects:
-            print "starting final pass"
-            subject.final_pass(master_not_allowed,master_indeterminate)                
-        self.user_allowed_dict = list(set(self.user_allowed_dict))
-        self.user_not_allowed_dict = list(set(self.user_not_allowed_dict))
-        myfile1 = open('useralloweddictionary.txt','w')
-        myfile2 = open('usernotalloweddict.txt','w')
-        for item in self.user_allowed_dict:
-            print "writing usser"
-            myfile1.write(item.lower() + "\n")
-        for item in self.user_not_allowed_dict:
-            print "writing not allowed"
-            myfile2.write(item.lower() + "\n")
-        myfile1.close()
-        myfile2.close()
+        for item in user_allowed:
+            if item not in self.user_allowed_dict:
+                self.user_allowed_dict.append(item)
+        
+        for item in user_not_allowed:
+            if item not in self.user_not_allowed_dict:
+                self.user_not_allowed_dict.append(item)           
         
         
-    def show_subjects(self):
-        """Print number of subjects contained in excel file"""
-        print "There are %d subjects present in this file" % (len(self.subjects))
-
-    def export_subjects(self):
-        """Return list of Subject objects created from excel file"""
-        return self.subjects
-
-    def create_final_csv(self):
-        """Create csv of cleaned excel file"""
+    def clean_data(master_not_allowed,master_indeterminate):
+        for subject in self.subjects:
+            subject.final_pass(master_not_allowed,master_indeterminate)        
         final_data = []
         final_data.append(",".join(self.header_list))
         for subject in self.subjects:
@@ -120,7 +87,14 @@ class Excel:
         for line in final_data:
             myfile.write(line + "\n")
         myfile.close()
-        
+  
+    def show_subjects(self):
+        """Print number of subjects contained in excel file"""
+        print "There are %d subjects present in this file" % (len(self.subjects))
+
+    def export_subjects(self):
+        """Return list of Subject objects created from excel file"""
+        return self.subjects
 
 class Subject:
     """Object representing single entry in an excel file"""
