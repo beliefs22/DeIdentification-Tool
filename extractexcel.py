@@ -1,6 +1,6 @@
 from patternchecker import *
 import re
-import msvcrt
+import getchall
 import os
 
 class Excel:
@@ -68,7 +68,10 @@ class Excel:
         print master_indeterminate
         for word in master_indeterminate[:]:
             print 'Is %s an allowed word? Please enter y or n or u ' % word
-            choice = msvcrt.getch()
+            
+            getch = getchall._Getch()
+            choice = getch()
+            
             if choice.lower() == 'y':
                 self.user_allowed_dict.append(word)
                 master_allowed.append(word)
