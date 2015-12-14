@@ -69,14 +69,21 @@ class Excel:
         for item in user_allowed:
             if item not in self.user_allowed_dict:
                 self.user_allowed_dict.append(item)
-        
+        myfile1 = open('useralloweddictionary.txt','w')
+        for word in self.user_allowed_dict:
+            myfile1.write(word + "\n")
+        myfile1.close()        
         for item in user_not_allowed:
             if item not in self.user_not_allowed_dict:
-                self.user_not_allowed_dict.append(item)           
+                self.user_not_allowed_dict.append(item)
+        myfile2 = open('usernotalloweddict.txt','w')
+        for word in self.user_not_allowed_dict:
+            myfile2.write(word + "\n")
         
         
-    def clean_data(master_not_allowed,master_indeterminate):
+    def clean_data(self, master_not_allowed,master_indeterminate):
         for subject in self.subjects:
+            print "doing final pass"
             subject.final_pass(master_not_allowed,master_indeterminate)        
         final_data = []
         final_data.append(",".join(self.header_list))
@@ -168,8 +175,7 @@ def clean(entry):
     indeterminate = []
     pattern_matches, unmatched = check_patterns(entry)
     #print "umatched", unmatched, len(unmatched)
-    if len(unmatched) > 1:
-        
+    if len(unmatched) > 1:        
         allowed,not_allowed,indeterminate = check_words(unmatched)
         #print "inde", indeterminate, "" in indeterminate, " " in indeterminate
     not_allowed = not_allowed + pattern_matches

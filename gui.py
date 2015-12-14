@@ -3,8 +3,14 @@ from tkFileDialog import *
 from tkMessageBox import *
 from extractexcel import *
 
-global root
+global root, master_allowed, master_not_allowed, master_indeterminate, user_allowed, user_not_allowed, Excel_File
+
 root = Tk()
+master_allowed = []
+master_not_allowed = []
+master_indeterminate = []
+user_allowed = []
+user_not_allowed = []
 
 def OpenFile():
     name = askopenfilename()
@@ -13,40 +19,71 @@ def OpenFile():
 def CleanData(allowed, not_allowed, indeterminate):
     pass
 def Run():
+    global Excel_File
+    global master_allowed, master_not_allowed, master_indeterminate,user_allowed,user_not_allowed
     excelfile = OpenFile()
     Excel_File = Excel(excelfile)
-    master_allowed, master_not_allowed, master_indeterminate = Excel_File.create_word_lists()
-    user_allowed, user_not_allowed = Find(master_allowed, master_not_allowed, master_indeterminate)
-    Excel_File.create_user_dicts(user_allowed, user_not_allowed)
-    Excel_File.clean_data
     excelfile.close()
+    master_allowed, master_not_allowed, master_indeterminate = Excel_File.create_word_lists()
+    Find()
+    
 def display_list(list_to_display,label_text):
     pass
     
-def Find(master_allowed, master_not_allowed, master_indeterminate):
-    global root
-
-            
+def Find():
+    global Excel_File
+    global root, master_allowed, master_not_allowed, master_indeterminate,user_allowed,user_not_allowed
+    
     yScroll = Scrollbar(orient=VERTICAL)
-    yScroll.grid(row=0, column=1, sticky=N+S)
-    title = Label(root, text='Please select allowed words')
-    select = Button(root, text='Select Words', command=SelectWords)
-    select.grid(row=
+    yScroll.grid(row=1, column=1, sticky=N+S)
+    
+    listvar = StringVar()
+    listvar.set(" ".join(master_indeterminate))
+    
+    title = Label(root, text='Please select allowed words') 
     title.grid(row=0, column=0, sticky=E+W)
-    indeterm_list = Listbox(root, yscrollcommand=yScroll.set, activestyle ='dotbox', selectmode=MULTIPLE)
+    
+    indeterm_list = Listbox(root, listvariable=listvar, yscrollcommand=yScroll.set, activestyle ='dotbox', selectmode=MULTIPLE)
     indeterm_list.grid(row=1, column=0, sticky=N+S+E+W)
     yScroll['command'] = indeterm_list.yview
-    spot = 0
-    for word in master_indeterminate:
-        indeterm_list.insert(spot, word)
-        spot = spot + 1
-        
-    def SelectWords(listbox=indeterm_list):
-        print listbox.curselection()
+    select = Button(root, text="Select")
+    select.grid(row=2, column=0, sticky=S+E)
 
-    
-    return master_allowed, master_not_allowed    
-    
+    def Message():
+        global Excel_File        
+        showinfo(title="Alert",message="We are creating CSV")
+        Excel_File.clean_data(master_not_allowed,master_indeterminate)
+        showinfo(title="All done", message="All done")
+        root.destroy()
+        
+        
+    def SelectWords1(listbox=indeterm_list, button=select, label=title):
+        global master_indeterminate, user_allowed
+        listvar = StringVar()
+        allowed_words_index = listbox.curselection()
+        for index in allowed_words_index:
+            user_allowed.append(master_indeterminate[index])
+        for word in user_allowed:
+            master_indeterminate.remove(word)
+                    
+        listvar.set(" ".join(master_indeterminate))
+        listbox.config(listvariable=listvar)
+        listbox.selection_clear(0,listbox.size())
+        button.config(command=SelectWords2)
+        title.config(text="Select not allowed words")
+
+    def SelectWords2(listbox=indeterm_list,button = select ):
+        global master_indeterminate, user_not_allowed
+        not_allowed_words_index =  listbox.curselection()
+        for index in not_allowed_words_index:
+            user_not_allowed.append(master_indeterminate[index])
+        for word in user_not_allowed:
+            master_indeterminate.remove(word)
+            
+        button.config(text="create csv", command=Message)
+        Excel_File.create_user_dicts(user_allowed, user_not_allowed)
+
+    select.config(command=SelectWords1)    
 
 class Checkbar(Frame):
     def __init__(self, parent=None, picks=[], side=LEFT, anchor=W):
@@ -59,10 +96,8 @@ class Checkbar(Frame):
             self.vars.append(var)
         def state(self):
             return map((lambda var: var.get()), self.vars)
-
-    
-def About():
-    
+        
+def About():  
     
     showinfo("About","A program to De-Identify data")
 

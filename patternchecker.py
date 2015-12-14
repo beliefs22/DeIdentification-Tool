@@ -74,19 +74,19 @@ def check_words(text):
         not_allowed (list): list of not_allowed words
         indeterminat (list): list of indeterminate words
     """
-    user_allowed_dict = None
-    user_not_allowed_dict = None
+    u_allowed_dict = None
+    u_n_allowed_dict = None
     if os.path.exists('useralloweddictionary.txt'):
-        user_allowed_dict = []        
+        u_allowed_dict = []        
         myfile = open('useralloweddictionary.txt','r')
         for line in myfile:
-            user_allowed_dict.append(line.rstrip("\n"))
+            u_allowed_dict.append(line.rstrip("\n"))
             
     if os.path.exists('usernotalloweddicttxt'):
-        user_not_allowed_dict = []        
+        u_n_allowed_dict = []        
         myfile = open('usernotalloweddict.txt','r')
         for line in myfile:
-            user_not_allowed_dict.append(line.rstrip("\n"))
+            u_n_allowed_dict.append(line.rstrip("\n"))
     text = text.split(" ")
     #print "text is",text
     allowed_words = []
@@ -97,11 +97,11 @@ def check_words(text):
         originalword = word
         word = word.lower()
         
-        if user_allowed_dict and word in user_allowed_dict:
+        if u_allowed_dict and word in u_allowed_dict:
             allowed_words.append(word)
             continue
 
-        if user_not_allowed_dict and word in user_not_allowed_dict:
+        if u_n_allowed_dict and word in u_n_allowed_dict:
             not_allowed_word.append(word)
             continue
         
