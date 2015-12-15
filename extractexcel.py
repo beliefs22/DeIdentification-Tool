@@ -29,12 +29,11 @@ class Excel:
             self.subjects.append(Subject(self.headers,data))
 
     def show_headers(self):
-        """Print headers for excel file to screen"""
+        """Return headers for excel file to screen"""
         headers = self.headers.keys()
         unordered_headers = [(self.headers[header],header) for header in headers]
         unordered_headers.sort()
-        for item in unordered_headers:
-            print item[0], item[1]
+        return unordered_headers
 
     def create_word_lists(self):
         """De-Identification Process"""
@@ -219,10 +218,9 @@ def main():
     choice = raw_input('What is your file name?')
     excelfile = open(choice,'r')
     test_Excel = Excel(excelfile)
-    test_Excel.show_headers()
-    test_Excel.clean_data()
-    test_Excel.create_final_csv()
-    subjects = test_Excel.export_subjects()
+    a = test_Excel.show_headers()
+    print a
+    
 
 if __name__ == '__main__':
     main()

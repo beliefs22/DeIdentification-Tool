@@ -3,7 +3,8 @@ from tkFileDialog import *
 from tkMessageBox import *
 from extractexcel import *
 
-global root, master_allowed, master_not_allowed, master_indeterminate, user_allowed, user_not_allowed, Excel_File
+global root, master_allowed, master_not_allowed, master_indeterminate
+global user_allowed, user_not_allowed, Excel_File
 
 root = Tk()
 master_allowed = []
@@ -20,11 +21,13 @@ def CleanData(allowed, not_allowed, indeterminate):
     pass
 def Run():
     global Excel_File
-    global master_allowed, master_not_allowed, master_indeterminate,user_allowed,user_not_allowed
+    global master_allowed, master_not_allowed
+    global master_indeterminate, user_allowed,user_not_allowed
     excelfile = OpenFile()
     Excel_File = Excel(excelfile)
     excelfile.close()
-    master_allowed, master_not_allowed, master_indeterminate = Excel_File.create_word_lists()
+    master_allowed, master_not_allowed, \
+                    master_indeterminate = Excel_File.create_word_lists()
     Find()
     
 def display_list(list_to_display,label_text):
@@ -32,7 +35,8 @@ def display_list(list_to_display,label_text):
     
 def Find():
     global Excel_File
-    global root, master_allowed, master_not_allowed, master_indeterminate,user_allowed,user_not_allowed
+    global root, master_allowed, master_not_allowed
+    global master_indeterminate,user_allowed,user_not_allowed
     
     yScroll = Scrollbar(orient=VERTICAL)
     yScroll.grid(row=1, column=1, sticky=N+S)
@@ -43,7 +47,8 @@ def Find():
     title = Label(root, text='Please select allowed words') 
     title.grid(row=0, column=0, sticky=E+W)
     
-    indeterm_list = Listbox(root, listvariable=listvar, yscrollcommand=yScroll.set, activestyle ='dotbox', selectmode=MULTIPLE)
+    indeterm_list = Listbox(root, listvariable=listvar, yscrollcommand=yScroll.set, \
+                            activestyle ='dotbox', selectmode=MULTIPLE)
     indeterm_list.grid(row=1, column=0, sticky=N+S+E+W)
     yScroll['command'] = indeterm_list.yview
     select = Button(root, text="Select")
@@ -96,6 +101,26 @@ class Checkbar(Frame):
             self.vars.append(var)
         def state(self):
             return map((lambda var: var.get()), self.vars)
+
+def Headers():
+    global Excel_File, root
+    yscroll = Scrollbar(orient=VERTICAL)
+    yscroll.grid(row=1, column=1, sticky=N+S)
+    
+    excelfile = OpenFile()
+    Excel_File = Excel(excelfile)
+    title = Label(root, text='Headers for your File')
+    title.grid(row=0, column=0, sticky=E+W)
+    headers = Excel_File.show_headers()
+    header_string = ""
+    for pair in headers:
+        header_string = header_string + " " + pair[1]
+    head_var = StringVar()
+    head_var.set(header_string)
+    header_list = Listbox(root, listvariable=head_var, yscrollcommand=yscroll.set)
+    header_list.grid(row=1,column=0,sticky=N+E+S+W)
+    yscroll.config(command=header_list.yview)
+    
         
 def About():  
     
@@ -110,6 +135,7 @@ menu.add_cascade(label="File", menu=filemenu)
 menu.add_cascade(label="Run", menu=runmenu)
 menu.add_cascade(label="Help", menu=helpmenu)
 filemenu.add_command(label="Open", command=OpenFile)
+filemenu.add_command(label="Show Headers", command=Headers)
 filemenu.add_separator()
 filemenu.add_command(label="Exit", command=root.quit)
 helpmenu.add_separator()
