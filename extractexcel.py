@@ -96,7 +96,7 @@ class Excel:
   
     def show_subjects(self):
         """Print number of subjects contained in excel file"""
-        print "There are %d subjects present in this file" % (len(self.subjects))
+        return len(self.subjects)
 
     def export_subjects(self):
         """Return list of Subject objects created from excel file"""

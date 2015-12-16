@@ -10,10 +10,10 @@ class Menus:
                                 if commandlist[0] == 'separator':
                                         newmenu.add_separator()
                                 else:
-                                        
-                                        print commandlist, commandlist[0], commandlist[1]
                                         newmenu.add_command(label=commandlist[0], command=commandlist[1])
 
+class Listboxes:
+        def __init__(self,root,
 def main():
         def test():
                     print "Hello world"

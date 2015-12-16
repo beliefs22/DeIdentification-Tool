@@ -2,7 +2,7 @@ from Tkinter import *
 from tkFileDialog import *
 from tkMessageBox import *
 from extractexcel import *
-
+from guiclasses import *
 global root, master_allowed, master_not_allowed, master_indeterminate
 global user_allowed, user_not_allowed, Excel_File
 
@@ -14,11 +14,19 @@ user_allowed = []
 user_not_allowed = []
 
 def OpenFile():
+    global root, Excel_File
     name = askopenfilename()
     myfile = open(name,'r')
+    Excel_File = Excel(myfile)
+    number_of_sub = Excel_File.show_subjects()
+    textvar = StringVar()
+    textvar.set(str(number_of_sub))    
+    sub_label = Label(root, text=textvar)
+    sub_label.grid(row=1, column=0, sticky=N+E+S+W)    
+    myfile.close()
     return myfile
-def CleanData(allowed, not_allowed, indeterminate):
-    pass
+
+
 def Run():
     global Excel_File
     global master_allowed, master_not_allowed
@@ -29,9 +37,6 @@ def Run():
     master_allowed, master_not_allowed, \
                     master_indeterminate = Excel_File.create_word_lists()
     Find()
-    
-def display_list(list_to_display,label_text):
-    pass
     
 def Find():
     global Excel_File
@@ -126,21 +131,14 @@ def About():
     
     showinfo("About","A program to De-Identify data")
 
+def Quits():
+    global root
+    root.quit()
+
 menu = Menu(root)
 root.config(menu=menu)
-filemenu = Menu(menu)
-helpmenu = Menu(menu)
-runmenu = Menu(menu)
-menu.add_cascade(label="File", menu=filemenu)
-menu.add_cascade(label="Run", menu=runmenu)
-menu.add_cascade(label="Help", menu=helpmenu)
-filemenu.add_command(label="Open", command=OpenFile)
-filemenu.add_command(label="Show Headers", command=Headers)
-filemenu.add_separator()
-filemenu.add_command(label="Exit", command=root.quit)
-helpmenu.add_separator()
-helpmenu.add_command(label="About", command=About)
-runmenu.add_command(label="Clean Data File", command=Run)
-
-
+headers = ['File','Run','Help']
+commands = [[("Open", OpenFile), ("Show Headers", Headers),("separator",None),("Exit",Quits)]\
+            ,[("Clean Data File", Run)],[("About",About)]]
+window_menu = Menus(menu,headers,commands)
 mainloop()
