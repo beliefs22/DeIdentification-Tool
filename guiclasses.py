@@ -13,7 +13,9 @@ class Menus:
                                         newmenu.add_command(label=commandlist[0], command=commandlist[1])
 
 class Listboxes:
-        def __init__(self,root,
+        def __init__(self,root):
+                pass
+
 def main():
         def test():
                     print "Hello world"

@@ -31,9 +31,6 @@ def Run():
     global Excel_File
     global master_allowed, master_not_allowed
     global master_indeterminate, user_allowed,user_not_allowed
-    excelfile = OpenFile()
-    Excel_File = Excel(excelfile)
-    excelfile.close()
     master_allowed, master_not_allowed, \
                     master_indeterminate = Excel_File.create_word_lists()
     Find()
@@ -111,9 +108,6 @@ def Headers():
     global Excel_File, root
     yscroll = Scrollbar(orient=VERTICAL)
     yscroll.grid(row=1, column=1, sticky=N+S)
-    
-    excelfile = OpenFile()
-    Excel_File = Excel(excelfile)
     title = Label(root, text='Headers for your File')
     title.grid(row=0, column=0, sticky=E+W)
     headers = Excel_File.show_headers()
