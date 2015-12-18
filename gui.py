@@ -18,10 +18,10 @@ def OpenFile():
     name = askopenfilename()
     myfile = open(name,'r')
     Excel_File = Excel(myfile)
-    number_of_sub = Excel_File.show_subjects()
+    number_of_sub = Excel_File.show_subjects()    
     textvar = StringVar()
-    textvar.set(str(number_of_sub))    
-    sub_label = Label(root, text=textvar)
+    textvar.set("There are %d subjects in this file" % number_of_sub) 
+    sub_label = Label(root, textvariable=textvar)
     sub_label.grid(row=1, column=0, sticky=N+E+S+W)    
     myfile.close()
     return myfile
