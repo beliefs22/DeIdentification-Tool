@@ -82,7 +82,7 @@ def check_words(text):
         for line in myfile:
             u_allowed_dict.append(line.rstrip("\n"))
             
-    if os.path.exists('usernotalloweddicttxt'):
+    if os.path.exists('usernotalloweddict.txt'):
         u_n_allowed_dict = []        
         myfile = open('usernotalloweddict.txt','r')
         for line in myfile:
