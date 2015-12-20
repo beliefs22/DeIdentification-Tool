@@ -37,5 +37,11 @@ class _GetchWindows:
 def main():
     getch = _Getch()
 
+    a = getch()
+    print a
+    print type(a)
+    a = getch()
+    print a, type(a)
+
 if __name__ == '__main__':
     main()

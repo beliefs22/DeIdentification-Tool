@@ -37,10 +37,10 @@ def check_patterns(text):
         '[0-9]{1,2}[\W][0-9]{1,2}[\W][0-9]{2,4}|^\d{1,2}[\W]\d{2,4}$')
     
 
-    matched_word_locations = pattern.finditer(text)
-    matched_words = pattern.findall(text)
-    unmatched_words = pattern.split(text)
-    unmatched_words = " ".join(unmatched_words)
+    matched_word_locations = pattern.finditer(text) # date match locations
+    matched_words = pattern.findall(text) #list of matched dates
+    unmatched_words = pattern.split(text) #remove dates from text
+    unmatched_words = " ".join(unmatched_words) #make string without dates
     unmatched_words, unmatched_word_locations = \
                      remove_punctuation(unmatched_words)
 
@@ -55,13 +55,13 @@ def remove_punctuation(text):
         match (re match object): match objects where punctuation was found
         string without puncuation
     """
-    pattern = re.compile(r'[^\w]+')
-    matches = pattern.finditer(text)
+    pattern = re.compile(r'[^\w]+') # find punctuation
+    matches = pattern.finditer(text) 
     for match in matches:
         s = match.start()
         e = match.end()
         #print "match was", text[s:e]
-    removed = pattern.split(text)
+    removed = pattern.split(text) # make list without punctuation
     return " ".join(removed), matches
 
 def check_words(text):
@@ -77,80 +77,79 @@ def check_words(text):
     u_allowed_dict = None
     u_n_allowed_dict = None
     if os.path.exists('useralloweddictionary.txt'):
+        #print "i ran"
         u_allowed_dict = []        
         myfile = open('useralloweddictionary.txt','r')
         for line in myfile:
-            u_allowed_dict.append(line.rstrip("\n"))
+            u_allowed_dict.append(line.rstrip("\n").lower())
+        #print "Bobby" in u_allowed_dict
             
-    if os.path.exists('usernotalloweddicttxt'):
+    if os.path.exists('usernotalloweddict.txt'):
+        #print "I ran too"
         u_n_allowed_dict = []        
         myfile = open('usernotalloweddict.txt','r')
         for line in myfile:
-            u_n_allowed_dict.append(line.rstrip("\n"))
+            u_n_allowed_dict.append(line.rstrip("\n").lower())
+        #print "Bobby" in u_n_allowed_dict
     text = text.split(" ")
     #print "text is",text
     allowed_words = []
     not_allowed_words = []
     indeterminate = []
-    for word in text:        
-        #print "word is",word
+    for word in text:
+        print "word is", word
         originalword = word
         word = word.lower()
-        
-        if u_allowed_dict and word in u_allowed_dict:
+        if u_allowed_dict != None and word in u_allowed_dict:
+            print "user allowed"
             allowed_words.append(word)
-            continue
+            continue            
 
         if u_n_allowed_dict and word in u_n_allowed_dict:
-            not_allowed_word.append(word)
+            print "user not allowed"
+            not_allowed_words.append(word)
             continue
         
         allowed = word in dictionary or word in med_dictionary or word.isdigit()
         not_allowed = word in firstnames or word in lastnames or word in months
         #print allowed, not_allowed
         if allowed and not_allowed and word != "":
+            print "allowed and now allowed"
+            print word in dictionary, word in med_dictionary , word.isdigit()
             indeterminate.append(originalword)
             continue
             
         if not_allowed and not allowed:
-            #print "not allowed ran"
+            print "not allowed ran"
             not_allowed_words.append(originalword)
             continue
         if allowed and not not_allowed:
-           #print  "allowed ran"
+           print  "allowed ran"
            allowed_words.append(originalword)
            continue
 
         if not allowed and not not_allowed and word != "":
-            #print "found neither"
+            print "found neither"
             indeterminate.append(originalword)
             continue
 
-        #print "Oh no it didn't catch"
+        print "Oh no it didn't catch"
     return allowed_words, not_allowed_words, indeterminate
 
 def main():
+    a = "12/13/2015 hello my darling Keith Jones. It is time for September"
+    allowed = []
+    not_allowed = []
+    indeterminate = []
 
-    myfile = open("September 2015 Samples De-Identified2.csv",'r')
-    patterns = [re.compile(p) for p in \
-                ['[0-9]{1,2}[\W][0-9]{1,2}[\W][0-9]{2,4}',
-                '^\d{1,2}[\W]\d{2,4}$']]
+    match, unmatched = check_patterns(a)
+    print match, unmatched
+    print
+    allowed, not_allowed, indeterminate = check_words(unmatched)
+    print allowed
+    print not_allowed
+    print indeterminate
 
-    line = myfile.read()
-    line = line.replace(","," ")
-
-    allowed,not_allowed,indeterminate = check_words(line)   
-
-
-    a = [[allowed,"allowed"],[not_allowed,"not allowed"],
-         [indeterminate,"indeterminate"]]
-    for word_list in a:
-        print word_list[1]
-        print"_________________________________________________________"
-        for word in word_list[0]:
-            print word
-        
-    
-
+   
 if __name__ =='__main__':
     main()

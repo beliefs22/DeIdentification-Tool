@@ -146,7 +146,8 @@ class Subject:
             #print "entry is", self.data[index]
             #print
             #print "raw entry is", self.raw_data[index]
-            self.clean_data.append(replace(self.raw_data[index],master_not_allowed,master_indeterminate))
+            self.clean_data.append(replace(self.raw_data[index],\
+                                           master_not_allowed,master_indeterminate))
         
         
     def show_raw_data(self):
@@ -173,8 +174,7 @@ def clean(entry):
     not_allowed = []
     indeterminate = []
     pattern_matches, unmatched = check_patterns(entry)
-    #print "umatched", unmatched, len(unmatched)
-    if len(unmatched) > 1:        
+    if len(unmatched) > 1:  # skip empty strings       
         allowed,not_allowed,indeterminate = check_words(unmatched)
         #print "inde", indeterminate, "" in indeterminate, " " in indeterminate
     not_allowed = not_allowed + pattern_matches
@@ -208,7 +208,7 @@ def replace(entry,not_allowed,indeterminate):
     indeterminate = [re.compile(make_re(word)) for word in indeterminate]
     inside_pattern = re.compile("(\()(.*)(\))")
     for pattern in not_allowed:
-        entry = pattern.sub("[REDACTED]",entry,1)
+        entry = pattern.sub("[REDACTED]",entry,1) # replace illegal words
     for pattern in indeterminate:
         inside = inside_pattern.search(pattern.pattern)
         entry = pattern.sub(inside.group(2).upper() + "[INDETERMINATE]",entry)
