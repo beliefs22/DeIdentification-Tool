@@ -1,138 +1,93 @@
 from Tkinter import *
 from tkFileDialog import *
 from tkMessageBox import *
-from extractexcel import *
+from cleanextractexcel import *
 from guiclasses import *
-global root, master_allowed, master_not_allowed, master_indeterminate
-global user_allowed, user_not_allowed, Excel_File
 
-root = Tk()
-master_allowed = []
-master_not_allowed = []
-master_indeterminate = []
-user_allowed = []
-user_not_allowed = []
+class MainFrame(Frame):
+    def __init__(self, parent):
+        Frame.__init__(self,parent)
 
-def OpenFile():
-    global root, Excel_File
-    name = askopenfilename()
-    myfile = open(name,'r')
-    Excel_File = Excel(myfile)
-    number_of_sub = Excel_File.show_subjects()    
-    textvar = StringVar()
-    textvar.set("There are %d subjects in this file" % number_of_sub) 
-    sub_label = Label(root, textvariable=textvar)
-    sub_label.grid(row=1, column=0, sticky=N+E+S+W)    
-    myfile.close()
-    return myfile
+        self.parent = parent # parent window
 
+        self.initUI()
+    def _OpenFile(self):
+        """Opens files and displays number of subjects in file"""
+        name = askopenfilename()
+        self.excelfile = open(name,'r')
+        self.ExcelFile = Excel(self.excelfile)
+        number_of_sub = self.ExcelFile.get_num_of_subjects()
+        self.textvar = StringVar() #variable to display number of subjects
+        self.textvar.set("There are %d subjects in this file" % number_of_sub)
+        self.main_label = Label(self.parent, textvariable=self.textvar)
+        self.main_label.grid(row=0, column=0, sticky=E+W)
+        self.excelfile.close()
+    def _Headers(self):
+        yscroll = Scrollbar(orient=VERTICAL)
+        yscroll.grid(row=1, column=1, sticky= N+S)
+        xscroll = Scrollbar(orient=HORIZONTAL)
+        xscroll.grid(row=2, column=0, sticky=E+W)
+        self.textvar.set("Headers for your File")
+        headers = self.ExcelFile.get_headers()
+        header_string = ""
+        for index in range(len(headers)):
+            header_string = header_string + " " + headers[index]
+        self.listboxvar = StringVar() # Holds list box values
+        self.listboxvar.set(header_string)
+        self.main_listbox = Listbox(self.parent, listvariable=self.listboxvar,
+                                    yscrollcommand=yscroll.set,
+                                    xscrollcommand=xscroll.set)
+        self.main_listbox.grid(row=1, column=0,sticky=N+E+S+W)
+        yscroll.config(command=self.main_listbox.yview)
+        xscroll.config(command=self.main_listbox.xview)
+    def _Run(self):
+        self.master_allowed, self.master_not_allowed,
+        self.master_indeterminate = self.ExcelFile.first_pass()
+        self.Find()
+        pass
+    def Find(self):
+        self.main_listbox.config(selectmode=MULTIPLE)
+        self.listboxvar.set(" ".join(self.master_indeterminate))
+        self.textvar.set("Please select allowed words")
 
-def Run():
-    global Excel_File
-    global master_allowed, master_not_allowed
-    global master_indeterminate, user_allowed,user_not_allowed
-    master_allowed, master_not_allowed, \
-                    master_indeterminate = Excel_File.create_word_lists()
-    Find()
-    
-def Find():
-    global Excel_File
-    global root, master_allowed, master_not_allowed
-    global master_indeterminate,user_allowed,user_not_allowed
-    
-    yScroll = Scrollbar(orient=VERTICAL)
-    yScroll.grid(row=1, column=1, sticky=N+S)
-    
-    listvar = StringVar()
-    listvar.set(" ".join(master_indeterminate))
-    
-    title = Label(root, text='Please select allowed words') 
-    title.grid(row=0, column=0, sticky=E+W)
-    
-    indeterm_list = Listbox(root, listvariable=listvar, yscrollcommand=yScroll.set, \
-                            activestyle ='dotbox', selectmode=MULTIPLE)
-    indeterm_list.grid(row=1, column=0, sticky=N+S+E+W)
-    yScroll['command'] = indeterm_list.yview
-    select = Button(root, text="Select")
-    select.grid(row=2, column=0, sticky=S+E)
+        self.select_button = Button(self.parent,text="Select Words")
+        self.select_button.grid(row=2, column=0, sticky=S+E)
 
-    def Message():
-        global Excel_File        
-        showinfo(title="Alert",message="We are creating CSV")
-        Excel_File.clean_data(master_not_allowed,master_indeterminate)
-        showinfo(title="All done", message="All done")
-        root.destroy()
-        
-        
-    def SelectWords1(listbox=indeterm_list, button=select, label=title):
-        global master_indeterminate, user_allowed
-        listvar = StringVar()
-        allowed_words_index = listbox.curselection() # user selected words
-        for index in allowed_words_index:
-            user_allowed.append(master_indeterminate[index])
-        for word in user_allowed:
-            master_indeterminate.remove(word)
-                    
-        listvar.set(" ".join(master_indeterminate))
-        listbox.config(listvariable=listvar)
-        listbox.selection_clear(0,listbox.size())
-        button.config(command=SelectWords2)
-        title.config(text="Select not allowed words")
+    def InitialSelect():
+        pass
 
-    def SelectWords2(listbox=indeterm_list,button = select ):
-        global master_indeterminate, user_not_allowed
-        not_allowed_words_index =  listbox.curselection()
-        for index in not_allowed_words_index:
-            user_not_allowed.append(master_indeterminate[index])
-        for word in user_not_allowed:
-            master_indeterminate.remove(word)
-            
-        button.config(text="create csv", command=Message)
-        Excel_File.create_user_dicts(user_allowed, user_not_allowed)
-
-    select.config(command=SelectWords1) # set initial command for select button   
-
-class Checkbar(Frame):
-    def __init__(self, parent=None, picks=[], side=LEFT, anchor=W):
-        Frame.__init__(self, parent)
-        self.vars = []
-        for pick in picks:
-            var = IntVar()
-            chk = Checkbutton(self, text=pick, variable=var, indicatoron=0)
-            chk.pack(side=side, anchor=anchor, expand=YES)
-            self.vars.append(var)
-        def state(self):
-            return map((lambda var: var.get()), self.vars)
-
-def Headers():
-    global Excel_File, root
-    yscroll = Scrollbar(orient=VERTICAL)
-    yscroll.grid(row=1, column=1, sticky=N+S)
-    title = Label(root, text='Headers for your File')
-    title.grid(row=0, column=0, sticky=E+W)
-    headers = Excel_File.show_headers()
-    header_string = ""
-    for pair in headers:
-        header_string = header_string + " " + pair[1]
-    head_var = StringVar()
-    head_var.set(header_string)
-    header_list = Listbox(root, listvariable=head_var, yscrollcommand=yscroll.set)
-    header_list.grid(row=1,column=0,sticky=N+E+S+W)
-    yscroll.config(command=header_list.yview)
     
         
-def About():  
+        
+        
+    def _About(self):
+        pass
+
+    def _update_list(self,new_list):
+        self.listboxvar.set(" ".join(new_list))
+    def _update_select(self):
+        self.main_listbox.config(selectmode=MULTIPLE)
+
+    def _update_label(self,text):
+        self.textvar.set(text)
     
-    showinfo("About","A program to De-Identify data")
+    def initUI(self):
+        self.parent.title("De-Identification Tool")
+        menu = Menu(self.parent)
+        self.parent.config(menu=menu)
+        menu_headers = ['File','Run','Help']
+        menu_commands = [[("Open",self._OpenFile),("Show Headers",self._Headers),
+                     ("separator",None),("Exit",self.parent.quit)],
+                    [("Clean Data File", self._Run)],
+                    [("About", self._About)]]
+        window_menu = Menus(menu,menu_headers,menu_commands)
 
-def Quits():
-    global root
-    root.quit()
+def main():
 
-menu = Menu(root)
-root.config(menu=menu)
-headers = ['File','Run','Help']
-commands = [[("Open", OpenFile), ("Show Headers", Headers),("separator",None),("Exit",Quits)]\
-            ,[("Clean Data File", Run)],[("About",About)]]
-window_menu = Menus(menu,headers,commands)
-mainloop()
+    root = Tk()
+    gui = MainFrame(root)
+    root.mainloop()
+
+if __name__ == '__main__':
+    main()
+        

@@ -116,7 +116,8 @@ def Headers():
         header_string = header_string + " " + pair[1]
     head_var = StringVar()
     head_var.set(header_string)
-    header_list = Listbox(root, listvariable=head_var, yscrollcommand=yscroll.set)
+    header_list = Listbox(root, listvariable=head_var,
+                          yscrollcommand=yscroll.set)
     header_list.grid(row=1,column=0,sticky=N+E+S+W)
     yscroll.config(command=header_list.yview)
     

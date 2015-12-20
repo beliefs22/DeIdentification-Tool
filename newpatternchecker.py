@@ -62,42 +62,42 @@ def check_for_words(text):
     
 
     for word in text:
-        #print "word is", word
+        print "word is", word
         original_word = word #keep record of unaltered word
         word = word.lower() # all dictionarys use lower case words
-        #print word
+        print word
         if user_all_dict and word in user_all_dict: #words user wants to pass
-            #print "user allowed ran"
-            allowed_words.append(word)
+            print "user allowed ran"
+            allowed_words.append(original_word)
             continue
 
         if user_not_all_dict and word in user_not_all_dict: #words won't pass
-            #print "not user allowed ran"
-            not_allowed_words.append(word)
+            print "not user allowed ran"
+            not_allowed_words.append(original_word)
             continue
         
         allowed = word in dictionary or word in medicaldict or word.isdigit()
         not_allowed = word in firstnames or word in lastnames or word in months
-        #print allowed, not_allowed
+        print allowed, not_allowed
         if allowed and not_allowed and word != "":
             indeterminate.append(original_word)
             continue
             
         if not_allowed and not allowed:
-            #print "not allowed ran"
+            print "not allowed ran"
             not_allowed_words.append(original_word)
             continue
         if allowed and not not_allowed:
-           #print  "allowed ran"
+           print  "allowed ran"
            allowed_words.append(original_word)
            continue
 
         if not allowed and not not_allowed and word != "":
-            #print "found neither"
+            print "found neither"
             indeterminate.append(original_word)
             continue
 
-        #print "Oh no it didn't catch"
+        print "Oh no it didn't catch"
     return allowed_words, not_allowed_words, indeterminate
         
         

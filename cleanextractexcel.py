@@ -5,7 +5,7 @@ import os
 import pickle
 
 
-def deidentify(subjects):
+def deidentify(subjects,MainFrame ):
     master_allowed = []
     master_not_allowed = []
     master_indeterminate = []
@@ -13,13 +13,13 @@ def deidentify(subjects):
     if sample_size < 1:
         sample_size = len(subjects)
 
-    temp_allowed, temp_not_allowed, temp_indeterminate = \
-                    one_pass(subjects,master_allowed,master_not_allowed,\
-                             master_indeterminate, sample_size)
-    print len(temp_allowed), len(temp_not_allowed), len(temp_indeterminate), "between calls"
-    one_pass(subjects,temp_allowed,temp_not_allowed, temp_indeterminate)
+    temp_allowed, temp_not_allowed, temp_indeterminate = one_pass(MainFrame,
+                            subjects,master_allowed,master_not_allowed,
+                            master_indeterminate, sample_size)    
+    one_pass(MainFramesubjects,temp_allowed,temp_not_allowed,
+             temp_indeterminate)
     
-def one_pass(subjects,master_allowed,master_not_allowed,master_indeterminate, num=None):
+def one_pass(MainFrame,subjects,master_allowed,master_not_allowed,master_indeterminate, num=None):
     master_allowed = master_allowed[:]
     master_not_allowed = master_not_allowed[:]
     master_indeterminate = master_indeterminate[:]
@@ -38,7 +38,7 @@ def one_pass(subjects,master_allowed,master_not_allowed,master_indeterminate, nu
         for word in indeterminate:
             if word not in master_indeterminate:
                 master_indeterminate.append(word)
-    user_allowed, user_not_allowed, temp_indeterminate = ask_user(
+    user_allowed, user_not_allowed, temp_indeterminate = ask_user(MainFrame
         master_allowed, master_not_allowed,master_indeterminate)
 
     create_user_dictionary(user_allowed, user_not_allowed)
@@ -54,15 +54,15 @@ def one_pass(subjects,master_allowed,master_not_allowed,master_indeterminate, nu
 
     return master_allowed, master_not_allowed, master_indeterminate
      
-def ask_user(master_allowed,master_not_allowed,master_indeterminate):
+def ask_user(MainFrame, master_allowed,master_not_allowed,master_indeterminate):
     
     allowed = master_allowed[:]
     not_allowed = master_not_allowed[:]
     indeterminate = master_indeterminate[:]
     user_allowed = list()
     user_not_allowed = list()
-
-    getch = getchall._Getch()
+    MainFrame.update_list(indeterminate)
+    
     
     for word in indeterminate[:]:
         print "Word is %s. Is this allowed? Y N U - " % word
@@ -140,6 +140,9 @@ class Excel:
     def get_subjects(self):
         return self.subjects
 
+    def get_num_of_subjects(self):
+        return len(self.subjects)
+
     def make_csv(self):
         myfile = open('finalcleandata2.csv','w')
         myfile.write(",".join(self.raw_headers) + "\n")
@@ -152,8 +155,6 @@ class Subject:
     def __init__(self,headers,rawdata):
         self.headers = headers
         self.raw_data = rawdata
-        self.raw_data = self.raw_data.replace("<<:>>"," ") #placeholder for \n
-        self.raw_data = self.raw_data.replace("<<.>>",",") #placeholder for ,
         self.clean_data = ""
 
     def get_raw_data(self):
@@ -188,10 +189,6 @@ class Subject:
             temp = pattern.sub(master_indeterminate[index] + "[INDETER]",temp[:])
             self.clean_data = temp
 
-        self.clean_data = self.clean_data.replace(" ","<<:>>")
-        self.clean_data = self.clean_data.replace(",","<<.>>")
-                     
-
 
 def main():
 
@@ -201,12 +198,8 @@ def main():
     print ExcelFile.get_headers()
     subjects = ExcelFile.get_subjects()
     print type(subjects), len(subjects)
-    ExcelFile.clean_data()
-    subjects = ExcelFile.get_subjects()
-    
-    print type(subjects), len(subjects)
-    print subjects[0].get_raw_data()
-    print subjects[0].get_clean_data()
+    ExcelFile.clean_data()    
+    ExcelFile.make_csv()
 
 if __name__ == "__main__":
     main()
