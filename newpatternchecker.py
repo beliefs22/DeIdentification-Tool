@@ -2,8 +2,6 @@ import re
 import os
 import pickle
 
-
-
 def check_for_dates(text):
     date_pattern = re.compile(
         '[0-9]{1,2}[\W][0-9]{1,2}[\W][0-9]{2,4}|\d{1,2}[\W]\d{2,4}') #dates
@@ -12,11 +10,11 @@ def check_for_dates(text):
 
     date_locations = date_pattern.finditer(text)
     matched_dates = date_pattern.findall(text)
-    ##print text, "before date removed"
+    print text, "before date removed"
     non_date_words = " ".join(date_pattern.split(text)) # remove dates
-    ##print non_date_words, "after date removed"
+    print non_date_words, "after date removed"
     non_date_words = " ".join(punct_pattern.split(non_date_words)) # remove punct
-    ##print non_date_words, "after punct removed"
+    print non_date_words, "after punct removed"
     return matched_dates, non_date_words
 
 def check_for_words(text):
@@ -46,12 +44,18 @@ def check_for_words(text):
 
     if os.path.exists('userallowedlist'): #pickle file
         saved_list = open('userallowedlist','r')
-        user_all_dict = pickle.load(saved_list)
+        try:
+            user_all_dict = pickle.load(saved_list)
+        except EOFError:
+            pass
         saved_list.close()
         
     if os.path.exists('usernotallowedlist'): #pickle file
         saved_list = open('usernotallowedlist','r')
-        user_not_all_dict = pickle.load(saved_list)
+        try:
+            user_not_all_dict = pickle.load(saved_list)
+        except EOFError:
+            pass
         saved_list.close()
 
     text = text.split(" ") #make list of all words to check
