@@ -56,6 +56,7 @@ class MainFrame(Frame):
         print type(self.master_indeterminate), type(self.master_allowed), type(self.master_not_allowed), len(self.master_indeterminate)
         print self.master_indeterminate
         self.listboxvar.set(" ".join(self.master_indeterminate))
+        self.main_listbox.config(selectbackground="green")
         self.main_label_textvar.set("Please select allowed words")
         self.select_button = Button(self.parent, text="Select Words", command=self._InitialSelect)
         self.select_button.grid(row=2, column=0, sticky=S+E)        
@@ -69,8 +70,10 @@ class MainFrame(Frame):
             self.master_indeterminate.remove(word)
         self.listboxvar.set(" ".join(self.master_indeterminate))
         self.main_listbox.selection_clear(0,self.main_listbox.size())
+        self.main_listbox.index(0)
         self.select_button.config(command=self._SecondSelect)
         self.main_label_textvar.set("Please select not allowed words")
+        self.main_listbox.config(selectbackground="red")
 
     def _SecondSelect(self):
         self.user_not_allowed = list()
@@ -83,9 +86,11 @@ class MainFrame(Frame):
         self.master_allowed, self.master_not_allowed,self.master_indeterminate = self.ExcelFile.one_pass()
         self.listboxvar.set(" ".join(self.master_indeterminate))
         self.main_listbox.selection_clear(0,self.main_listbox.size())
+        self.main_listbox.index(0)
         self.main_label_textvar.set("Please select allowed words")
         showinfo(title="Dictionary Alert",message="Creating Sample User Dictionary")  
         self.select_button.config(command=self._ThirdSelect)
+        self.main_listbox.config(selectbackground="green")
                                
 
     def _ThirdSelect(self):
@@ -97,8 +102,10 @@ class MainFrame(Frame):
             self.master_indeterminate.remove(word)
         self.listboxvar.set(" ".join(self.master_indeterminate))
         self.main_listbox.selection_clear(0,self.main_listbox.size())
+        self.main_listbox.index(0)
         self.select_button.config(command=self._FinalSelect)
-        self.main_label_textvar.set("Please select not allowed words")  
+        self.main_label_textvar.set("Please select not allowed words")
+        self.main_listbox.config(selectbackground="red")
 
     def _FinalSelect(self):
         self.user_not_allowed = list()
@@ -120,10 +127,7 @@ class MainFrame(Frame):
         showinfo(title="CSV Creation Alert", message="We are creating your CSV")
         self.ExcelFile.deidentify(self.master_not_allowed, self.master_indeterminate)
         self.ExcelFile.make_csv()
-        
-    
-        
-        
+        self.parent.destroy()
         
     def _About(self):
         pass
