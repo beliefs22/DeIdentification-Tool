@@ -36,8 +36,8 @@ def check_for_words(text):
     lastnames = file_list[2][1]
     medicaldict = file_list[3][1]
 
-    user_all_dict = None #User defined allowed dictionary
-    user_not_all_dict = None #User defined not allowed dictionary
+    user_all_dict = list() #User defined allowed dictionary
+    user_not_all_dict = list() #User defined not allowed dictionary
     months = ['january','february','march','april','may','june',
               'july','august','september','october','november','december']
     
@@ -71,12 +71,12 @@ def check_for_words(text):
         word = word.lower() # all dictionarys use lower case words
         print "word in user_all_dict", word in user_all_dict
         print "word in user_not_all_dict", word in user_not_all_dict
-        if user_all_dict and word in user_all_dict: #words user wants to pass
+        if user_all_dict != [] and word in user_all_dict: #words user wants to pass
             print "user allowed ran"
             allowed_words.append(original_word)
             continue
 
-        if user_not_all_dict and word in user_not_all_dict: #words won't pass
+        if user_not_all_dict != [] and word in user_not_all_dict: #words won't pass
             print "not user allowed ran"
             not_allowed_words.append(original_word)
             continue
