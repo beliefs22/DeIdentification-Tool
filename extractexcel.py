@@ -6,7 +6,7 @@ import pickle
 class Excel:
     """Object representing an excel File containing PHI
 
-    Attributes:
+    Attr:
         Headers (list): contains heders(1st line) of excel file
         Subjects (list): contains Subject objects created from excel file
         """
@@ -31,7 +31,11 @@ class Excel:
             self.subjects.append(Subject(self.headers,raw_data))
 
     def deidentify(self,master_not_allowed, master_indeterminate):
-        """Runs Deidentification process"""
+        """Runs Deidentification process
+        Args:
+            master_not_allowed (list): list of identified PHI
+            master_indeterminate (list): list of indeterminate words
+        """
         for subject in self.subjects:
             subject.final_clean(master_not_allowed,master_indeterminate)
         

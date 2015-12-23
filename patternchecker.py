@@ -3,6 +3,14 @@ import os
 import pickle
 
 def check_for_dates(text):
+    """Removes dates and numbers that may look like dates from a string
+    Args:
+        text (str): string of text to remove dates from
+
+    Returns:
+        matched_dates (list)
+        non_date_words (str)
+    """
     date_pattern = re.compile(
         '[0-9]{1,2}[\W][0-9]{1,2}[\W][0-9]{2,4}|\d{1,2}[\W]\d{2,4}') #dates
 
@@ -18,10 +26,21 @@ def check_for_dates(text):
     return matched_dates, non_date_words
 
 def check_for_words(text):
-    dictionary = dict()
-    firstnames = dict()
-    lastnames = dict()
-    medicaldict = dict()
+    """Checks for wors in a string of text that are clearly english words that
+    aren't protected health information. Returns a list of allowe, not allowed,
+    and indeterminate words from the text
+
+    Args:
+        text (str): sring of text to check for word matches
+
+    Returns:
+        allowed,not_allowed,indeterminate (list): list containing words from
+        given text in their category
+    """
+    dictionary = dict() #container for allowed english words
+    firstnames = dict() #container for prohibited first names
+    lastnames = dict()  #container for prohibited last names
+    medicaldict = dict()#container for allowed medical words
     
     file_list = [["englishwordslist",dictionary], #pickle files with word list
                      ["firstnameslist",firstnames],
@@ -36,29 +55,29 @@ def check_for_words(text):
     lastnames = file_list[2][1]
     medicaldict = file_list[3][1]
 
-    user_all_dict = list() #User defined allowed dictionary
-    user_not_all_dict = list() #User defined not allowed dictionary
+    user_all_dict = list() #User defined dictionary of allowed words
+    user_not_all_dict = list() #User defined dictionary of prohibited words
     months = ['january','february','march','april','may','june',
               'july','august','september','october','november','december']
     
 
-    if os.path.exists('userallowedlist'): #pickle file
+    if os.path.exists('userallowedlist'): #Open saved user file if exist
         saved_list = open('userallowedlist','r')
         try:
             user_all_dict = pickle.load(saved_list)
-        except EOFError:
+        except EOFError: #if list is empty skip
             pass
         saved_list.close()
         
-    if os.path.exists('usernotallowedlist'): #pickle file
+    if os.path.exists('usernotallowedlist'): #Open save user file if exist
         saved_list = open('usernotallowedlist','r')
         try:
             user_not_all_dict = pickle.load(saved_list)
-        except EOFError:
+        except EOFError:#if list is empty skip
             pass
         saved_list.close()
 
-    text = text.split(" ") #make list of all words to check
+    text = text.split(" ") #Convert given str to list. necessary?
     allowed_words = list()
     not_allowed_words = list()
     indeterminate = list()
@@ -71,12 +90,14 @@ def check_for_words(text):
         word = word.lower() # all dictionarys use lower case words
         #print "word in user_all_dict", word in user_all_dict
         #print "word in user_not_all_dict", word in user_not_all_dict
-        if user_all_dict != [] and word in user_all_dict: #words user wants to pass
+        if user_all_dict != [] and word in user_all_dict:
+            #words user wants to pass
             #print "user allowed ran"
             allowed_words.append(original_word)
             continue
 
-        if user_not_all_dict != [] and word in user_not_all_dict: #words won't pass
+        if user_not_all_dict != [] and word in user_not_all_dict:
+            #words user doesn't want to pass
             #print "not user allowed ran"
             not_allowed_words.append(original_word)
             continue
