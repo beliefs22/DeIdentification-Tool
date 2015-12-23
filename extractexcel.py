@@ -1,227 +1,155 @@
 from patternchecker import *
 import re
-import getchall
 import os
+import pickle
 
 class Excel:
-    """ Object Reprsenting an excel file containing subject data
-        Attributes:
-            subjects (list): list containing Subject objects which represent
-            a complete entry in the data file
-            headers (list) : list containing headers of excel file
-    """
 
     def __init__(self,excelfile):
-        """
-        Args:
-            excelfile (file): csv to be de-identified
-        """      
 
         self.excelfile = excelfile
+        self.raw_headers = excelfile.readline().rstrip("\n").split(",")
         self.headers = {}
+
+        for index, header in enumerate(self.raw_headers):
+            self.headers[index] = header
+
         self.subjects = []
-        self.header_list = self.excelfile.readline().rstrip("\n").split(",")
-        for index, header in enumerate(self.header_list):
-            #print index, header
-            self.headers[header] = index     
-        for rawdata in self.excelfile:
-            data = rawdata.rstrip("\n").split(",")
-            self.subjects.append(Subject(self.headers,data))
 
-    def show_headers(self):
-        """Return headers for excel file to screen"""
-        headers = self.headers.keys()
-        unordered_headers = [(self.headers[header],header) for header in headers]
-        unordered_headers.sort()
-        return unordered_headers
+        for subjectdata in excelfile:
+            raw_data = subjectdata.rstrip("\n")
+            self.subjects.append(Subject(self.headers,raw_data))
 
-    def create_word_lists(self):
-        """De-Identification Process"""
-        master_allowed = []
-        master_not_allowed = []
-        master_indeterminate = []
+    def deidentify(self,master_not_allowed, master_indeterminate):
         for subject in self.subjects:
-            allowed,not_allowed,indeterminate = subject.first_pass()
-            for item in allowed:
-                master_allowed.append(item)
-            for item in not_allowed:
-                master_not_allowed.append(item)
-            for item in indeterminate:
-                master_indeterminate.append(item)
-        master_indeterminate = list(set(sorted(master_indeterminate)))
-        return list(set(master_allowed)), list(set(master_not_allowed)), \
-               master_indeterminate
-
-    def create_user_dicts(self,user_allowed,user_not_allowed):
-        self.user_allowed_dict = []
-        self.user_not_allowed_dict = []
-        if os.path.exists('useralloweddictionary.txt'):            
-            myfile1 = open('useralloweddictionary.txt','r')
-            for line in myfile1:
-                self.user_allowed_dict.append(line.rstrip("\n"))
-            myfile1.close()
-        if os.path.exists('usernotalloweddict.txt'):
-            myfile2 = open('usernotalloweddict.txt','r')
-            for line in myfile2:
-                self.user_not_allowed_dict.append(line.rstrip("\n"))
-            myfile2.close()
-        for item in user_allowed:
-            if item not in self.user_allowed_dict:
-                self.user_allowed_dict.append(item)
-        myfile1 = open('useralloweddictionary.txt','w')
-        for word in self.user_allowed_dict:
-            myfile1.write(word + "\n")
-        myfile1.close()        
-        for item in user_not_allowed:
-            if item not in self.user_not_allowed_dict:
-                self.user_not_allowed_dict.append(item)
-        myfile2 = open('usernotalloweddict.txt','w')
-        for word in self.user_not_allowed_dict:
-            myfile2.write(word + "\n")
+            subject.final_clean(master_not_allowed,master_indeterminate)
         
-        
-    def clean_data(self, master_not_allowed,master_indeterminate):
-        for subject in self.subjects:
-            print "doing final pass"
-            subject.final_pass(master_not_allowed,master_indeterminate)        
-        final_data = []
-        final_data.append(",".join(self.header_list))
-        for subject in self.subjects:
-            print "creating final cvs"
-            final_data.append(",".join(subject.show_clean_data()))
-        myfile = open('final_clean_data.csv','w')
-        for line in final_data:
-            myfile.write(line + "\n")
-        myfile.close()
-  
-    def show_subjects(self):
-        """Print number of subjects contained in excel file"""
-        return len(self.subjects)
 
-    def export_subjects(self):
-        """Return list of Subject objects created from excel file"""
+    def get_headers(self):
+        return self.headers
+
+    def get_subjects(self):
         return self.subjects
 
+    def get_num_of_subjects(self):
+        return len(self.subjects)
+
+    def one_pass(self, size=None):
+        master_allowed = list()
+        master_not_allowed = list()
+        master_indeterminate = list()
+        if size  == None:
+            size = len(self.subjects)
+        print "running", size, "times"
+        for i in range(size):
+            print "cleaning subject ", i
+            #print "subject type is", subjects[i], i
+            allowed,not_allowed,indeterminate = self.subjects[i].clean()
+            for word in allowed:
+                if word not in master_allowed:
+                    master_allowed.append(word)
+            for word in not_allowed:
+                if word not in master_not_allowed:
+                    master_not_allowed.append(word)
+            for word in indeterminate:
+                if word not in master_indeterminate:
+                    master_indeterminate.append(word)
+        return master_allowed, master_not_allowed, master_indeterminate
+        
+    def create_user_dictionary(self, user_allowed,user_not_allowed):
+        user_allowed_dict = []
+        user_not_allowed_dict = []
+
+        if os.path.exists('userallowedlist'):
+            wordfile = open('userallowedlist','r')
+            try:
+                user_allowed_dict = pickle.load(wordfile)
+            except EOFError:
+                user_allowed_dict = []
+            wordfile.close()
+        if os.path.exists('usernotallowedlist'):
+            wordfile2 = open('usernotallowedlist','r')
+            try:
+                user_not_allowed_dict = pickle.load(wordfile2)
+            except EOFError:
+                user_not_allowed_dict = []
+            wordfile2.close()
+
+        for word in user_allowed:
+            if word not in user_allowed_dict:
+                user_allowed_dict.append(word.lower())
+        for word in user_not_allowed:
+            if word not in user_not_allowed_dict:
+                user_not_allowed_dict.append(word.lower())
+
+        myfile1 = open('userallowedlist','w')
+        pickle.dump(user_allowed_dict,myfile1)
+        myfile1.close()
+        myfile2 = open('usernotallowedlist','w')
+        pickle.dump(user_not_allowed_dict,myfile2)
+        myfile2.close()
+
+    def make_csv(self):
+        myfile = open('finalcleandata2.csv','w')
+        myfile.write(",".join(self.raw_headers) + "\n")
+        for subject in self.subjects:
+            myfile.write(subject.get_clean_data() + "\n")
+        myfile.close()
+
 class Subject:
-    """Object representing single entry in an excel file"""
-    def __init__(self,headers,data):
-        """
-        Args:
-        headers (list) : list of headers for the subjects excel file
-        data (list) : list where each index is a cell from the subjects file
-    """
 
-        self.data = data[:]
-        self.raw_data = data[:]
-        self.clean_data = []
-        for index in range(len(self.data)):            
-            self.data[index] = self.data[index].replace("<<:>>"," ")
-            self.data[index] = self.data[index].replace("<<.>>",",")          
-        self.headers = headers        
+    def __init__(self,headers,rawdata):
+        self.headers = headers
+        self.raw_data = rawdata
+        self.clean_data = ""
 
-    def show_data(self):
-        """Print data for subject to screen with headers. Headers: data"""
-        for header in self.headers:
-            print header + ":", self.data[self.headers[header]]
-            
-    def first_pass(self):
-        """Find allowed not_allowed, and indeterminate words in file"""
-        master_allowed = []
-        master_not_allowed = []
-        master_indeterminate = []
-        
-        for index in range(len(self.data)):
-            allowed, not_allowed, indeterminate = clean(self.data[index])
-            for item in allowed:
-                master_allowed.append(item)
-            for item in not_allowed:
-                master_not_allowed.append(item)
-            for item in indeterminate:
-                master_indeterminate.append(item)
-        return master_allowed, master_not_allowed, master_indeterminate                                                
-            
-    def final_pass(self,master_not_allowed,master_indeterminate):
-        """Replaces words in data with [Redacted] or [Indeterminate]"""
-        for index in range(len(self.data)):
-            #print "entry is", self.data[index]
-            #print
-            #print "raw entry is", self.raw_data[index]
-            self.clean_data.append(replace(self.raw_data[index],\
-                                           master_not_allowed,master_indeterminate))
-        
-        
-    def show_raw_data(self):
-        """Return list containing raw data for subject"""
+    def get_raw_data(self):
         return self.raw_data
 
-    def show_clean_data(self):
-        """Return list containing de-identified data for subject"""
+    def get_clean_data(self):
         return self.clean_data
+    def clean(self):        
+        dates,non_dates = check_for_dates(self.raw_data)
+        allowed,not_allowed,indeterminate = check_for_words(non_dates)
+        not_allowed = not_allowed + dates
+        return allowed, not_allowed, indeterminate
 
-def clean(entry):
-    """Cleans a single entry to data
-    Args:
-        entry (str): str representing data entry for a subject
+    def final_clean(self,master_not_allowed,master_indeterminate):
+        self.clean_data = self.raw_data # initially they are equal
 
-    Return:
-        allowed (list): list of words that were found that were allowed
-        not_allowed (list): list of words that are not allowed
-        indeterminate (list): list of words that found that were
-        indeterminate
-    """
-    # entry is one line from one subject in an excel file
-    allowed = []
-    not_allowed = []
-    indeterminate = []
-    pattern_matches, unmatched = check_patterns(entry)
-    if len(unmatched) > 1:  # skip empty strings       
-        allowed,not_allowed,indeterminate = check_words(unmatched)
-        #print "inde", indeterminate, "" in indeterminate, " " in indeterminate
-    not_allowed = not_allowed + pattern_matches
-    return allowed, not_allowed, indeterminate
+        def make_re(word):
+            return r'\b(%s)\b' % word 
 
+        not_allowed_patterns = [re.compile(make_re(word))\
+                                for word in master_not_allowed]
+        indeterminate_patterns = [re.compile(make_re(word)) \
+                                  for word in master_indeterminate]
 
-def make_re(word):
-    """Return regular expression object created from given word
-    Args:
-        word (str): word to make into a regular expression object
+        for pattern in not_allowed_patterns:
+            temp = self.clean_data[:]
+            temp = pattern.sub("[REDACTED]",temp[:])
+            self.clean_data = temp
+        for index,pattern in enumerate(indeterminate_patterns):
+            temp = self.clean_data[:]
+            temp = pattern.sub(master_indeterminate[index] + "[INDETER]",temp[:])
+            self.clean_data = temp
 
-    Return:
-        regular expression object
-    """
-    return r'\b(%s)\b' % word
-
-def replace(entry,not_allowed,indeterminate):
-    """Return str representing a cleaned data entry
-    Args:
-        entry (str): entry to be claned
-        not_allowed (list): list of words that are not allowed, if a match is
-        found will be replaced with [REDACTED]
-        indeterminate (list): list of words that are indeterminate, if a match
-        is found it will be replaced with [Indeterminate]
-
-    Return:
-        str where allowed and not_allowed words have been replaced
-    """
-
-    not_allowed = [re.compile(make_re(word)) for word in not_allowed]
-    indeterminate = [re.compile(make_re(word)) for word in indeterminate]
-    inside_pattern = re.compile("(\()(.*)(\))")
-    for pattern in not_allowed:
-        entry = pattern.sub("[REDACTED]",entry,1) # replace illegal words
-    for pattern in indeterminate:
-        inside = inside_pattern.search(pattern.pattern)
-        entry = pattern.sub(inside.group(2).upper() + "[INDETERMINATE]",entry)
-    return entry
 
 def main():
-    choice = raw_input('What is your file name?')
-    excelfile = open(choice,'r')
-    test_Excel = Excel(excelfile)
-    a = test_Excel.show_headers()
-    print a
-    
 
-if __name__ == '__main__':
+    excelfile = open("September 2015 Samples De-Identified2.csv",'r')
+
+    ExcelFile = Excel(excelfile)
+    print ExcelFile.get_headers()
+    subjects = ExcelFile.get_subjects()
+    print type(subjects), len(subjects)
+    ExcelFile.clean_data()    
+    ExcelFile.make_csv()
+
+if __name__ == "__main__":
     main()
+        
+
+        
+        
         

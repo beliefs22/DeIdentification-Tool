@@ -1,155 +1,126 @@
 import re
 import os
+import pickle
 
-dictionary_file = open("completedict.txt","r")
-first_name_file = open("firstnames.txt",'r')
-last_name_file = open("lastnames.txt",'r')
-med_dictionary_file = open("wordlist.txt",'r')
-med_dictionary = {}
-dictionary ={}
-firstnames = {}
-lastnames = {}
-months = ['january','february','march','april','may','june',
+def check_for_dates(text):
+    date_pattern = re.compile(
+        '[0-9]{1,2}[\W][0-9]{1,2}[\W][0-9]{2,4}|\d{1,2}[\W]\d{2,4}') #dates
+
+    punct_pattern = re.compile(r'[^\w]+') #matches punctuation
+
+    date_locations = date_pattern.finditer(text)
+    matched_dates = date_pattern.findall(text)
+    #print text, "before date removed"
+    non_date_words = " ".join(date_pattern.split(text)) # remove dates
+    #print non_date_words, "after date removed"
+    non_date_words = " ".join(punct_pattern.split(non_date_words)) # remove punct
+    #print non_date_words, "after punct removed"
+    return matched_dates, non_date_words
+
+def check_for_words(text):
+    dictionary = dict()
+    firstnames = dict()
+    lastnames = dict()
+    medicaldict = dict()
+    
+    file_list = [["englishwordslist",dictionary], #pickle files with word list
+                     ["firstnameslist",firstnames],
+                     ["lastnameslist",lastnames],["medicalwordlist",medicaldict]]
+
+    for pair in file_list: # create list to use in program to check words
+        myfile = open(pair[0],'r')
+        pair[1] = pickle.load(myfile)
+
+    dictionary = file_list[0][1]
+    firstnames = file_list[1][1]
+    lastnames = file_list[2][1]
+    medicaldict = file_list[3][1]
+
+    user_all_dict = list() #User defined allowed dictionary
+    user_not_all_dict = list() #User defined not allowed dictionary
+    months = ['january','february','march','april','may','june',
               'july','august','september','october','november','december']
-for line in dictionary_file:    
-    dictionary[line.rstrip("\n").lower()] = None
-
-for line in first_name_file:    
-    firstnames[line.rstrip("\n").lower()] = None
-    
-for line in last_name_file:    
-    lastnames[line.rstrip("\n").lower()] = None
-
-for line in med_dictionary_file:
-    med_dictionary[line.rstrip("\n").lower()] = None
-
-
-def check_patterns(text):
-    """Find any sequence of characters that look like dates in given string
-    Args:
-        text (str): string to check
-
-    Return:
-        matched_words (list): list of dates found
-        unmatched_words (list): list of works that weren't dates
-    """
-    pattern = re.compile(
-        '[0-9]{1,2}[\W][0-9]{1,2}[\W][0-9]{2,4}|^\d{1,2}[\W]\d{2,4}$')
     
 
-    matched_word_locations = pattern.finditer(text) # date match locations
-    matched_words = pattern.findall(text) #list of matched dates
-    unmatched_words = pattern.split(text) #remove dates from text
-    unmatched_words = " ".join(unmatched_words) #make string without dates
-    unmatched_words, unmatched_word_locations = \
-                     remove_punctuation(unmatched_words)
+    if os.path.exists('userallowedlist'): #pickle file
+        saved_list = open('userallowedlist','r')
+        try:
+            user_all_dict = pickle.load(saved_list)
+        except EOFError:
+            pass
+        saved_list.close()
+        
+    if os.path.exists('usernotallowedlist'): #pickle file
+        saved_list = open('usernotallowedlist','r')
+        try:
+            user_not_all_dict = pickle.load(saved_list)
+        except EOFError:
+            pass
+        saved_list.close()
 
-    return matched_words, unmatched_words
+    text = text.split(" ") #make list of all words to check
+    allowed_words = list()
+    not_allowed_words = list()
+    indeterminate = list()
 
-def remove_punctuation(text):
-    """Return string of text without punctuation
-    Args:
-        text (str): string to modify
+    
 
-    Return:
-        match (re match object): match objects where punctuation was found
-        string without puncuation
-    """
-    pattern = re.compile(r'[^\w]+') # find punctuation
-    matches = pattern.finditer(text) 
-    for match in matches:
-        s = match.start()
-        e = match.end()
-        #print "match was", text[s:e]
-    removed = pattern.split(text) # make list without punctuation
-    return " ".join(removed), matches
-
-def check_words(text):
-    """Return list of words that are allowed, not_allowed, and indeterminate
-    Args:
-        text (str): string to check
-
-    Return:
-        allowed (list): list of allowed words
-        not_allowed (list): list of not_allowed words
-        indeterminat (list): list of indeterminate words
-    """
-    u_allowed_dict = None
-    u_n_allowed_dict = None
-    if os.path.exists('useralloweddictionary.txt'):
-        #print "i ran"
-        u_allowed_dict = []        
-        myfile = open('useralloweddictionary.txt','r')
-        for line in myfile:
-            u_allowed_dict.append(line.rstrip("\n").lower())
-        #print "Bobby" in u_allowed_dict
-            
-    if os.path.exists('usernotalloweddict.txt'):
-        #print "I ran too"
-        u_n_allowed_dict = []        
-        myfile = open('usernotalloweddict.txt','r')
-        for line in myfile:
-            u_n_allowed_dict.append(line.rstrip("\n").lower())
-        #print "Bobby" in u_n_allowed_dict
-    text = text.split(" ")
-    #print "text is",text
-    allowed_words = []
-    not_allowed_words = []
-    indeterminate = []
     for word in text:
-        print "word is", word
-        originalword = word
-        word = word.lower()
-        if u_allowed_dict != None and word in u_allowed_dict:
-            print "user allowed"
-            allowed_words.append(word)
-            continue            
+        #print "word is", word
+        original_word = word #keep record of unaltered word
+        word = word.lower() # all dictionarys use lower case words
+        #print "word in user_all_dict", word in user_all_dict
+        #print "word in user_not_all_dict", word in user_not_all_dict
+        if user_all_dict != [] and word in user_all_dict: #words user wants to pass
+            #print "user allowed ran"
+            allowed_words.append(original_word)
+            continue
 
-        if u_n_allowed_dict and word in u_n_allowed_dict:
-            print "user not allowed"
-            not_allowed_words.append(word)
+        if user_not_all_dict != [] and word in user_not_all_dict: #words won't pass
+            #print "not user allowed ran"
+            not_allowed_words.append(original_word)
             continue
         
-        allowed = word in dictionary or word in med_dictionary or word.isdigit()
+        allowed = word in dictionary or word in medicaldict or word.isdigit()
         not_allowed = word in firstnames or word in lastnames or word in months
-        #print allowed, not_allowed
+        #print "word in allowed", allowed,"word in not allowed", not_allowed
         if allowed and not_allowed and word != "":
-            print "allowed and now allowed"
-            print word in dictionary, word in med_dictionary , word.isdigit()
-            indeterminate.append(originalword)
+            #print "allowed and not allowed ran"
+            indeterminate.append(original_word)
             continue
             
         if not_allowed and not allowed:
-            print "not allowed ran"
-            not_allowed_words.append(originalword)
+            #print "not allowed ran"
+            not_allowed_words.append(original_word)
             continue
         if allowed and not not_allowed:
-           print  "allowed ran"
-           allowed_words.append(originalword)
+           #print  "allowed ran"
+           allowed_words.append(original_word)
            continue
 
         if not allowed and not not_allowed and word != "":
-            print "found neither"
-            indeterminate.append(originalword)
+            #print "found neither"
+            indeterminate.append(original_word)
             continue
 
-        print "Oh no it didn't catch"
+        #print "Oh no it didn't catch"
     return allowed_words, not_allowed_words, indeterminate
-
+        
+        
+    
 def main():
-    a = "12/13/2015 hello my darling Keith Jones. It is time for September"
-    allowed = []
-    not_allowed = []
-    indeterminate = []
 
-    match, unmatched = check_patterns(a)
-    print match, unmatched
-    print
-    allowed, not_allowed, indeterminate = check_words(unmatched)
-    print allowed
-    print not_allowed
-    print indeterminate
+    test_string = "Hello - vancomycin - name is Seth. Today is 12.15.1234 or 12/2015"
 
-   
-if __name__ =='__main__':
+    dates, non_matched = check_patterns(test_string)
+    a,b,c = check_words(non_matched)
+    ##print a
+    ##print
+    ##print b
+    ##print
+    ##print c
+
+if __name__ == '__main__':
     main()
+    
+    
