@@ -26,8 +26,10 @@ class Excel:
 
         self.subjects = [] #one subject is one line of file other than first
 
-        for subjectdata in excelfile:
+        for index, subjectdata in enumerate(excelfile):
             raw_data = subjectdata.rstrip("\n")
+            print "Creating Subject[%d] using: " % index
+            print raw_data
             self.subjects.append(Subject(self.headers,raw_data))
 
     def deidentify(self,master_not_allowed, master_indeterminate):
@@ -149,7 +151,7 @@ class Subject:
     def get_clean_data(self):
         """Return str representing clean data"""
         return self.clean_data
-    
+        
     def clean(self):
         """Runs process to remove dates and find words that are allowed,
         not allowed(names), and ambiguous words
@@ -188,8 +190,7 @@ def main():
 
     ExcelFile = Excel(excelfile)
     print ExcelFile.get_headers()
-    subjects = ExcelFile.get_subjects()
-    print type(subjects), len(subjects)
+    
     ExcelFile.clean_data()    
     ExcelFile.make_csv()
 
