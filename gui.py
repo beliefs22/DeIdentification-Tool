@@ -25,42 +25,47 @@ class MainFrame(Frame):
         self.excelfile.close()
     def _Headers(self):
         """Displays Headers for file"""
-        yscroll = Scrollbar(orient=VERTICAL)
-        yscroll.grid(row=1, column=1, sticky= N+S)
-        xscroll = Scrollbar(orient=HORIZONTAL)
-        xscroll.grid(row=2, column=0, sticky=E+W)
-        self.main_label_textvar.set("Headers for your File")
-        headers = self.ExcelFile.get_headers()
-        header_string = ""
-        for index in range(len(headers)):
-            header_string = header_string + " " + headers[index]
-        self.listboxvar = StringVar() # Holds list box values
-        self.listboxvar.set(header_string)
-        self.main_listbox = Listbox(self.parent, listvariable=self.listboxvar,
-                                    yscrollcommand=yscroll.set,
-                                    xscrollcommand=xscroll.set)
-        self.main_listbox.grid(row=1, column=0,sticky=N+E+S+W)
-        yscroll.config(command=self.main_listbox.yview)
-        xscroll.config(command=self.main_listbox.xview)
+        try:
+            top = self.main_listbox.winfo_toplevel()
+            top.rowconfigure(1, weight=1)
+            top.columnconfigure(0, weight=1)
+            self.main_label_textvar.set("Headers for your File")
+            self.main_listbox.grid(row=1, column=0,sticky=N+E+S+W)
+            self.main_listbox.rowconfigure(1, weight=1)
+            self.main_listbox.columnconfigure(0, weight=1)
+            self.xscroll.grid(row=2, column=0, sticky=E+W)
+            self.yscroll.grid(row=1, column=1, sticky= N+S)
+            headers = self.ExcelFile.get_headers()
+            header_string = ""
+            for index in range(len(headers)):
+                header_string = header_string + " " + headers[index]
+            self.listboxvar.set(header_string)
+        except AttributeError:
+            self._OpenFile()
+            self._Headers()
     def _Run(self):
         """Begins DeIdentification process"""
-        self.master_allowed = list()
-        self.master_not_allowed = list()
-        self.master_indeterminate = list()
-        size = self.ExcelFile.get_num_of_subjects() / 10
-        if size <= 1:
-            size = self.ExcelFile.get_num_of_subjects()
-        self.master_allowed, self.master_not_allowed, self.master_indeterminate = self.ExcelFile.one_pass(size)
-        self._Find()
+        try:        
+            self.master_allowed = list()
+            self.master_not_allowed = list()
+            self.master_indeterminate = list()
+            size = self.ExcelFile.get_num_of_subjects() / 10
+            if size <= 1:
+                size = self.ExcelFile.get_num_of_subjects()
+            self.master_allowed, self.master_not_allowed, self.master_indeterminate = self.ExcelFile.one_pass(size)
+            self._Find()
+        except AttributeError:
+            self._OpenFile()
+            self._Run()
         pass
     def _Find(self):
         """Looks for user known words"""
-        self.main_listbox.config(selectmode=MULTIPLE)       
-        print self.master_indeterminate, "Indeter list at begin of find is"
+        self.main_listbox.config(selectmode=MULTIPLE)
         self.listboxvar.set(" ".join(self.master_indeterminate))
         self.main_listbox.config(selectbackground="green")
         self.main_label_textvar.set("Please select allowed words")
-        self.select_button = Button(self.parent, text="Select Words", command=self._InitialSelect)
+        self.select_button = Button(self.parent, text="Select Words",
+                                    command=self._InitialSelect)
         self.select_button.grid(row=2, column=0, sticky=S+E)        
 
     def _InitialSelect(self):
@@ -87,8 +92,8 @@ class MainFrame(Frame):
         for word in self.user_not_allowed:
             self.master_indeterminate.remove(word)
         self.ExcelFile.create_user_dictionary(self.user_allowed, self.user_not_allowed)
-        self.master_allowed, self.master_not_allowed,self.master_indeterminate = self.ExcelFile.one_pass()
-        print "Master indeterminte after second pass is", self.master_not_allowed
+        self.master_allowed, self.master_not_allowed,self.master_indeterminate \
+                             = self.ExcelFile.one_pass()
         self.listboxvar.set(" ".join(self.master_indeterminate))
         self.main_listbox.selection_clear(0,self.main_listbox.size())
         self.main_listbox.index(0)
@@ -99,7 +104,6 @@ class MainFrame(Frame):
                                
 
     def _ThirdSelect(self):
-        print "master indeter at bein of third", self.master_not_allowed
         self.user_allowed = list()
         allowed_words_index = self.main_listbox.curselection()
         for index in allowed_words_index:
@@ -112,10 +116,7 @@ class MainFrame(Frame):
         self.select_button.config(command=self._FinalSelect)
         self.main_label_textvar.set("Please select not allowed words")
         self.main_listbox.config(selectbackground="red")
-        print "Master indeterminate at end third is", self.master_not_allowed
-
     def _FinalSelect(self):
-        print "Master indeter at begin of final select", self.master_not_allowed
         self.user_not_allowed = list()
         not_allowed_index = self.main_listbox.curselection()
         for index in not_allowed_index:
@@ -130,11 +131,9 @@ class MainFrame(Frame):
                 self.master_allowed.append(word)     
         self.ExcelFile.create_user_dictionary(self.user_allowed, self.user_not_allowed)
         self.select_button.config(text="Create csv", command=self._Message)
-        print "Master indeter at end of final select", self.master_not_allowed
 
     def _Message(self):
         showinfo(title="CSV Creation Alert", message="We are creating your CSV")
-        print "Master indeter used to deidentify is", self.master_not_allowed
         self.ExcelFile.deidentify(self.master_not_allowed, self.master_indeterminate)
         self.ExcelFile.make_csv()
         self.parent.destroy()
@@ -145,8 +144,14 @@ containing PHI")
 
     
     def initUI(self):
-        self.main_listbox = Listbox(self.parent)
-        self.listboxvar = StringVar()
+        self.yscroll = Scrollbar(orient=VERTICAL)        
+        self.xscroll = Scrollbar(orient=HORIZONTAL)        
+        self.listboxvar = StringVar() # Holds list box values
+        self.main_listbox = Listbox(self.parent, listvariable=self.listboxvar,
+                                    yscrollcommand=self.yscroll.set,
+                                    xscrollcommand=self.xscroll.set)
+        self.yscroll.config(command=self.main_listbox.yview)
+        self.xscroll.config(command=self.main_listbox.xview)
         self.main_label = Label(self.parent)
         self.select_button = Button(self.parent)
         self.main_label_textvar = StringVar()

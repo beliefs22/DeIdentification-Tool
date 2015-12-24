@@ -1,5 +1,6 @@
 import unittest
 import extractexcel as excel
+import patternchecker as ptchk
 
 
 
@@ -68,8 +69,28 @@ class Test(unittest.TestCase):
                   % (indeterminate_before, self.master_indeterminate)                
 
         self.failUnless(deidentify_pass, "Final Data not correct")
-        
-        
+
+    def test_pattern(self):
+        allowed, not_allowed, indeterminate = \
+                 ptchk.check_for_words("Aristotle Lewis Rajah Seth")
+
+        expected_allowed = ['Aristotle', 'Rajah']
+        expected_not_allowed = ['Seth']
+        expected_indeterminate = ['Lewis']
+
+        pattern_pass = allowed == expected_allowed and \
+                      not_allowed == expected_not_allowed and \
+                      indeterminate == expected_indeterminate
+
+        if not pattern_pass:
+            print "expected allowed:\n %s\n got\n %s" \
+                  % (expected_allowed, allowed)
+            print "expected not allowed:\n %s\n got\n %s" \
+                  % (expected_not_allowed, not_allowed)
+            print "expeted indeterminate:\n %s\n got\n %s" \
+                  % (expected_indeterminate, indeterminate)
+
+        self.failUnless(pattern_pass, "Unexpected pattern match")       
         
 
 if __name__ =='__main__':

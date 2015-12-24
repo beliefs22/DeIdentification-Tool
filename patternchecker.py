@@ -25,11 +25,8 @@ def check_for_dates(text):
 
     date_locations = date_pattern.finditer(text)
     matched_dates = date_pattern.findall(text)
-    #print text, "before date removed"
     non_date_words = " ".join(date_pattern.split(text)) # remove dates
-    #print non_date_words, "after date removed"
     non_date_words = " ".join(punct_pattern.split(non_date_words)) # remove punct
-    #print non_date_words, "after punct removed"
     return matched_dates, non_date_words
 
 def check_for_words(text):
@@ -100,46 +97,37 @@ def check_for_words(text):
     
 
     for word in text:
-        #print "word is", word
         original_word = word #keep record of unaltered word
         word = word.lower() # all dictionarys use lower case words
-        #print "word in user_all_dict", word in user_all_dict
-        #print "word in user_not_all_dict", word in user_not_all_dict
         if user_all_dict != [] and word in user_all_dict:
             #words user wants to pass
-            #print "user allowed ran"
             allowed_words.append(original_word)
             continue
 
         if user_not_all_dict != [] and word in user_not_all_dict:
             #words user doesn't want to pass
-            #print "not user allowed ran"
             not_allowed_words.append(original_word)
             continue
         
         allowed = word in dictionary or word in medicaldict or word.isdigit()
         not_allowed = word in firstnames or word in lastnames or word in months
-        #print "word in allowed", allowed,"word in not allowed", not_allowed
         if allowed and not_allowed and word != "":
-            #print "allowed and not allowed ran"
+            #found in both allowed and not allowed list
             indeterminate.append(original_word)
-            continue
-            
+            continue            
         if not_allowed and not allowed:
-            #print "not allowed ran"
+            #only found in not allowed list
             not_allowed_words.append(original_word)
             continue
         if allowed and not not_allowed:
-           #print  "allowed ran"
+            #only found in allowed list
            allowed_words.append(original_word)
            continue
 
         if not allowed and not not_allowed and word != "":
-            #print "found neither"
+            #unidentifed word(mispelled?)
             indeterminate.append(original_word)
             continue
-
-        #print "Oh no it didn't catch"
     return allowed_words, not_allowed_words, indeterminate
         
         
@@ -150,11 +138,11 @@ def main():
 
     dates, non_matched = check_patterns(test_string)
     a,b,c = check_words(non_matched)
-    ##print a
-    ##print
-    ##print b
-    ##print
-    ##print c
+    print a
+    print
+    print b
+    print
+    print c
 
 if __name__ == '__main__':
     main()

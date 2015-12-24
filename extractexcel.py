@@ -65,9 +65,8 @@ class Excel:
         master_indeterminate = list()# tracks ambigious words
         if size  == None:
             size = len(self.subjects)
-        print "running", size, "times"
         for i in range(size):
-            print "cleaning subject ", i
+            print "cleaning subject %d/%d " % (i,size)
             # Finds permited, prohibited and ambiguous words for a subject
             allowed,not_allowed,indeterminate = self.subjects[i].clean()
             # Add words for one subject to master list
