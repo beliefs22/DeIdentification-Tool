@@ -5,6 +5,7 @@ from extractexcel import *
 from guiclasses import *
 
 class MainFrame(Frame):
+    """GUI for DeIdentification Program"""
     def __init__(self, parent):
         Frame.__init__(self,parent)
 
@@ -23,6 +24,7 @@ class MainFrame(Frame):
         self.main_label.grid(row=0, column=0, sticky=E+W)
         self.excelfile.close()
     def _Headers(self):
+        """Displays Headers for file"""
         yscroll = Scrollbar(orient=VERTICAL)
         yscroll.grid(row=1, column=1, sticky= N+S)
         xscroll = Scrollbar(orient=HORIZONTAL)
@@ -41,6 +43,7 @@ class MainFrame(Frame):
         yscroll.config(command=self.main_listbox.yview)
         xscroll.config(command=self.main_listbox.xview)
     def _Run(self):
+        """Begins DeIdentification process"""
         self.master_allowed = list()
         self.master_not_allowed = list()
         self.master_indeterminate = list()
@@ -51,6 +54,7 @@ class MainFrame(Frame):
         self._Find()
         pass
     def _Find(self):
+        """Looks for user known words"""
         self.main_listbox.config(selectmode=MULTIPLE)       
         print self.master_indeterminate, "Indeter list at begin of find is"
         self.listboxvar.set(" ".join(self.master_indeterminate))
@@ -60,6 +64,7 @@ class MainFrame(Frame):
         self.select_button.grid(row=2, column=0, sticky=S+E)        
 
     def _InitialSelect(self):
+        """After initial select of known words"""
         self.user_allowed = list()
         allowed_words_index = self.main_listbox.curselection()
         for index in allowed_words_index:
@@ -74,6 +79,7 @@ class MainFrame(Frame):
         self.main_listbox.config(selectbackground="red")
 
     def _SecondSelect(self):
+        """I'm not sure how to doc guis"""
         self.user_not_allowed = list()
         not_allowed_words_index = self.main_listbox.curselection()
         for index in not_allowed_words_index:
@@ -134,15 +140,9 @@ class MainFrame(Frame):
         self.parent.destroy()
         
     def _About(self):
-        pass
+        showinfo(title="About", message="A program to DeIdentify an excel file \
+containing PHI")
 
-    def _update_list(self,new_list):
-        self.listboxvar.set(" ".join(new_list))
-    def _update_select(self):
-        self.main_listbox.config(selectmode=MULTIPLE)
-
-    def _update_label(self,text):
-        self.main_label_textvar.set(text)
     
     def initUI(self):
         self.main_listbox = Listbox(self.parent)

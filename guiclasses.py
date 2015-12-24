@@ -1,6 +1,7 @@
 from Tkinter import *
 class Menus:
-        def __init__(self,menu,headers,commands):                
+        """Class to add menus to a window"""
+        def __init__(self,menu,headers,commands):
                 self.headers = headers
                 self.commands = commands
                 for position, header in enumerate(headers):
@@ -10,11 +11,9 @@ class Menus:
                                 if commandlist[0] == 'separator':
                                         newmenu.add_separator()
                                 else:
-                                        newmenu.add_command(label=commandlist[0], command=commandlist[1])
+                                        newmenu.add_command(label=commandlist[0],\
+                                                            command=commandlist[1])
 
-class Listboxes:
-        def __init__(self,root):
-                pass
 
 def main():
         def test():

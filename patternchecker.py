@@ -10,6 +10,13 @@ def check_for_dates(text):
     Returns:
         matched_dates (list)
         non_date_words (str)
+
+    >>> a,b = check_for_dates('2/12/2015, 2/2015, boxing')
+    >>> a == ['2/12/2015', '2/2015']
+    True
+    >>> b == ' boxing'
+    True
+    
     """
     date_pattern = re.compile(
         '[0-9]{1,2}[\W][0-9]{1,2}[\W][0-9]{2,4}|\d{1,2}[\W]\d{2,4}') #dates
@@ -36,6 +43,14 @@ def check_for_words(text):
     Returns:
         allowed,not_allowed,indeterminate (list): list containing words from
         given text in their category
+
+    >>> a,b,c = check_for_words('Hello my vancomycin Seth Pitts blaze')
+    >>> a == ['Hello', 'vancomycin']
+    True
+    >>> b == ['Seth', 'Pitts']
+    True
+    >>> c == ['my', 'blaze']
+    True
     """
     dictionary = dict() #container for allowed english words
     firstnames = dict() #container for prohibited first names
