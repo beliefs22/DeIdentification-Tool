@@ -3,18 +3,19 @@ import os
 import pickle
 
 def check_for_dates(text):
-    """Removes dates and numbers that may look like dates from a string
+    """Removes dates and numbers that may look like dates from a string.
+
     Args:
-        text (str): string of text to remove dates from
+        text (str): string to remove dates from
 
     Returns:
-        matched_dates (list)
-        non_date_words (str)
-
-    >>> a,b = check_for_dates('2/12/2015, 2/2015, boxing')
-    >>> a == ['2/12/2015', '2/2015']
+        list: list of dates that were removed from string
+        str: original string with dates removed
+    
+    >>> dates,non_dates = check_for_dates('2/12/2015, 2/2015, boxing')
+    >>> dates == ['2/12/2015', '2/2015']
     True
-    >>> b == ' boxing'
+    >>> non_dates == ' boxing'
     True
     
     """
@@ -30,23 +31,17 @@ def check_for_dates(text):
     return matched_dates, non_date_words
 
 def check_for_words(text):
-    """Checks for wors in a string of text that are clearly english words that
-    aren't protected health information. Returns a list of allowe, not allowed,
-    and indeterminate words from the text
+    """Parses string and categorzes each words as allowed/notallowed/indeterm.
 
     Args:
-        text (str): sring of text to check for word matches
+        text (str): str to check for words.
 
-    Returns:
-        allowed,not_allowed,indeterminate (list): list containing words from
-        given text in their category
-
-    >>> a,b,c = check_for_words('Hello my vancomycin Seth Pitts blaze')
-    >>> a == ['Hello', 'vancomycin']
+    >>> allowed,not_allowed,indeterminate = check_for_words('Hello my vancomycin Seth Pitts blaze')
+    >>> allowed == ['Hello', 'vancomycin']
     True
-    >>> b == ['Seth', 'Pitts']
+    >>> not_allowed == ['Seth', 'Pitts']
     True
-    >>> c == ['my', 'blaze']
+    >>> indeterminate == ['my', 'blaze']
     True
     """
     dictionary = dict() #container for allowed english words

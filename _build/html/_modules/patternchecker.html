@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>patternchecker &mdash; De-Identification Tool 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="De-Identification Tool 1.0 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for patternchecker</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+
+<div class="viewcode-block" id="check_for_dates"><a class="viewcode-back" href="../code.html#patternchecker.check_for_dates">[docs]</a><span class="k">def</span> <span class="nf">check_for_dates</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Removes dates and numbers that may look like dates from a string.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        text (str): string to remove dates from</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list: list of dates that were removed from string</span>
+<span class="sd">        str: original string with dates removed</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; dates,non_dates = check_for_dates(&#39;2/12/2015, 2/2015, boxing&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; dates == [&#39;2/12/2015&#39;, &#39;2/2015&#39;]</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; non_dates == &#39; boxing&#39;</span>
+<span class="sd">    True</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">date_pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+        <span class="s">&#39;[0-9]{1,2}[\W][0-9]{1,2}[\W][0-9]{2,4}|\d{1,2}[\W]\d{2,4}&#39;</span><span class="p">)</span> <span class="c">#dates</span>
+
+    <span class="n">punct_pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;[^\w]+&#39;</span><span class="p">)</span> <span class="c">#matches punctuation</span>
+
+    <span class="n">date_locations</span> <span class="o">=</span> <span class="n">date_pattern</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="n">matched_dates</span> <span class="o">=</span> <span class="n">date_pattern</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="n">non_date_words</span> <span class="o">=</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">date_pattern</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">text</span><span class="p">))</span> <span class="c"># remove dates</span>
+    <span class="n">non_date_words</span> <span class="o">=</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">punct_pattern</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">non_date_words</span><span class="p">))</span> <span class="c"># remove punct</span>
+    <span class="k">return</span> <span class="n">matched_dates</span><span class="p">,</span> <span class="n">non_date_words</span></div>
+
+<div class="viewcode-block" id="check_for_words"><a class="viewcode-back" href="../code.html#patternchecker.check_for_words">[docs]</a><span class="k">def</span> <span class="nf">check_for_words</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Parses string and categorzes each words as allowed/notallowed/indeterm.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        text (str): str to check for words.</span>
+
+<span class="sd">    &gt;&gt;&gt; allowed,not_allowed,indeterminate = check_for_words(&#39;Hello my vancomycin Seth Pitts blaze&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; allowed == [&#39;Hello&#39;, &#39;vancomycin&#39;]</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; not_allowed == [&#39;Seth&#39;, &#39;Pitts&#39;]</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; indeterminate == [&#39;my&#39;, &#39;blaze&#39;]</span>
+<span class="sd">    True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dictionary</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span> <span class="c">#container for allowed english words</span>
+    <span class="n">firstnames</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span> <span class="c">#container for prohibited first names</span>
+    <span class="n">lastnames</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>  <span class="c">#container for prohibited last names</span>
+    <span class="n">medicaldict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span><span class="c">#container for allowed medical words</span>
+    
+    <span class="n">file_list</span> <span class="o">=</span> <span class="p">[[</span><span class="s">&quot;englishwordslist&quot;</span><span class="p">,</span><span class="n">dictionary</span><span class="p">],</span> <span class="c">#pickle files with word list</span>
+                     <span class="p">[</span><span class="s">&quot;firstnameslist&quot;</span><span class="p">,</span><span class="n">firstnames</span><span class="p">],</span>
+                     <span class="p">[</span><span class="s">&quot;lastnameslist&quot;</span><span class="p">,</span><span class="n">lastnames</span><span class="p">],[</span><span class="s">&quot;medicalwordlist&quot;</span><span class="p">,</span><span class="n">medicaldict</span><span class="p">]]</span>
+
+    <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">file_list</span><span class="p">:</span> <span class="c"># create list to use in program to check words</span>
+        <span class="n">myfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="s">&#39;r&#39;</span><span class="p">)</span>
+        <span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">myfile</span><span class="p">)</span>
+
+    <span class="n">dictionary</span> <span class="o">=</span> <span class="n">file_list</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">firstnames</span> <span class="o">=</span> <span class="n">file_list</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">lastnames</span> <span class="o">=</span> <span class="n">file_list</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">medicaldict</span> <span class="o">=</span> <span class="n">file_list</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">user_all_dict</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span> <span class="c">#User defined dictionary of allowed words</span>
+    <span class="n">user_not_all_dict</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span> <span class="c">#User defined dictionary of prohibited words</span>
+    <span class="n">months</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;january&#39;</span><span class="p">,</span><span class="s">&#39;february&#39;</span><span class="p">,</span><span class="s">&#39;march&#39;</span><span class="p">,</span><span class="s">&#39;april&#39;</span><span class="p">,</span><span class="s">&#39;may&#39;</span><span class="p">,</span><span class="s">&#39;june&#39;</span><span class="p">,</span>
+              <span class="s">&#39;july&#39;</span><span class="p">,</span><span class="s">&#39;august&#39;</span><span class="p">,</span><span class="s">&#39;september&#39;</span><span class="p">,</span><span class="s">&#39;october&#39;</span><span class="p">,</span><span class="s">&#39;november&#39;</span><span class="p">,</span><span class="s">&#39;december&#39;</span><span class="p">]</span>
+    
+
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s">&#39;userallowedlist&#39;</span><span class="p">):</span> <span class="c">#Open saved user file if exist</span>
+        <span class="n">saved_list</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;userallowedlist&#39;</span><span class="p">,</span><span class="s">&#39;r&#39;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">user_all_dict</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">saved_list</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">EOFError</span><span class="p">:</span> <span class="c">#if list is empty skip</span>
+            <span class="k">pass</span>
+        <span class="n">saved_list</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s">&#39;usernotallowedlist&#39;</span><span class="p">):</span> <span class="c">#Open save user file if exist</span>
+        <span class="n">saved_list</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;usernotallowedlist&#39;</span><span class="p">,</span><span class="s">&#39;r&#39;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">user_not_all_dict</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">saved_list</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">EOFError</span><span class="p">:</span><span class="c">#if list is empty skip</span>
+            <span class="k">pass</span>
+        <span class="n">saved_list</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">)</span> <span class="c">#Convert given str to list. necessary?</span>
+    <span class="n">allowed_words</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="n">not_allowed_words</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="n">indeterminate</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+
+    
+
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">text</span><span class="p">:</span>
+        <span class="n">original_word</span> <span class="o">=</span> <span class="n">word</span> <span class="c">#keep record of unaltered word</span>
+        <span class="n">word</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="c"># all dictionarys use lower case words</span>
+        <span class="k">if</span> <span class="n">user_all_dict</span> <span class="o">!=</span> <span class="p">[]</span> <span class="ow">and</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">user_all_dict</span><span class="p">:</span>
+            <span class="c">#words user wants to pass</span>
+            <span class="n">allowed_words</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">original_word</span><span class="p">)</span>
+            <span class="k">continue</span>
+
+        <span class="k">if</span> <span class="n">user_not_all_dict</span> <span class="o">!=</span> <span class="p">[]</span> <span class="ow">and</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">user_not_all_dict</span><span class="p">:</span>
+            <span class="c">#words user doesn&#39;t want to pass</span>
+            <span class="n">not_allowed_words</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">original_word</span><span class="p">)</span>
+            <span class="k">continue</span>
+        
+        <span class="n">allowed</span> <span class="o">=</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">dictionary</span> <span class="ow">or</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">medicaldict</span> <span class="ow">or</span> <span class="n">word</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span>
+        <span class="n">not_allowed</span> <span class="o">=</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">firstnames</span> <span class="ow">or</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">lastnames</span> <span class="ow">or</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">months</span>
+        <span class="k">if</span> <span class="n">allowed</span> <span class="ow">and</span> <span class="n">not_allowed</span> <span class="ow">and</span> <span class="n">word</span> <span class="o">!=</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
+            <span class="c">#found in both allowed and not allowed list</span>
+            <span class="n">indeterminate</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">original_word</span><span class="p">)</span>
+            <span class="k">continue</span>            
+        <span class="k">if</span> <span class="n">not_allowed</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">allowed</span><span class="p">:</span>
+            <span class="c">#only found in not allowed list</span>
+            <span class="n">not_allowed_words</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">original_word</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">allowed</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">not_allowed</span><span class="p">:</span>
+            <span class="c">#only found in allowed list</span>
+           <span class="n">allowed_words</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">original_word</span><span class="p">)</span>
+           <span class="k">continue</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">allowed</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">not_allowed</span> <span class="ow">and</span> <span class="n">word</span> <span class="o">!=</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
+            <span class="c">#unidentifed word(mispelled?)</span>
+            <span class="n">indeterminate</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">original_word</span><span class="p">)</span>
+            <span class="k">continue</span>
+    <span class="k">return</span> <span class="n">allowed_words</span><span class="p">,</span> <span class="n">not_allowed_words</span><span class="p">,</span> <span class="n">indeterminate</span></div>
+        
+        
+    
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+
+    <span class="n">test_string</span> <span class="o">=</span> <span class="s">&quot;Hello - vancomycin - name is Seth. Today is 12.15.1234 or 12/2015&quot;</span>
+
+    <span class="n">dates</span><span class="p">,</span> <span class="n">non_matched</span> <span class="o">=</span> <span class="n">check_patterns</span><span class="p">(</span><span class="n">test_string</span><span class="p">)</span>
+    <span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span> <span class="o">=</span> <span class="n">check_words</span><span class="p">(</span><span class="n">non_matched</span><span class="p">)</span>
+    <span class="k">print</span> <span class="n">a</span>
+    <span class="k">print</span>
+    <span class="k">print</span> <span class="n">b</span>
+    <span class="k">print</span>
+    <span class="k">print</span> <span class="n">c</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+    
+    
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Seth Pitts.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -14,6 +14,11 @@ class MainFrame(Frame):
         self.initUI()
     def _OpenFile(self):
         """Opens files and displays number of subjects in file"""
+        top = self.main_listbox.winfo_toplevel()
+        top.rowconfigure(1, weight=1)
+        top.columnconfigure(0, weight=1)
+        self.main_listbox.rowconfigure(1, weight=1)
+        self.main_listbox.columnconfigure(0, weight=1)
         name = askopenfilename()
         self.excelfile = open(name,'r')
         self.ExcelFile = Excel(self.excelfile)
@@ -26,9 +31,6 @@ class MainFrame(Frame):
     def _Headers(self):
         """Displays Headers for file"""
         try:
-            top = self.main_listbox.winfo_toplevel()
-            top.rowconfigure(1, weight=1)
-            top.columnconfigure(0, weight=1)
             self.main_label_textvar.set("Headers for your File")
             self.main_listbox.grid(row=1, column=0,sticky=N+E+S+W)
             self.main_listbox.rowconfigure(1, weight=1)
@@ -45,7 +47,7 @@ class MainFrame(Frame):
             self._Headers()
     def _Run(self):
         """Begins DeIdentification process"""
-        try:        
+        try:
             self.master_allowed = list()
             self.master_not_allowed = list()
             self.master_indeterminate = list()

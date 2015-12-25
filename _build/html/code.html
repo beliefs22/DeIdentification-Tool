@@ -1,0 +1,371 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Documentation for Deidentification Program &mdash; De-Identification Tool 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="De-Identification Tool 1.0 documentation" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="documentation-for-deidentification-program">
+<h1>Documentation for Deidentification Program<a class="headerlink" href="#documentation-for-deidentification-program" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="excel-class">
+<h2>Excel Class<a class="headerlink" href="#excel-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="extractexcel.Excel">
+<em class="property">class </em><code class="descclassname">extractexcel.</code><code class="descname">Excel</code><span class="sig-paren">(</span><em>excelfile</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extractexcel.html#Excel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extractexcel.Excel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Object representing an excel File containing PHI.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>excelfile</strong> (<em>file</em>) &#8211; file pointing to excelfile to be cleaned</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="extractexcel.Excel.create_user_dictionary">
+<code class="descname">create_user_dictionary</code><span class="sig-paren">(</span><em>user_allowed</em>, <em>user_not_allowed</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extractexcel.html#Excel.create_user_dictionary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extractexcel.Excel.create_user_dictionary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a dictionary of words that could be ambigious that the user
+has chosen to let through. Persist throughout multiple sessions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>user_allowed</strong> (<em>list</em>) &#8211; words user wants to let through</li>
+<li><strong>user_not_allwed</strong> (<em>list</em>) &#8211; words use wants to fail</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="extractexcel.Excel.deidentify">
+<code class="descname">deidentify</code><span class="sig-paren">(</span><em>master_not_allowed</em>, <em>master_indeterminate</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extractexcel.html#Excel.deidentify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extractexcel.Excel.deidentify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs Deidentification process.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>master_not_allowed</strong> (<em>list</em>) &#8211; list of identified PHI</li>
+<li><strong>master_indeterminate</strong> (<em>list</em>) &#8211; list of indeterminate words</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="extractexcel.Excel.get_headers">
+<code class="descname">get_headers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/extractexcel.html#Excel.get_headers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extractexcel.Excel.get_headers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return list of strings representing headers for excel file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">dict where v = header and k = position in file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">dict</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="extractexcel.Excel.get_num_of_subjects">
+<code class="descname">get_num_of_subjects</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/extractexcel.html#Excel.get_num_of_subjects"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extractexcel.Excel.get_num_of_subjects" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return number of subjects in file as int.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">number of subjects created from file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="extractexcel.Excel.get_subjects">
+<code class="descname">get_subjects</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/extractexcel.html#Excel.get_subjects"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extractexcel.Excel.get_subjects" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return list of Subject objects created from excel file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">list containing subjects objects created from file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="extractexcel.Excel.make_csv">
+<code class="descname">make_csv</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/extractexcel.html#Excel.make_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extractexcel.Excel.make_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates CSV of deidentified data.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="extractexcel.Excel.one_pass">
+<code class="descname">one_pass</code><span class="sig-paren">(</span><em>size=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extractexcel.html#Excel.one_pass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extractexcel.Excel.one_pass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Part of Deidentification process.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>size</strong> (<em>int</em>) &#8211; represents the number of subjects to run the cleaning</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">3 list containing allowed, not allowed and interminate words</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="subject-class">
+<h2>Subject Class<a class="headerlink" href="#subject-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="extractexcel.Subject">
+<em class="property">class </em><code class="descclassname">extractexcel.</code><code class="descname">Subject</code><span class="sig-paren">(</span><em>headers</em>, <em>rawdata</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extractexcel.html#Subject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extractexcel.Subject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Object Representing a subject or one line from an excel file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>headers</strong> (<em>dict</em>) &#8211; dictionary containing header information</li>
+<li><strong>rawdata</strong> (<em>str</em>) &#8211; data to clean</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="extractexcel.Subject.clean">
+<code class="descname">clean</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/extractexcel.html#Subject.clean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extractexcel.Subject.clean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs process to remove dates and find words that are allowed,
+not allowed(names), and ambiguous words.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">3 list containg allowed, not alowed and unclear words</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="extractexcel.Subject.final_clean">
+<code class="descname">final_clean</code><span class="sig-paren">(</span><em>master_not_allowed</em>, <em>master_indeterminate</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extractexcel.html#Subject.final_clean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extractexcel.Subject.final_clean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replaces words in Subject data that are allowed or unclear.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>master_not_allowed</strong> (<em>list</em>) &#8211; words to remove from data</li>
+<li><strong>master_indeterminate</strong> (<em>list</em>) &#8211; words to mark as ambigious</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="extractexcel.Subject.get_clean_data">
+<code class="descname">get_clean_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/extractexcel.html#Subject.get_clean_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extractexcel.Subject.get_clean_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return str representing clean data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">string represeting de-identified data</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="extractexcel.Subject.get_raw_data">
+<code class="descname">get_raw_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/extractexcel.html#Subject.get_raw_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extractexcel.Subject.get_raw_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return str representing unaltered data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">string representing unaltered data</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-patternchecker">
+<span id="pattern-checker"></span><h2>Pattern Checker<a class="headerlink" href="#module-patternchecker" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="patternchecker.check_for_dates">
+<code class="descclassname">patternchecker.</code><code class="descname">check_for_dates</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/patternchecker.html#check_for_dates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#patternchecker.check_for_dates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes dates and numbers that may look like dates from a string.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text</strong> (<em>str</em>) &#8211; string to remove dates from</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of dates that were removed from string
+str: original string with dates removed</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">dates</span><span class="p">,</span><span class="n">non_dates</span> <span class="o">=</span> <span class="n">check_for_dates</span><span class="p">(</span><span class="s">&#39;2/12/2015, 2/2015, boxing&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dates</span> <span class="o">==</span> <span class="p">[</span><span class="s">&#39;2/12/2015&#39;</span><span class="p">,</span> <span class="s">&#39;2/2015&#39;</span><span class="p">]</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">non_dates</span> <span class="o">==</span> <span class="s">&#39; boxing&#39;</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="patternchecker.check_for_words">
+<code class="descclassname">patternchecker.</code><code class="descname">check_for_words</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/patternchecker.html#check_for_words"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#patternchecker.check_for_words" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parses string and categorzes each words as allowed/notallowed/indeterm.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text</strong> (<em>str</em>) &#8211; str to check for words.</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">allowed</span><span class="p">,</span><span class="n">not_allowed</span><span class="p">,</span><span class="n">indeterminate</span> <span class="o">=</span> <span class="n">check_for_words</span><span class="p">(</span><span class="s">&#39;Hello my vancomycin Seth Pitts blaze&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">allowed</span> <span class="o">==</span> <span class="p">[</span><span class="s">&#39;Hello&#39;</span><span class="p">,</span> <span class="s">&#39;vancomycin&#39;</span><span class="p">]</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">not_allowed</span> <span class="o">==</span> <span class="p">[</span><span class="s">&#39;Seth&#39;</span><span class="p">,</span> <span class="s">&#39;Pitts&#39;</span><span class="p">]</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">indeterminate</span> <span class="o">==</span> <span class="p">[</span><span class="s">&#39;my&#39;</span><span class="p">,</span> <span class="s">&#39;blaze&#39;</span><span class="p">]</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Documentation for Deidentification Program</a><ul>
+<li><a class="reference internal" href="#excel-class">Excel Class</a></li>
+<li><a class="reference internal" href="#subject-class">Subject Class</a></li>
+<li><a class="reference internal" href="#module-patternchecker">Pattern Checker</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/code.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Seth Pitts.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/code.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
