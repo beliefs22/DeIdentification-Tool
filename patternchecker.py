@@ -44,7 +44,70 @@ def check_for_dates(text):
     non_date_words = " ".join(punct_pattern.split(non_date_words[:])).strip()
     return matched_dates, non_date_words
 
-def check_for_words(text):
+class Dictionary:
+    """Object representing dictionries that will be search."""
+    def __init__(self):
+        self.dictionary = dict() #container for allowed english words
+        self.firstnames = dict() #container for prohibited first names
+        self.lastnames = dict()  #container for prohibited last names
+        self.medicaldict = dict()#container for allowed medical words
+
+        #pickle filess with saved word lists
+        file_list = [["englishwordslist",self.dictionary], 
+                     ["firstnameslist",self.firstnames],
+                     ["lastnameslist",self.lastnames],
+                     ["medicalwordlist",self.medicaldict]]    
+
+        for pair in file_list: # create list to use in program to check words
+            myfile = open(pair[0],'r')
+            pair[1] = pickle.load(myfile)
+
+        self.dictionary = file_list[0][1]
+        self.firstnames = file_list[1][1]
+        self.lastnames = file_list[2][1]
+        self.medicaldict = file_list[3][1]
+
+        self.user_all_dict = list() #User defined dictionary of allowed words
+        self.user_not_all_dict = list() #User defined dictionary of prohibited words
+        self.months = ['january','february','march','april','may','june',
+                  'july','august','september','october','november','december']
+        
+
+        if os.path.exists('userallowedlist'): #Open saved user file if exist
+            saved_list = open('userallowedlist','r')
+            try:
+                self.user_all_dict = pickle.load(saved_list)
+            except EOFError: #if list is empty skip
+                pass
+            saved_list.close()
+            
+        if os.path.exists('usernotallowedlist'): #Open save user file if exist
+            saved_list = open('usernotallowedlist','r')
+            try:
+                self.user_not_all_dict = pickle.load(saved_list)
+            except EOFError:#if list is empty skip
+                pass
+            saved_list.close()
+        self.all_dicts = [
+                    self.dictionary,
+                    self.firstnames,
+                    self.lastnames,
+                    self.medicaldict,
+                    self.user_all_dict,
+                    self.user_not_all_dict,
+                    self.months,
+                    ]
+
+    def export_dicts(self):
+        """Returns list of dictionaries to use in de-identification process
+
+        Returns:
+            list: list containing varioes dictionaries that will be used in
+                check for words function
+        """
+        return self.all_dicts
+        
+def check_for_words(text, dictionaries):
     """Parses string and categorzes each words as allowed/notallowed/indeterm.
 
     Args:
@@ -58,53 +121,13 @@ def check_for_words(text):
     >>> indeterminate == ['my', 'blaze']
     True
     """
-    dictionary = dict() #container for allowed english words
-    firstnames = dict() #container for prohibited first names
-    lastnames = dict()  #container for prohibited last names
-    medicaldict = dict()#container for allowed medical words
-    
-    file_list = [["englishwordslist",dictionary], #pickle files with word list
-                     ["firstnameslist",firstnames],
-                     ["lastnameslist",lastnames],["medicalwordlist",medicaldict]]
-
-    for pair in file_list: # create list to use in program to check words
-        myfile = open(pair[0],'r')
-        pair[1] = pickle.load(myfile)
-
-    dictionary = file_list[0][1]
-    firstnames = file_list[1][1]
-    lastnames = file_list[2][1]
-    medicaldict = file_list[3][1]
-
-    user_all_dict = list() #User defined dictionary of allowed words
-    user_not_all_dict = list() #User defined dictionary of prohibited words
-    months = ['january','february','march','april','may','june',
-              'july','august','september','october','november','december']
-    
-
-    if os.path.exists('userallowedlist'): #Open saved user file if exist
-        saved_list = open('userallowedlist','r')
-        try:
-            user_all_dict = pickle.load(saved_list)
-        except EOFError: #if list is empty skip
-            pass
-        saved_list.close()
-        
-    if os.path.exists('usernotallowedlist'): #Open save user file if exist
-        saved_list = open('usernotallowedlist','r')
-        try:
-            user_not_all_dict = pickle.load(saved_list)
-        except EOFError:#if list is empty skip
-            pass
-        saved_list.close()
-
+    dictionary, firstnames, lastnames, medicaldict, \
+                     user_all_dict, user_not_all_dict, months = \
+                     dictionaries
     text = text.split(" ") #Convert given str to list. necessary?
     allowed_words = list()
     not_allowed_words = list()
-    indeterminate = list()
-
-    
-
+    indeterminate = list()  
     for word in text:
         original_word = word #keep record of unaltered word
         word = word.lower() # all dictionarys use lower case words
@@ -138,18 +161,21 @@ def check_for_words(text):
             indeterminate.append(original_word)
             continue
     return allowed_words, not_allowed_words, indeterminate
-        
-        
     
 def main():
 
-    test_string = '2/12/2015, 2/2015,boxing bitches'.replace(",", " ")
+    test_string = '2/12/2015, 2/2015,boxing bitches Stephen Paul'.replace(",", " ")
 
     dates, non_matched = check_for_dates(test_string)
-    print dates, "dates"
-    print non_matched.strip(), non_matched.strip() == 'boxing bitches',  "non dates"
-
-if __name__ == '__main__':
-    main()
+    dictionary = Dictionary()
+    allowed, not_allowed, indeterminate = \
+             check_for_words(non_matched, dictionary.export_dicts())
+    print allowed
+    print "__________"
+    print not_allowed
+    print "___________"
+    print indeterminate
+    print "____________"
+if __name__ == '__main__':    main()
     
     

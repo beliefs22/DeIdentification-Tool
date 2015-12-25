@@ -3,6 +3,7 @@ import re
 import os
 import pickle
 
+
 class Excel:
     """Object representing an excel File containing PHI.
 
@@ -20,13 +21,9 @@ class Excel:
             self.headers[index] = header #keep headers in order
 
         self.subjects = [] #one subject is one line of file other than first
-
         for index, subjectdata in enumerate(excelfile):
             raw_data = subjectdata.rstrip("\n")
-            print "Creating Subject[%d] using: " % index
-            print raw_data
             self.subjects.append(Subject(self.headers,raw_data))
-
     def deidentify(self,master_not_allowed, master_indeterminate):
         """Runs Deidentification process.
 
@@ -81,10 +78,14 @@ class Excel:
         master_indeterminate = list()# tracks ambigious words
         if size  == None:
             size = len(self.subjects)
+        available_dictionaries = ptchk.Dictionary()
+        dictionaries = available_dictionaries.export_dicts()
         for i in range(size):
-            print "cleaning subject %d/%d " % (i,size)
+            print "cleaning subject %d/%d " % (i + 1,size)
             # Finds permited, prohibited and ambiguous words for a subject
-            allowed,not_allowed,indeterminate = self.subjects[i].clean()
+            allowed,not_allowed,indeterminate = \
+                                              self.subjects[i].clean(
+                                                  dictionaries)
             # Add words for one subject to master list
             for word in allowed:
                 if word not in master_allowed:
@@ -144,7 +145,8 @@ class Excel:
         myfile.write(",".join(self.raw_headers) + "\n")
         for subject in self.subjects:
             myfile.write(subject.get_clean_data() + "\n")
-        myfile.close()
+        myfile.close()    
+            
 
 class Subject:
     """Object Representing a subject or one line from an excel file.
@@ -159,6 +161,9 @@ class Subject:
         self.headers = headers
         self.raw_data = rawdata
         self.clean_data = ""
+        self.date_time = None
+        self.word_time = None
+        self.final_clean_time = None
 
     def get_raw_data(self):
         """Return str representing unaltered data.
@@ -177,7 +182,7 @@ class Subject:
         """
         return self.clean_data
         
-    def clean(self):
+    def clean(self, dictionaries):
         """Runs process to remove dates and find words that are allowed,
         not allowed(names), and ambiguous words.
 
@@ -187,8 +192,12 @@ class Subject:
         """
         temp = self.raw_data.replace(","," ") #remove commas temporariarly
         dates,non_dates = ptchk.check_for_dates(temp)
-        allowed,not_allowed,indeterminate = ptchk.check_for_words(non_dates)
+        allowed,not_allowed,indeterminate =\
+                                          ptchk.check_for_words(non_dates,
+                                                                dictionaries)
         not_allowed = not_allowed + dates
+        print "Took" , self.date_time, "seconds to remove dates"
+        print "Took", self.word_time, "seconds to remove match words"
         return allowed, not_allowed, indeterminate
 
     def final_clean(self,master_not_allowed,master_indeterminate):
@@ -219,8 +228,6 @@ class Subject:
             temp = pattern.sub(master_indeterminate[index] \
                                + "[INDETER]",temp[:])
             self.clean_data = temp
-
-
 def main():
 
     excelfile = open("a tst csv.csv",'r')
@@ -232,8 +239,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-        
-
-        
-        
         
