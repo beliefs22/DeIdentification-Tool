@@ -2,6 +2,7 @@ import patternchecker as ptchk
 import re
 import os
 import pickle
+import time
 
 class Excel:
     """Object representing an excel File containing PHI.
@@ -20,12 +21,15 @@ class Excel:
             self.headers[index] = header #keep headers in order
 
         self.subjects = [] #one subject is one line of file other than first
-
+        subject_start = time.time()
         for index, subjectdata in enumerate(excelfile):
             raw_data = subjectdata.rstrip("\n")
-            print "Creating Subject[%d] using: " % index
+            print "Creating Subject[%d] using: " % (index + 1)
             print raw_data
             self.subjects.append(Subject(self.headers,raw_data))
+        subject_end = time.time()
+        subject_create_time = subject_end - subject_start
+        
 
     def deidentify(self,master_not_allowed, master_indeterminate):
         """Runs Deidentification process.
@@ -76,15 +80,20 @@ class Excel:
             list: 3 list containing allowed, not allowed and interminate words
                    
         """
+        one_pass_start = time.time()
         master_allowed = list() #tracks permited words
         master_not_allowed = list()#tracks prohibited words
         master_indeterminate = list()# tracks ambigious words
         if size  == None:
             size = len(self.subjects)
+        available_dictionaries = ptchk.Dictionary()
+        dictionaries = available_dictionaries.export_dicts()
         for i in range(size):
-            print "cleaning subject %d/%d " % (i,size)
+            print "cleaning subject %d/%d " % (i + 1,size)
             # Finds permited, prohibited and ambiguous words for a subject
-            allowed,not_allowed,indeterminate = self.subjects[i].clean()
+            allowed,not_allowed,indeterminate = \
+                                              self.subjects[i].clean(
+                                                  dictionaries)
             # Add words for one subject to master list
             for word in allowed:
                 if word not in master_allowed:
@@ -95,6 +104,8 @@ class Excel:
             for word in indeterminate:
                 if word not in master_indeterminate:
                     master_indeterminate.append(word)
+        one_pass_end = time.time()
+        one_pass_time = one_pass_end - one_pass_start
         return master_allowed, master_not_allowed, master_indeterminate
         
     def create_user_dictionary(self, user_allowed,user_not_allowed):
@@ -145,6 +156,23 @@ class Excel:
         for subject in self.subjects:
             myfile.write(subject.get_clean_data() + "\n")
         myfile.close()
+        total_date_time = 0
+        total_word_time = 0
+        total_final_clean_time = 0
+        for subject in self.subjects:
+            date_time, word_time, final_clean_time = subject.get_times()
+            total_date_time += date_time
+            total_word_time += word_time
+            total_final_clean_time += final_clean_time
+        average_date_time = total_date_time/len(self.subjects)
+        average_word_time = total_word_time/len(self.subjects)
+        average_final_clean_time = total_final_clean_time/len(self.subjects)
+        print "Average time to find dates", average_date_time, total_date_time
+        print "Average time to match words", average_word_time, total_word_time
+        print "Average time to mark document", average_final_clean_time,\
+              total_final_clean_time
+        
+            
 
 class Subject:
     """Object Representing a subject or one line from an excel file.
@@ -159,6 +187,9 @@ class Subject:
         self.headers = headers
         self.raw_data = rawdata
         self.clean_data = ""
+        self.date_time = None
+        self.word_time = None
+        self.final_clean_time = None
 
     def get_raw_data(self):
         """Return str representing unaltered data.
@@ -177,7 +208,7 @@ class Subject:
         """
         return self.clean_data
         
-    def clean(self):
+    def clean(self, dictionaries):
         """Runs process to remove dates and find words that are allowed,
         not allowed(names), and ambiguous words.
 
@@ -186,9 +217,19 @@ class Subject:
         
         """
         temp = self.raw_data.replace(","," ") #remove commas temporariarly
+        date_start = time.time()
         dates,non_dates = ptchk.check_for_dates(temp)
-        allowed,not_allowed,indeterminate = ptchk.check_for_words(non_dates)
+        date_end = time.time()
+        self.date_time = date_end - date_start
+        word_start = time.time()
+        allowed,not_allowed,indeterminate =\
+                                          ptchk.check_for_words(non_dates,
+                                                                dictionaries)
+        word_end = time.time()
+        self.word_time = word_end - word_start
         not_allowed = not_allowed + dates
+        print "Took" , self.date_time, "seconds to remove dates"
+        print "Took", self.word_time, "seconds to remove match words"
         return allowed, not_allowed, indeterminate
 
     def final_clean(self,master_not_allowed,master_indeterminate):
@@ -199,6 +240,7 @@ class Subject:
             master_indeterminate (list): words to mark as ambigious
 
         """
+        final_clean_start = time.time()
         self.clean_data = self.raw_data #initialize clean data to raw data
 
         def make_re(word):
@@ -219,6 +261,12 @@ class Subject:
             temp = pattern.sub(master_indeterminate[index] \
                                + "[INDETER]",temp[:])
             self.clean_data = temp
+        final_clean_end  = time.time()
+        self.final_clean_time = final_clean_end - final_clean_start
+        print "Took", self.final_clean_time, "seconds to mark document"
+
+    def get_times(self):
+        return self.date_time, self.word_time, self.final_clean_time
 
 
 def main():
