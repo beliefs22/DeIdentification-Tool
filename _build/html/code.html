@@ -184,7 +184,7 @@ has chosen to let through. Persist throughout multiple sessions.</p>
 </table>
 <dl class="method">
 <dt id="extractexcel.Subject.clean">
-<code class="descname">clean</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/extractexcel.html#Subject.clean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extractexcel.Subject.clean" title="Permalink to this definition">¶</a></dt>
+<code class="descname">clean</code><span class="sig-paren">(</span><em>dictionaries</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extractexcel.html#Subject.clean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extractexcel.Subject.clean" title="Permalink to this definition">¶</a></dt>
 <dd><p>Runs process to remove dates and find words that are allowed,
 not allowed(names), and ambiguous words.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -254,6 +254,29 @@ not allowed(names), and ambiguous words.</p>
 </div>
 <div class="section" id="module-patternchecker">
 <span id="pattern-checker"></span><h2>Pattern Checker<a class="headerlink" href="#module-patternchecker" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="patternchecker.Dictionary">
+<em class="property">class </em><code class="descclassname">patternchecker.</code><code class="descname">Dictionary</code><a class="reference internal" href="_modules/patternchecker.html#Dictionary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#patternchecker.Dictionary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Object representing dictionries that will be search.</p>
+<dl class="method">
+<dt id="patternchecker.Dictionary.export_dicts">
+<code class="descname">export_dicts</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/patternchecker.html#Dictionary.export_dicts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#patternchecker.Dictionary.export_dicts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns list of dictionaries to use in de-identification process</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">list containing varioes dictionaries that will be used in
+check for words function</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="function">
 <dt id="patternchecker.check_for_dates">
 <code class="descclassname">patternchecker.</code><code class="descname">check_for_dates</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/patternchecker.html#check_for_dates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#patternchecker.check_for_dates" title="Permalink to this definition">¶</a></dt>
@@ -283,7 +306,7 @@ str: original string with dates removed</td>
 
 <dl class="function">
 <dt id="patternchecker.check_for_words">
-<code class="descclassname">patternchecker.</code><code class="descname">check_for_words</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/patternchecker.html#check_for_words"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#patternchecker.check_for_words" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">patternchecker.</code><code class="descname">check_for_words</code><span class="sig-paren">(</span><em>text</em>, <em>dictionaries</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/patternchecker.html#check_for_words"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#patternchecker.check_for_words" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parses string and categorzes each words as allowed/notallowed/indeterm.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
