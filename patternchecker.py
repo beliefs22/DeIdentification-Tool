@@ -2,6 +2,7 @@ import re
 import os
 import pickle
 import datecheckers
+import patternmaker
 
 def check_for_dates(text):
     """Removes dates and numbers that may look like dates from a string.
@@ -13,12 +14,11 @@ def check_for_dates(text):
         list: list of dates that were removed from string
         str: original string with dates removed
     
-    >>> dates, non_dates = check_for_dates('2/12/2015, 2/2015, boxing')
-    >>> print dates, non_dates
-    >>> []
+    >>> dates, non_dates = list(), list()
+    >>> dates, non_dates = check_for_dates('2/12/2015, 2/2015,boxing'.replace(","," "))
     >>> dates == ['2/12/2015', '2/2015']
     True
-    >>> non_dates == ' boxing'
+    >>> non_dates == 'boxing'
     True
     
     """
@@ -29,20 +29,19 @@ def check_for_dates(text):
 
     date_locations = date_pattern.finditer(text)
     matched_dates = date_pattern.findall(text)
-    print matched_dates, "found dates are"
     for date in matched_dates[:]:
         if not datecheckers.isDate(date):
-            print "datecherker ran"
             matched_dates.remove(date) #pass words that just look like dates
-    matched_dates_patterns  = [re.compile(p) for p in matched_dates[:]]
-    for pattern in matched_dates_patterns:
-        print pattern.pattern
-    print text, "before date removal"
-    for date in matched_dates_patterns: #remove dates
-
-        non_date_words = " ".join(date.split(text))
-        print "one pass", date.pattern, non_date_words, type(non_date_words)
-    non_date_words = " ".join(punct_pattern.split(non_date_words[:])) #rm punt
+    pattern_template = \
+                     '\A(%s)(\W)*( )|( )(%s)(\W)*( )|( )(%s)(\W)*\Z'
+    matched_dates_patterns  = \
+                           patternmaker.make_re(pattern_template,matched_dates)
+    non_date_words = text[:]
+    for date in matched_dates_patterns: #remove dates from string
+        temp = date.sub(" ", non_date_words[:])
+        non_date_words = temp
+    #remove punc and leading spaces
+    non_date_words = " ".join(punct_pattern.split(non_date_words[:])).strip()
     return matched_dates, non_date_words
 
 def check_for_words(text):
@@ -144,15 +143,11 @@ def check_for_words(text):
     
 def main():
 
-    test_string = "Hello - vancomycin - name is Seth. Today is 12.15.1234 or 12/2015"
+    test_string = '2/12/2015, 2/2015,boxing bitches'.replace(",", " ")
 
-    dates, non_matched = check_patterns(test_string)
-    a,b,c = check_words(non_matched)
-    print a
-    print
-    print b
-    print
-    print c
+    dates, non_matched = check_for_dates(test_string)
+    print dates, "dates"
+    print non_matched.strip(), non_matched.strip() == 'boxing bitches',  "non dates"
 
 if __name__ == '__main__':
     main()

@@ -271,10 +271,11 @@ str: original string with dates removed</td>
 </tr>
 </tbody>
 </table>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">dates</span><span class="p">,</span><span class="n">non_dates</span> <span class="o">=</span> <span class="n">check_for_dates</span><span class="p">(</span><span class="s">&#39;2/12/2015, 2/2015, boxing&#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">dates</span><span class="p">,</span> <span class="n">non_dates</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(),</span> <span class="nb">list</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dates</span><span class="p">,</span> <span class="n">non_dates</span> <span class="o">=</span> <span class="n">check_for_dates</span><span class="p">(</span><span class="s">&#39;2/12/2015, 2/2015,boxing&#39;</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot;,&quot;</span><span class="p">,</span><span class="s">&quot; &quot;</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">dates</span> <span class="o">==</span> <span class="p">[</span><span class="s">&#39;2/12/2015&#39;</span><span class="p">,</span> <span class="s">&#39;2/2015&#39;</span><span class="p">]</span>
 <span class="go">True</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">non_dates</span> <span class="o">==</span> <span class="s">&#39; boxing&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">non_dates</span> <span class="o">==</span> <span class="s">&#39;boxing&#39;</span>
 <span class="go">True</span>
 </pre></div>
 </div>

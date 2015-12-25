@@ -185,7 +185,8 @@ class Subject:
             list: 3 list containg allowed, not alowed and unclear words
         
         """
-        dates,non_dates = ptchk.check_for_dates(self.raw_data)
+        temp = self.raw_data.replace(","," ") #remove commas temporariarly
+        dates,non_dates = ptchk.check_for_dates(temp)
         allowed,not_allowed,indeterminate = ptchk.check_for_words(non_dates)
         not_allowed = not_allowed + dates
         return allowed, not_allowed, indeterminate
@@ -222,11 +223,10 @@ class Subject:
 
 def main():
 
-    excelfile = open("September 2015 Samples De-Identified2.csv",'r')
+    excelfile = open("a tst csv.csv",'r')
 
     ExcelFile = Excel(excelfile)
-    print ExcelFile.get_headers()
-    
+    print ExcelFile.get_headers()    
     ExcelFile.clean_data()    
     ExcelFile.make_csv()
 

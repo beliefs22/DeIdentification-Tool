@@ -225,7 +225,8 @@
 <span class="sd">            list: 3 list containg allowed, not alowed and unclear words</span>
 <span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">dates</span><span class="p">,</span><span class="n">non_dates</span> <span class="o">=</span> <span class="n">ptchk</span><span class="o">.</span><span class="n">check_for_dates</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span><span class="p">)</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot;,&quot;</span><span class="p">,</span><span class="s">&quot; &quot;</span><span class="p">)</span> <span class="c">#remove commas temporariarly</span>
+        <span class="n">dates</span><span class="p">,</span><span class="n">non_dates</span> <span class="o">=</span> <span class="n">ptchk</span><span class="o">.</span><span class="n">check_for_dates</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
         <span class="n">allowed</span><span class="p">,</span><span class="n">not_allowed</span><span class="p">,</span><span class="n">indeterminate</span> <span class="o">=</span> <span class="n">ptchk</span><span class="o">.</span><span class="n">check_for_words</span><span class="p">(</span><span class="n">non_dates</span><span class="p">)</span>
         <span class="n">not_allowed</span> <span class="o">=</span> <span class="n">not_allowed</span> <span class="o">+</span> <span class="n">dates</span>
         <span class="k">return</span> <span class="n">allowed</span><span class="p">,</span> <span class="n">not_allowed</span><span class="p">,</span> <span class="n">indeterminate</span></div>
@@ -262,11 +263,10 @@
 
 <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
 
-    <span class="n">excelfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;September 2015 Samples De-Identified2.csv&quot;</span><span class="p">,</span><span class="s">&#39;r&#39;</span><span class="p">)</span>
+    <span class="n">excelfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;a tst csv.csv&quot;</span><span class="p">,</span><span class="s">&#39;r&#39;</span><span class="p">)</span>
 
     <span class="n">ExcelFile</span> <span class="o">=</span> <span class="n">Excel</span><span class="p">(</span><span class="n">excelfile</span><span class="p">)</span>
-    <span class="k">print</span> <span class="n">ExcelFile</span><span class="o">.</span><span class="n">get_headers</span><span class="p">()</span>
-    
+    <span class="k">print</span> <span class="n">ExcelFile</span><span class="o">.</span><span class="n">get_headers</span><span class="p">()</span>    
     <span class="n">ExcelFile</span><span class="o">.</span><span class="n">clean_data</span><span class="p">()</span>    
     <span class="n">ExcelFile</span><span class="o">.</span><span class="n">make_csv</span><span class="p">()</span>
 

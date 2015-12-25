@@ -8,7 +8,7 @@ def isDate(date):
         if pieces[0] not in range(1, 13) or pieces[1] not in range(1, 32) or \
            (len(str(pieces[2])) == 3) or \
            (len(str(pieces[2])) == 2 and pieces[2] < 0) or \
-           (len(str(pieces[2])) == 4 and pieces[2] not in range(1913,2016)):
+           (len(str(pieces[2])) == 4 and pieces[2] not in range(1913,2017)):
             return False
     if len(str(pieces)) == 2:
         if int(pieces[0]) > 12 or int(pieces[1]) > 2016:
