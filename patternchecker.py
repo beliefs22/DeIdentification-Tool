@@ -53,10 +53,10 @@ class Dictionary:
         self.medicaldict = dict()#container for allowed medical words
 
         #pickle filess with saved word lists
-        file_list = [["englishwordslist",self.dictionary], 
-                     ["firstnameslist",self.firstnames],
-                     ["lastnameslist",self.lastnames],
-                     ["medicalwordlist",self.medicaldict]]    
+        file_list = [["Data/Dictionaries/englishwordslist",self.dictionary], 
+                     ["Data/Dictionaries/firstnameslist",self.firstnames],
+                     ["Data/Dictionaries/lastnameslist",self.lastnames],
+                     ["Data/Dictionaries/medicalwordlist",self.medicaldict]]    
 
         for pair in file_list: # create list to use in program to check words
             myfile = open(pair[0],'r')
@@ -73,16 +73,16 @@ class Dictionary:
                   'july','august','september','october','november','december']
         
 
-        if os.path.exists('userallowedlist'): #Open saved user file if exist
-            saved_list = open('userallowedlist','r')
+        if os.path.exists('Data/UserDictionaries/userallowedlist'): #Open saved user file if exist
+            saved_list = open('Data/UserDictionaries/userallowedlist','r')
             try:
                 self.user_all_dict = pickle.load(saved_list)
             except EOFError: #if list is empty skip
                 pass
             saved_list.close()
             
-        if os.path.exists('usernotallowedlist'): #Open save user file if exist
-            saved_list = open('usernotallowedlist','r')
+        if os.path.exists('Data/UserDictionaries/usernotallowedlist'): #Open save user file if exist
+            saved_list = open('Data/UserDictionaries/usernotallowedlist','r')
             try:
                 self.user_not_all_dict = pickle.load(saved_list)
             except EOFError:#if list is empty skip

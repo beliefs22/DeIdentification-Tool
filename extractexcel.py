@@ -110,15 +110,15 @@ class Excel:
         user_allowed_dict = [] #list of user permitted words
         user_not_allowed_dict = [] #list of user prohibited words
 
-        if os.path.exists('userallowedlist'): #opens previously made list
-            wordfile = open('userallowedlist','r')
+        if os.path.exists('Data/UserDictionaries/userallowedlist'): #opens previously made list
+            wordfile = open('Data/UserDictionaries/userallowedlist','r')
             try:
                 user_allowed_dict = pickle.load(wordfile)
             except EOFError: #catches empty list from previous session
                 user_allowed_dict = []
             wordfile.close()
-        if os.path.exists('usernotallowedlist'):
-            wordfile2 = open('usernotallowedlist','r')
+        if os.path.exists('Data/UserDictionaries/usernotallowedlist'):
+            wordfile2 = open('Data/UserDictionaries/usernotallowedlist','r')
             try:
                 user_not_allowed_dict = pickle.load(wordfile2)
             except EOFError:
@@ -132,20 +132,19 @@ class Excel:
             if word not in user_not_allowed_dict:
                 user_not_allowed_dict.append(word.lower())
 
-        myfile1 = open('userallowedlist','w') 
+        myfile1 = open('Data/UserDictionaries/userallowedlist','w') 
         pickle.dump(user_allowed_dict,myfile1) #saves new changes
         myfile1.close()
-        myfile2 = open('usernotallowedlist','w')
+        myfile2 = open('Data/UserDictionaries/usernotallowedlist','w')
         pickle.dump(user_not_allowed_dict,myfile2)
         myfile2.close()
 
-    def make_csv(self):
-        """Creates CSV of deidentified data."""
-        myfile = open('finalcleandata2.csv','w')
-        myfile.write(",".join(self.raw_headers) + "\n")
+    def make_csv(self,savefile):
+        """Creates CSV of deidentified data."""        
+        savefile.write(",".join(self.raw_headers) + "\n")
         for subject in self.subjects:
-            myfile.write(subject.get_clean_data() + "\n")
-        myfile.close()    
+            savefile.write(subject.get_clean_data() + "\n")
+        savefile.close()    
             
 
 class Subject:
@@ -196,8 +195,6 @@ class Subject:
                                           ptchk.check_for_words(non_dates,
                                                                 dictionaries)
         not_allowed = not_allowed + dates
-        print "Took" , self.date_time, "seconds to remove dates"
-        print "Took", self.word_time, "seconds to remove match words"
         return allowed, not_allowed, indeterminate
 
     def final_clean(self,master_not_allowed,master_indeterminate):

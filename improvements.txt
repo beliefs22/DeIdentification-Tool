@@ -1,0 +1,25 @@
+Process improvements
+====================================================
+Currently only looks for proper names and Dates as PHI
+add ability to find: addresses , phone numbers
+add ability to better distinguish if a word is a name based on: position in sentence, ,capitilization
+
+
+UI improvements
+====================================================
+Make sessions that persist so that when deidentifying large number of files you can choose to deidentify
+a group of them, then return and run the process again, benefitting from a dictionary that has been
+created for this group of datasets. Hopefully the dictionary will 'learn' which ambigious words to allow
+through and which to remove from the file.
+
+Make it easier to select words, only show ten at a time so when the user selects from those ten, an new group pops up, reduces need to scroll.
+
+Find a nice way to present a large amount of words on the screen , where user can easily use mouse to categorize fast.
+
+Fun
+=====================================================
+make a graphic that shows each cell as it's being de-identifed, gives the user something to look at,
+like a fun loading bar.
+
+
+
