@@ -5,7 +5,8 @@ import datecheckers
 import patternmaker
 
 def check_for_dates(text):
-    """Removes dates and numbers that may look like dates from a string.
+    """Check given string for test that looks like dates.
+        Will return found dates and string with dates removed
 
     Args:
         text (str): string to remove dates from
@@ -45,7 +46,7 @@ def check_for_dates(text):
     return matched_dates, non_date_words
 
 class Dictionary:
-    """Object representing dictionries that will be search."""
+    """Object representing available dictionaries to used in search."""
     def __init__(self):
         self.dictionary = dict() #container for allowed english words
         self.firstnames = dict() #container for prohibited first names
@@ -112,6 +113,7 @@ def check_for_words(text, dictionaries):
 
     Args:
         text (str): str to check for words.
+        dictionaries (list): list of available dictionaries for program
 
     >>> allowed,not_allowed,indeterminate = check_for_words('Hello my vancomycin Seth Pitts blaze')
     >>> allowed == ['Hello', 'vancomycin']

@@ -45,7 +45,8 @@
 <span class="kn">import</span> <span class="nn">patternmaker</span>
 
 <div class="viewcode-block" id="check_for_dates"><a class="viewcode-back" href="../code.html#patternchecker.check_for_dates">[docs]</a><span class="k">def</span> <span class="nf">check_for_dates</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Removes dates and numbers that may look like dates from a string.</span>
+    <span class="sd">&quot;&quot;&quot;Check given string for test that looks like dates.</span>
+<span class="sd">        Will return found dates and string with dates removed</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        text (str): string to remove dates from</span>
@@ -85,7 +86,7 @@
     <span class="k">return</span> <span class="n">matched_dates</span><span class="p">,</span> <span class="n">non_date_words</span></div>
 
 <div class="viewcode-block" id="Dictionary"><a class="viewcode-back" href="../code.html#patternchecker.Dictionary">[docs]</a><span class="k">class</span> <span class="nc">Dictionary</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Object representing dictionries that will be search.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Object representing available dictionaries to used in search.&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span> <span class="c">#container for allowed english words</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">firstnames</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span> <span class="c">#container for prohibited first names</span>
@@ -93,10 +94,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">medicaldict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span><span class="c">#container for allowed medical words</span>
 
         <span class="c">#pickle filess with saved word lists</span>
-        <span class="n">file_list</span> <span class="o">=</span> <span class="p">[[</span><span class="s">&quot;englishwordslist&quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span><span class="p">],</span> 
-                     <span class="p">[</span><span class="s">&quot;firstnameslist&quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">firstnames</span><span class="p">],</span>
-                     <span class="p">[</span><span class="s">&quot;lastnameslist&quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">lastnames</span><span class="p">],</span>
-                     <span class="p">[</span><span class="s">&quot;medicalwordlist&quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">medicaldict</span><span class="p">]]</span>    
+        <span class="n">file_list</span> <span class="o">=</span> <span class="p">[[</span><span class="s">&quot;Data/Dictionaries/englishwordslist&quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span><span class="p">],</span> 
+                     <span class="p">[</span><span class="s">&quot;Data/Dictionaries/firstnameslist&quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">firstnames</span><span class="p">],</span>
+                     <span class="p">[</span><span class="s">&quot;Data/Dictionaries/lastnameslist&quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">lastnames</span><span class="p">],</span>
+                     <span class="p">[</span><span class="s">&quot;Data/Dictionaries/medicalwordlist&quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">medicaldict</span><span class="p">]]</span>    
 
         <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">file_list</span><span class="p">:</span> <span class="c"># create list to use in program to check words</span>
             <span class="n">myfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="s">&#39;r&#39;</span><span class="p">)</span>
@@ -113,16 +114,16 @@
                   <span class="s">&#39;july&#39;</span><span class="p">,</span><span class="s">&#39;august&#39;</span><span class="p">,</span><span class="s">&#39;september&#39;</span><span class="p">,</span><span class="s">&#39;october&#39;</span><span class="p">,</span><span class="s">&#39;november&#39;</span><span class="p">,</span><span class="s">&#39;december&#39;</span><span class="p">]</span>
         
 
-        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s">&#39;userallowedlist&#39;</span><span class="p">):</span> <span class="c">#Open saved user file if exist</span>
-            <span class="n">saved_list</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;userallowedlist&#39;</span><span class="p">,</span><span class="s">&#39;r&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s">&#39;Data/UserDictionaries/userallowedlist&#39;</span><span class="p">):</span> <span class="c">#Open saved user file if exist</span>
+            <span class="n">saved_list</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;Data/UserDictionaries/userallowedlist&#39;</span><span class="p">,</span><span class="s">&#39;r&#39;</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">user_all_dict</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">saved_list</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">EOFError</span><span class="p">:</span> <span class="c">#if list is empty skip</span>
                 <span class="k">pass</span>
             <span class="n">saved_list</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
             
-        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s">&#39;usernotallowedlist&#39;</span><span class="p">):</span> <span class="c">#Open save user file if exist</span>
-            <span class="n">saved_list</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;usernotallowedlist&#39;</span><span class="p">,</span><span class="s">&#39;r&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s">&#39;Data/UserDictionaries/usernotallowedlist&#39;</span><span class="p">):</span> <span class="c">#Open save user file if exist</span>
+            <span class="n">saved_list</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;Data/UserDictionaries/usernotallowedlist&#39;</span><span class="p">,</span><span class="s">&#39;r&#39;</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">user_not_all_dict</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">saved_list</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">EOFError</span><span class="p">:</span><span class="c">#if list is empty skip</span>
@@ -152,6 +153,7 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        text (str): str to check for words.</span>
+<span class="sd">        dictionaries (list): list of available dictionaries for program</span>
 
 <span class="sd">    &gt;&gt;&gt; allowed,not_allowed,indeterminate = check_for_words(&#39;Hello my vancomycin Seth Pitts blaze&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; allowed == [&#39;Hello&#39;, &#39;vancomycin&#39;]</span>

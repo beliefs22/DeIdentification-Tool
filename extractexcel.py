@@ -5,10 +5,11 @@ import pickle
 
 
 class Excel:
-    """Object representing an excel File containing PHI.
+    """Object representing an excel File containing PHI to be De-Identified.
 
     Args:
-        excelfile (file): file pointing to excelfile to be cleaned
+        excelfile (file): file pointing to excelfile to be cleaned must be
+            in .csv format
     
     """
 
@@ -25,11 +26,11 @@ class Excel:
             raw_data = subjectdata.rstrip("\n")
             self.subjects.append(Subject(self.headers,raw_data))
     def deidentify(self,master_not_allowed, master_indeterminate):
-        """Runs Deidentification process.
+        """Removes/Denotes prohibited/indeterminate words for each subject.
 
         Args:
-            master_not_allowed (list): list of identified PHI
-            master_indeterminate (list): list of indeterminate words
+            master_not_allowed (list): words to remove
+            master_indeterminate (list): words to denote as [Indeerminate]
         
         """
         for subject in self.subjects:
@@ -40,14 +41,17 @@ class Excel:
         """Return list of strings representing headers for excel file.
 
         Returns:
-            dict: dict where v = header and k = position in file
+            dict: value = 'header name' key = position in file.
+                Example: {1:'SubjectNumber'}
         
         """
         return self.headers
 
     def get_subjects(self):
         """Return list of Subject objects created from excel file.
-
+            Each line of file, besides header line, is used to create a single
+            subject.
+            
         Returns:
             list: list containing subjects objects created from file
 
@@ -55,7 +59,7 @@ class Excel:
         return self.subjects
 
     def get_num_of_subjects(self):
-        """Return number of subjects in file as int.
+        """Return number of Subjects created from file.
 
         Returns:
             int: number of subjects created from file
@@ -64,7 +68,7 @@ class Excel:
         return len(self.subjects)
 
     def one_pass(self, size=None):
-        """Part of Deidentification process.
+        """One pass through a group of subjects to categorize words.
 
         Args:
             size (int): represents the number of subjects to run the cleaning
@@ -99,8 +103,8 @@ class Excel:
         return master_allowed, master_not_allowed, master_indeterminate
         
     def create_user_dictionary(self, user_allowed,user_not_allowed):
-        """Creates a dictionary of words that could be ambigious that the user
-        has chosen to let through. Persist throughout multiple sessions.
+        """Creates a dictionary of words that could be ambigious that the user.
+            Dictionary persit through multiple sessions
 
         Args:
             user_allowed (list): words user wants to let through
@@ -140,7 +144,12 @@ class Excel:
         myfile2.close()
 
     def make_csv(self,savefile):
-        """Creates CSV of deidentified data."""        
+        """Creates CSV of deidentified data.
+
+        Args:
+            savefile (file): location to save CSV file
+            
+        """        
         savefile.write(",".join(self.raw_headers) + "\n")
         for subject in self.subjects:
             savefile.write(subject.get_clean_data() + "\n")
@@ -148,7 +157,7 @@ class Excel:
             
 
 class Subject:
-    """Object Representing a subject or one line from an excel file.
+    """Object Representing a subject created from one line of an excel file.
     
     Args:
         headers (dict): dictionary containing header information
@@ -174,7 +183,7 @@ class Subject:
         return self.raw_data
 
     def get_clean_data(self):
-        """Return str representing clean data.
+        """Return str representing cleaned data.
 
         Returns:
             str: string represeting de-identified data
@@ -182,11 +191,10 @@ class Subject:
         return self.clean_data
         
     def clean(self, dictionaries):
-        """Runs process to remove dates and find words that are allowed,
-        not allowed(names), and ambiguous words.
+        """Cleaning process. Categorizes words as pass/fail/indeterminate.
 
         Returns:
-            list: 3 list containg allowed, not alowed and unclear words
+            list: 3 list containg allowed, not alowed and indeterminate words
         
         """
         temp = self.raw_data.replace(","," ") #remove commas temporariarly
@@ -198,7 +206,7 @@ class Subject:
         return allowed, not_allowed, indeterminate
 
     def final_clean(self,master_not_allowed,master_indeterminate):
-        """Replaces words in Subject data that are allowed or unclear.
+        """Remves/Denotes allowed/indeterminate words in subjects data.
 
         Args:
             master_not_allowed (list): words to remove from data
@@ -227,12 +235,10 @@ class Subject:
             self.clean_data = temp
 def main():
 
-    excelfile = open("a tst csv.csv",'r')
+    excelfile = open("csvs/test_csv_2.csv",'r')
 
     ExcelFile = Excel(excelfile)
     print ExcelFile.get_headers()    
-    ExcelFile.clean_data()    
-    ExcelFile.make_csv()
 
 if __name__ == "__main__":
     main()
