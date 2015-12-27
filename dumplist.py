@@ -7,29 +7,18 @@ def dump_object(my_object,filename):
 
 def main():
 
-    myfile = open('wordlist.txt','r')
-    dictionary = dict()
-    firstnames = dict()
-    lastnames = dict()
-    medlist = dict()
+    myfile = open('/home/beliefs22/python/primes.txt','r')
+    prime_list = dict()
+    for pos, line in enumerate(myfile):
+        prime_list[int(line.rstrip("\n"))] = pos
+    myfile.close()
 
-    file_list = list((["completedict.txt","englishwordslist",dictionary], #pickle files with word list
-                 ["firstnames.txt","firstnameslist",firstnames],
-                 ["lastnames.txt","lastnameslist",lastnames],
-                    ["wordlist.txt","medicalwordlist",medlist]))
+    prime_list = tuple(sorted(tuple(prime_list)))
 
-    for pairs in file_list:
-        myfile = open(pairs[0],'r')
-        for line in myfile:
-            word = line.rstrip("\n").lower()
-            pairs[2][word] = None
-        myfile.close()
-        dump_object(pairs[2],pairs[1])
-
-    for pairs in file_list:
-        myfile = open(pairs[1],'r')
-        a = pickle.load(myfile)
-        print type(a), len(a), "Hello" in a, pairs[1]
+    dump_object(prime_list,'/home/beliefs22/python/primetuples')
+    myfile = open('/home/beliefs22/python/primetuples', 'r')
+    test = pickle.load(myfile)
+    print len(test), type(test), test[17], 29 in test, test
 
 if __name__ == '__main__':
     main()
