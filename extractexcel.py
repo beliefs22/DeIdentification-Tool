@@ -2,28 +2,29 @@ import patternchecker as ptchk
 import re
 import os
 import pickle
+import csv
 
 
 class Excel:
     """Object representing an excel File containing PHI to be De-Identified.
 
     Args:
-        excelfile (file): file pointing to excelfile to be cleaned must be
+        excelfile (csvfile): csvfile pointing to excelfile to be cleaned must be
             in .csv format
     
     """
 
     def __init__(self, excelfile):
         self.excelfile = excelfile
-        self.raw_headers = excelfile.readline().rstrip("\n").split(",")
+        self.raw_headers = excelfile.next()
         self.headers = {}  # headers should be first line of csv
 
         for index, header in enumerate(self.raw_headers):
             self.headers[index] = header  # keep headers in order
 
         self.subjects = []  # one subject is one line of file other than first
-        for index, subjectdata in enumerate(excelfile):
-            raw_data = subjectdata.rstrip("\n")
+        for subjectdata in excelfile:
+            raw_data = " ".join(subjectdata)
             self.subjects.append(Subject(self.headers, raw_data))
 
     def deidentify(self, master_not_allowed, master_indeterminate):
@@ -150,11 +151,11 @@ class Excel:
             savefile (file): location to save CSV file
             
         """
-        savefile.write(",".join(self.raw_headers) + "\n")
+        savewriter = csv.writer(savefile)
+        savewriter.writerow(self.raw_headers)
         for subject in self.subjects:
-            savefile.write(subject.get_clean_data() + "\n")
+            savewriter.writerow(subject.get_clean_data().split())
         savefile.close()
-
 
 class Subject:
     """Object Representing a subject created from one line of an excel file.

@@ -1,8 +1,10 @@
+#!/usr/bin/env python
 from Tkinter import *
 from tkFileDialog import *
 from tkMessageBox import *
 import extractexcel as excel
 from guiclasses import *
+import csv
 
 
 class MainFrame(Frame):
@@ -30,13 +32,14 @@ class MainFrame(Frame):
     def _OpenFile(self):
         """Opens files and displays number of subjects in file"""
         name = askopenfilename()
-        self.excelfile = open(name, 'r')
+        myfile = open(name,'r')
+        self.excelfile = csv.reader(myfile)
         self.ExcelFile = excel.Excel(self.excelfile)
         number_of_sub = self.ExcelFile.get_num_of_subjects()
         self.main_label.update("There are %d subjects in this file" \
                                % number_of_sub)
         self.main_label.load()
-        self.excelfile.close()
+        myfile.close()
 
     def _Headers(self):
         """Displays Headers for file"""
