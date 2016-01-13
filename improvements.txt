@@ -9,7 +9,7 @@ UI improvements
 ====================================================
 Make sessions that persist so that when deidentifying large number of files you can choose to deidentify
 a group of them, then return and run the process again, benefitting from a dictionary that has been
-created for this group of datasets. Hopefully the dictionary will 'learn' which ambigious words to allow
+created from a subset of files. Hopefully the dictionary will 'learn' which ambigious words to allow
 through and which to remove from the file.
 
 Make it easier to select words, only show ten at a time so when the user selects from those ten, an new group pops up, reduces need to scroll.

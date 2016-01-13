@@ -74,6 +74,7 @@ class MainFrame(Frame):
 
     def _Find(self):
         """Looks for user known words"""
+        self.master_indeterminate = sorted(self.master_indeterminate)
         self.main_listbox.update(" ".join(self.master_indeterminate))
         self.main_listbox.load()
         self.main_listbox.update_color("green")
@@ -90,6 +91,7 @@ class MainFrame(Frame):
             self.user_allowed.append(self.master_indeterminate[index])
         for word in self.user_allowed:
             self.master_indeterminate.remove(word)
+        self.master_indeterminate = sorted(self.master_indeterminate)
         self.main_listbox.update(" ".join(self.master_indeterminate))
         self.main_listbox.clear()
         self.select_button.config(command=self._SecondSelect)
@@ -107,6 +109,7 @@ class MainFrame(Frame):
         self.ExcelFile.create_user_dictionary(self.user_allowed, self.user_not_allowed)
         self.master_allowed, self.master_not_allowed, self.master_indeterminate \
             = self.ExcelFile.one_pass()
+        self.master_indeterminate = sorted(self.master_indeterminate)
         self.main_listbox.update(" ".join(self.master_indeterminate))
         self.main_listbox.clear()
         self.main_label.update("Please select allowed words")
@@ -121,6 +124,7 @@ class MainFrame(Frame):
             self.user_allowed.append(self.master_indeterminate[index])
         for word in self.user_allowed:
             self.master_indeterminate.remove(word)
+        self.master_indeterminate = sorted(self.master_indeterminate)
         self.main_listbox.update(" ".join(self.master_indeterminate))
         self.main_listbox.clear()
         self.select_button.config(command=self._FinalSelect)

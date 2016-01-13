@@ -42,30 +42,32 @@
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">csv</span>
 
 
 <div class="viewcode-block" id="Excel"><a class="viewcode-back" href="../code.html#extractexcel.Excel">[docs]</a><span class="k">class</span> <span class="nc">Excel</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Object representing an excel File containing PHI to be De-Identified.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        excelfile (file): file pointing to excelfile to be cleaned must be</span>
+<span class="sd">        excelfile (csvfile): csvfile pointing to excelfile to be cleaned must be</span>
 <span class="sd">            in .csv format</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">excelfile</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">excelfile</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">excelfile</span> <span class="o">=</span> <span class="n">excelfile</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">raw_headers</span> <span class="o">=</span> <span class="n">excelfile</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;,&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span> <span class="c">#headers should be first line of csv</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">raw_headers</span> <span class="o">=</span> <span class="n">excelfile</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c"># headers should be first line of csv</span>
 
         <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">header</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_headers</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">header</span> <span class="c">#keep headers in order</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">header</span>  <span class="c"># keep headers in order</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">subjects</span> <span class="o">=</span> <span class="p">[]</span> <span class="c">#one subject is one line of file other than first</span>
-        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">subjectdata</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">excelfile</span><span class="p">):</span>
-            <span class="n">raw_data</span> <span class="o">=</span> <span class="n">subjectdata</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">subjects</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Subject</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span><span class="n">raw_data</span><span class="p">))</span>
-<div class="viewcode-block" id="Excel.deidentify"><a class="viewcode-back" href="../code.html#extractexcel.Excel.deidentify">[docs]</a>    <span class="k">def</span> <span class="nf">deidentify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">master_not_allowed</span><span class="p">,</span> <span class="n">master_indeterminate</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">subjects</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c"># one subject is one line of file other than first</span>
+        <span class="k">for</span> <span class="n">subjectdata</span> <span class="ow">in</span> <span class="n">excelfile</span><span class="p">:</span>
+            <span class="n">raw_data</span> <span class="o">=</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">subjectdata</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">subjects</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Subject</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">))</span>
+
+<div class="viewcode-block" id="Excel.deidentify"><a class="viewcode-back" href="../code.html#extractexcel.Excel.deidentify">[docs]</a>    <span class="k">def</span> <span class="nf">deidentify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">master_not_allowed</span><span class="p">,</span> <span class="n">master_indeterminate</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Removes/Denotes prohibited/indeterminate words for each subject.</span>
 
 <span class="sd">        Args:</span>
@@ -74,8 +76,7 @@
 <span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">subject</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">subjects</span><span class="p">:</span>
-            <span class="n">subject</span><span class="o">.</span><span class="n">final_clean</span><span class="p">(</span><span class="n">master_not_allowed</span><span class="p">,</span><span class="n">master_indeterminate</span><span class="p">)</span></div>
-        
+            <span class="n">subject</span><span class="o">.</span><span class="n">final_clean</span><span class="p">(</span><span class="n">master_not_allowed</span><span class="p">,</span> <span class="n">master_indeterminate</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Excel.get_headers"><a class="viewcode-back" href="../code.html#extractexcel.Excel.get_headers">[docs]</a>    <span class="k">def</span> <span class="nf">get_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return list of strings representing headers for excel file.</span>
@@ -117,19 +118,19 @@
 <span class="sd">            list: 3 list containing allowed, not allowed and interminate words</span>
 <span class="sd">                   </span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">master_allowed</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span> <span class="c">#tracks permited words</span>
-        <span class="n">master_not_allowed</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span><span class="c">#tracks prohibited words</span>
-        <span class="n">master_indeterminate</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span><span class="c"># tracks ambigious words</span>
-        <span class="k">if</span> <span class="n">size</span>  <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">master_allowed</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>  <span class="c"># tracks permited words</span>
+        <span class="n">master_not_allowed</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>  <span class="c"># tracks prohibited words</span>
+        <span class="n">master_indeterminate</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>  <span class="c"># tracks ambigious words</span>
+        <span class="k">if</span> <span class="n">size</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subjects</span><span class="p">)</span>
         <span class="n">available_dictionaries</span> <span class="o">=</span> <span class="n">ptchk</span><span class="o">.</span><span class="n">Dictionary</span><span class="p">()</span>
         <span class="n">dictionaries</span> <span class="o">=</span> <span class="n">available_dictionaries</span><span class="o">.</span><span class="n">export_dicts</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
-            <span class="k">print</span> <span class="s">&quot;cleaning subject </span><span class="si">%d</span><span class="s">/</span><span class="si">%d</span><span class="s"> &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">)</span>
+            <span class="k">print</span> <span class="s">&quot;cleaning subject </span><span class="si">%d</span><span class="s">/</span><span class="si">%d</span><span class="s"> &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
             <span class="c"># Finds permited, prohibited and ambiguous words for a subject</span>
-            <span class="n">allowed</span><span class="p">,</span><span class="n">not_allowed</span><span class="p">,</span><span class="n">indeterminate</span> <span class="o">=</span> \
-                                              <span class="bp">self</span><span class="o">.</span><span class="n">subjects</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">clean</span><span class="p">(</span>
-                                                  <span class="n">dictionaries</span><span class="p">)</span>
+            <span class="n">allowed</span><span class="p">,</span> <span class="n">not_allowed</span><span class="p">,</span> <span class="n">indeterminate</span> <span class="o">=</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">subjects</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">clean</span><span class="p">(</span>
+                        <span class="n">dictionaries</span><span class="p">)</span>
             <span class="c"># Add words for one subject to master list</span>
             <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">allowed</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">word</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">master_allowed</span><span class="p">:</span>
@@ -141,60 +142,60 @@
                 <span class="k">if</span> <span class="n">word</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">master_indeterminate</span><span class="p">:</span>
                     <span class="n">master_indeterminate</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">master_allowed</span><span class="p">,</span> <span class="n">master_not_allowed</span><span class="p">,</span> <span class="n">master_indeterminate</span></div>
-        
-<div class="viewcode-block" id="Excel.create_user_dictionary"><a class="viewcode-back" href="../code.html#extractexcel.Excel.create_user_dictionary">[docs]</a>    <span class="k">def</span> <span class="nf">create_user_dictionary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_allowed</span><span class="p">,</span><span class="n">user_not_allowed</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Excel.create_user_dictionary"><a class="viewcode-back" href="../code.html#extractexcel.Excel.create_user_dictionary">[docs]</a>    <span class="k">def</span> <span class="nf">create_user_dictionary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_allowed</span><span class="p">,</span> <span class="n">user_not_allowed</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Creates a dictionary of words that could be ambigious that the user.</span>
 <span class="sd">            Dictionary persit through multiple sessions</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            user_allowed (list): words user wants to let through</span>
-<span class="sd">            user_not_allwed (list): words use wants to fail</span>
+<span class="sd">            user_not_allowed (list): words use wants to fail</span>
 <span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">user_allowed_dict</span> <span class="o">=</span> <span class="p">[]</span> <span class="c">#list of user permitted words</span>
-        <span class="n">user_not_allowed_dict</span> <span class="o">=</span> <span class="p">[]</span> <span class="c">#list of user prohibited words</span>
+        <span class="n">user_allowed_dict</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c"># list of user permitted words</span>
+        <span class="n">user_not_allowed_dict</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c"># list of user prohibited words</span>
 
-        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s">&#39;Data/UserDictionaries/userallowedlist&#39;</span><span class="p">):</span> <span class="c">#opens previously made list</span>
-            <span class="n">wordfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;Data/UserDictionaries/userallowedlist&#39;</span><span class="p">,</span><span class="s">&#39;r&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s">&#39;Data/UserDictionaries/userallowedlist&#39;</span><span class="p">):</span>  <span class="c"># opens previously made list</span>
+            <span class="n">wordfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;Data/UserDictionaries/userallowedlist&#39;</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">user_allowed_dict</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">wordfile</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">EOFError</span><span class="p">:</span> <span class="c">#catches empty list from previous session</span>
+            <span class="k">except</span> <span class="ne">EOFError</span><span class="p">:</span>  <span class="c"># catches empty list from previous session</span>
                 <span class="n">user_allowed_dict</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="n">wordfile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s">&#39;Data/UserDictionaries/usernotallowedlist&#39;</span><span class="p">):</span>
-            <span class="n">wordfile2</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;Data/UserDictionaries/usernotallowedlist&#39;</span><span class="p">,</span><span class="s">&#39;r&#39;</span><span class="p">)</span>
+            <span class="n">wordfile2</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;Data/UserDictionaries/usernotallowedlist&#39;</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">user_not_allowed_dict</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">wordfile2</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">EOFError</span><span class="p">:</span>
                 <span class="n">user_not_allowed_dict</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="n">wordfile2</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-        <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">user_allowed</span><span class="p">:</span> 
+        <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">user_allowed</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">word</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">user_allowed_dict</span><span class="p">:</span>
                 <span class="n">user_allowed_dict</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
         <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">user_not_allowed</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">word</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">user_not_allowed_dict</span><span class="p">:</span>
                 <span class="n">user_not_allowed_dict</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
 
-        <span class="n">myfile1</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;Data/UserDictionaries/userallowedlist&#39;</span><span class="p">,</span><span class="s">&#39;w&#39;</span><span class="p">)</span> 
-        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">user_allowed_dict</span><span class="p">,</span><span class="n">myfile1</span><span class="p">)</span> <span class="c">#saves new changes</span>
+        <span class="n">myfile1</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;Data/UserDictionaries/userallowedlist&#39;</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span>
+        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">user_allowed_dict</span><span class="p">,</span> <span class="n">myfile1</span><span class="p">)</span>  <span class="c"># saves new changes</span>
         <span class="n">myfile1</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-        <span class="n">myfile2</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;Data/UserDictionaries/usernotallowedlist&#39;</span><span class="p">,</span><span class="s">&#39;w&#39;</span><span class="p">)</span>
-        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">user_not_allowed_dict</span><span class="p">,</span><span class="n">myfile2</span><span class="p">)</span>
+        <span class="n">myfile2</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;Data/UserDictionaries/usernotallowedlist&#39;</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span>
+        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">user_not_allowed_dict</span><span class="p">,</span> <span class="n">myfile2</span><span class="p">)</span>
         <span class="n">myfile2</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Excel.make_csv"><a class="viewcode-back" href="../code.html#extractexcel.Excel.make_csv">[docs]</a>    <span class="k">def</span> <span class="nf">make_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">savefile</span><span class="p">):</span>
+<div class="viewcode-block" id="Excel.make_csv"><a class="viewcode-back" href="../code.html#extractexcel.Excel.make_csv">[docs]</a>    <span class="k">def</span> <span class="nf">make_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">savefile</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Creates CSV of deidentified data.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            savefile (file): location to save CSV file</span>
 <span class="sd">            </span>
-<span class="sd">        &quot;&quot;&quot;</span>        
-        <span class="n">savefile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_headers</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">savewriter</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">savefile</span><span class="p">)</span>
+        <span class="n">savewriter</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_headers</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">subject</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">subjects</span><span class="p">:</span>
-            <span class="n">savefile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">subject</span><span class="o">.</span><span class="n">get_clean_data</span><span class="p">()</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
-        <span class="n">savefile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>    </div></div>
-            
+            <span class="n">savewriter</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">subject</span><span class="o">.</span><span class="n">get_clean_data</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+        <span class="n">savefile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div></div>
 
 <div class="viewcode-block" id="Subject"><a class="viewcode-back" href="../code.html#extractexcel.Subject">[docs]</a><span class="k">class</span> <span class="nc">Subject</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Object Representing a subject created from one line of an excel file.</span>
@@ -205,7 +206,7 @@
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">headers</span><span class="p">,</span><span class="n">rawdata</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">rawdata</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span> <span class="o">=</span> <span class="n">rawdata</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">clean_data</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
@@ -229,7 +230,7 @@
 <span class="sd">            str: string represeting de-identified data</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">clean_data</span></div>
-        
+
 <div class="viewcode-block" id="Subject.clean"><a class="viewcode-back" href="../code.html#extractexcel.Subject.clean">[docs]</a>    <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dictionaries</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Cleaning process. Categorizes words as pass/fail/indeterminate.</span>
 
@@ -237,15 +238,15 @@
 <span class="sd">            list: 3 list containg allowed, not alowed and indeterminate words</span>
 <span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot;,&quot;</span><span class="p">,</span><span class="s">&quot; &quot;</span><span class="p">)</span> <span class="c">#remove commas temporariarly</span>
-        <span class="n">dates</span><span class="p">,</span><span class="n">non_dates</span> <span class="o">=</span> <span class="n">ptchk</span><span class="o">.</span><span class="n">check_for_dates</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
-        <span class="n">allowed</span><span class="p">,</span><span class="n">not_allowed</span><span class="p">,</span><span class="n">indeterminate</span> <span class="o">=</span>\
-                                          <span class="n">ptchk</span><span class="o">.</span><span class="n">check_for_words</span><span class="p">(</span><span class="n">non_dates</span><span class="p">,</span>
-                                                                <span class="n">dictionaries</span><span class="p">)</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot;,&quot;</span><span class="p">,</span> <span class="s">&quot; &quot;</span><span class="p">)</span>  <span class="c"># remove commas temporariarly</span>
+        <span class="n">dates</span><span class="p">,</span> <span class="n">non_dates</span> <span class="o">=</span> <span class="n">ptchk</span><span class="o">.</span><span class="n">check_for_dates</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+        <span class="n">allowed</span><span class="p">,</span> <span class="n">not_allowed</span><span class="p">,</span> <span class="n">indeterminate</span> <span class="o">=</span> \
+            <span class="n">ptchk</span><span class="o">.</span><span class="n">check_for_words</span><span class="p">(</span><span class="n">non_dates</span><span class="p">,</span>
+                                  <span class="n">dictionaries</span><span class="p">)</span>
         <span class="n">not_allowed</span> <span class="o">=</span> <span class="n">not_allowed</span> <span class="o">+</span> <span class="n">dates</span>
         <span class="k">return</span> <span class="n">allowed</span><span class="p">,</span> <span class="n">not_allowed</span><span class="p">,</span> <span class="n">indeterminate</span></div>
 
-<div class="viewcode-block" id="Subject.final_clean"><a class="viewcode-back" href="../code.html#extractexcel.Subject.final_clean">[docs]</a>    <span class="k">def</span> <span class="nf">final_clean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">master_not_allowed</span><span class="p">,</span><span class="n">master_indeterminate</span><span class="p">):</span>
+<div class="viewcode-block" id="Subject.final_clean"><a class="viewcode-back" href="../code.html#extractexcel.Subject.final_clean">[docs]</a>    <span class="k">def</span> <span class="nf">final_clean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">master_not_allowed</span><span class="p">,</span> <span class="n">master_indeterminate</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Remves/Denotes allowed/indeterminate words in subjects data.</span>
 
 <span class="sd">        Args:</span>
@@ -253,36 +254,37 @@
 <span class="sd">            master_indeterminate (list): words to mark as ambigious</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">clean_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span> <span class="c">#initialize clean data to raw data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clean_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span>  <span class="c"># initialize clean data to raw data</span>
 
         <span class="k">def</span> <span class="nf">make_re</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
-            <span class="c">#Helper function to make words into re objects </span>
-            <span class="k">return</span> <span class="s">r&#39;\b(</span><span class="si">%s</span><span class="s">)\b&#39;</span> <span class="o">%</span> <span class="n">word</span> 
+            <span class="c"># Helper function to make words into re objects</span>
+            <span class="k">return</span> <span class="s">r&#39;\b(</span><span class="si">%s</span><span class="s">)\b&#39;</span> <span class="o">%</span> <span class="n">word</span>
 
-        <span class="n">not_allowed_patterns</span> <span class="o">=</span> <span class="p">[</span><span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">make_re</span><span class="p">(</span><span class="n">word</span><span class="p">))</span>\
+        <span class="n">not_allowed_patterns</span> <span class="o">=</span> <span class="p">[</span><span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">make_re</span><span class="p">(</span><span class="n">word</span><span class="p">))</span> \
                                 <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">master_not_allowed</span><span class="p">]</span>
         <span class="n">indeterminate_patterns</span> <span class="o">=</span> <span class="p">[</span><span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">make_re</span><span class="p">(</span><span class="n">word</span><span class="p">))</span> \
                                   <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">master_indeterminate</span><span class="p">]</span>
 
-        <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">not_allowed_patterns</span><span class="p">:</span><span class="c">#removes prohibited words</span>
-            <span class="n">temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clean_data</span><span class="p">[:]</span> 
-            <span class="n">temp</span> <span class="o">=</span> <span class="n">pattern</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&quot;[REDACTED]&quot;</span><span class="p">,</span><span class="n">temp</span><span class="p">[:])</span>
+        <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">not_allowed_patterns</span><span class="p">:</span>  <span class="c"># removes prohibited words</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clean_data</span><span class="p">[:]</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="n">pattern</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&quot;[REDACTED]&quot;</span><span class="p">,</span> <span class="n">temp</span><span class="p">[:])</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">clean_data</span> <span class="o">=</span> <span class="n">temp</span>
-        <span class="k">for</span> <span class="n">index</span><span class="p">,</span><span class="n">pattern</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">indeterminate_patterns</span><span class="p">):</span><span class="c">#mark ambg words</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">indeterminate_patterns</span><span class="p">):</span>  <span class="c"># mark ambg words</span>
             <span class="n">temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clean_data</span><span class="p">[:]</span>
             <span class="n">temp</span> <span class="o">=</span> <span class="n">pattern</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">master_indeterminate</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> \
-                               <span class="o">+</span> <span class="s">&quot;[INDETER]&quot;</span><span class="p">,</span><span class="n">temp</span><span class="p">[:])</span>
+                               <span class="o">+</span> <span class="s">&quot;[INDETER]&quot;</span><span class="p">,</span> <span class="n">temp</span><span class="p">[:])</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">clean_data</span> <span class="o">=</span> <span class="n">temp</span></div></div>
+
+
 <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">excelfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;csvs/test_csv_2.csv&quot;</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
 
-    <span class="n">excelfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;csvs/test_csv_2.csv&quot;</span><span class="p">,</span><span class="s">&#39;r&#39;</span><span class="p">)</span>
+    <span class="n">excel_file</span> <span class="o">=</span> <span class="n">Excel</span><span class="p">(</span><span class="n">excelfile</span><span class="p">)</span>
+    <span class="k">print</span> <span class="n">excel_file</span><span class="o">.</span><span class="n">get_headers</span><span class="p">()</span>
 
-    <span class="n">ExcelFile</span> <span class="o">=</span> <span class="n">Excel</span><span class="p">(</span><span class="n">excelfile</span><span class="p">)</span>
-    <span class="k">print</span> <span class="n">ExcelFile</span><span class="o">.</span><span class="n">get_headers</span><span class="p">()</span>    
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>
-        
 </pre></div>
 
           </div>

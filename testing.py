@@ -53,9 +53,9 @@ class Test(unittest.TestCase):
         self.fixture.deidentify(self.master_not_allowed,
                                 self.master_indeterminate)
         #what data should look like after it has been cleaned
-        clean_data = ['Sp1 [REDACTED] [REDACTED] [REDACTED] 12',
-                      'Sp2 [REDACTED] [REDACTED] [REDACTED] 315',
-                      'Sp3 Beilin[INDETER] [REDACTED] [REDACTED] -333']
+        clean_data = ['Sp1,[REDACTED],[REDACTED],[REDACTED],12',
+                      'Sp2,[REDACTED],[REDACTED],[REDACTED],315',
+                      'Sp3,Beilin[INDETER],[REDACTED],[REDACTED],-333']
         
         deidentify_pass = True
         #True only if output matched expected output
