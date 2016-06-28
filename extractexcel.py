@@ -24,7 +24,7 @@ class Excel:
 
         self.subjects = []  # one subject is one line of file other than first
         for subjectdata in excelfile:
-            print subjectdata
+            #print subjectdata
             raw_data = ",".join(subjectdata)
             self.subjects.append(Subject(self.headers, raw_data))
 
@@ -155,8 +155,8 @@ class Excel:
         savewriter = csv.writer(savefile)
         savewriter.writerow(self.raw_headers)
         for subject in self.subjects:
-            print type(subject.get_clean_data())
-            print subject.get_clean_data()
+            #print type(subject.get_clean_data())
+            #print subject.get_clean_data()
             savewriter.writerow(subject.get_clean_data().split(","))
         savefile.close()
 
@@ -201,7 +201,7 @@ class Subject:
             list: 3 list containg allowed, not alowed and indeterminate words
         
         """
-        print self.raw_data, "before we remove"
+        #print self.raw_data, "before we remove"
         temp = self.raw_data.replace(",", " ")  # remove commas temporariarly
         dates, non_dates = ptchk.check_for_dates(temp)
         allowed, not_allowed, indeterminate = \
