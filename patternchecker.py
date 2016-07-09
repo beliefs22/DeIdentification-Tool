@@ -29,7 +29,6 @@ def check_for_dates(text):
 
     punct_pattern = re.compile(r'[^\w]+')  # matches punctuation
 
-    date_locations = date_pattern.finditer(text)
     matched_dates = date_pattern.findall(text)
     for date in matched_dates[:]:
         if not datecheckers.isDate(date):
