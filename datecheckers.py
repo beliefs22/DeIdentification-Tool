@@ -16,7 +16,7 @@ def isDate(date):
            (len(str(pieces[2])) == 3) or \
            (len(str(pieces[2])) == 2 and pieces[2] not in range(0,100) or \
            (len(str(pieces[2])) == 4 and \
-            pieces[2] not in range(1913, datetime.now().year + 1)):
+            pieces[2] not in range(1913, datetime.now().year + 1))):
             return False
     if len((pieces)) == 2:
         if int(pieces[0]) not in range(1,13) or int(pieces[1]) > 2016:
