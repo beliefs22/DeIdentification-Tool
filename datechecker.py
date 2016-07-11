@@ -11,7 +11,7 @@ def makeRePattern(pattern, words):
     """
     #create list of re objects in the given pattern for each word
     re_patterns = [
-        re.compile(pattern % tuple([word] * pattern.count("%s")))
+        re.compile(pattern % tuple([word] * pattern.count("%s")),re.X)
         for word in words
     ]
     return re_patterns
@@ -98,17 +98,16 @@ def isDate(text):
     
 def remove_dates(text):
     """checks the given string for dates"""
-    text_without_dates = text[:]
-    print "text is", text
-    
+    text_without_dates = text[:]    
     #template to make regular expressions
     #finds words at begining, end , and anywhere in sentence
     pattern_template = \
-        '\A(%s)(\W)*( )|( )(%s)(\W)*( )|( )(%s)(\W)*\Z'
+        '\A(%s)(\W)*[\s]|[\s](%s)[\s]|[\s](%s)(\W)*\Z|\A(%s)\Z'    
 
     # regular expression to use to match dates
     date_patterns = makeRePattern(pattern_template,
-            ['[0-9]{1,2}[\W][0-9]{1,2}[\W][0-9]{2,4}','\d{1,2}[\W]\d{2,4}'])
+            ['[-]*[0-9]{1,2}[\W][-]*[0-9]{1,2}[\W][-]*[0-9]{2,4}',
+             '[-]*\d{1,2}[\W][-]*\d{2,4}'])
 
     # regular expression to match punctuation
     punct_pattern = re.compile(r'[^\w]+')
@@ -120,36 +119,32 @@ def remove_dates(text):
         for date in found_dates:
             matched_dates.append(date.group().strip())
 
+    print matched_dates, "found dates"
+
     for date in matched_dates[:]:
-        print "date in for loop", date, isDate(date)
         #pass words that just look like dates
         if not isDate(date):
-            print "removing date" , date
             matched_dates.remove(date)
-    print matched_dates, "should be real dates only"
-
     #create patterns from found dates that were actual dates
     matched_date_patterns = makeRePattern(pattern_template, matched_dates)
     #loop to remove each found date from the text
     for date_pattern in matched_date_patterns:
-        print date_pattern.pattern, "removing this"
-        text_without_dates = date_pattern.sub(" ", text_without_dates)
-
+        text_without_dates = date_pattern.sub("[REDACTED] ", text_without_dates)
     return text_without_dates
 
 def main():
 
 
-##    dates = ['2/20/201', '31/23','12/35/2015','6/12/1353','5/5/2016','5/15',
-##             '3/23/15','03/2015','-3/-15/-2016', '5/23/23/3235/12']
+    dates = ['2/20/201', '31/23','12/35/2015','6 12 2015','5/5/2016','5/15',
+             '3/23/15','03/2015','-3/-15/-2016', '5/23/23/3235/12', '5.2015']
 ##    for date in dates:
 ##        print isDate(date), date
 
-    text = "hello world this is 2/20/2015 and i am here on 5/15 to speak with \
-            someone who 5.20.2014 5.2015 may be -5/2015 55/23 120/80"
+    text = "hello world this is 2/20/2015 and i am here on 05/15 to speak with \
+            someone who 5.20.2014 5.2015 may be -5/2015  09/15 20/80"
 
-
-    print remove_dates(text) 
+    for date in dates:
+        print date, remove_dates(date), "did it work?"
 
 if __name__ == "__main__":
     main()

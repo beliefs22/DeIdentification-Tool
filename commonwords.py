@@ -21,7 +21,6 @@ class Dictionary:
                 file_list[index].append(pickle.load(myfile))
 
         english_dictionary = file_list[0][1]
-        print len(english_dictionary)
         firstnames = file_list[1][1]
         lastnames = file_list[2][1]
         medicaldict = file_list[3][1]
@@ -62,10 +61,16 @@ class Dictionary:
                                 self.user_not_all_dict]
         for dictionary in all_allowed_dicts:
             for word in dictionary.keys():
-                self.allowed_words[word] = None
+                if dictionary != self.user_all_dict:
+                    self.allowed_words[word] = 'Found'
+                else:
+                    self.allowed_words[word] = 'User'
         for dictionary in all_prohibited_dicts:
             for word in dictionary.keys():
-                self.prohibited_words[word] = None
+                if dictionary != self.user_not_all_dict:
+                    self.prohibited_words[word] = 'Found'
+                else:
+                    self.prohibited_words[word] = 'User'
 
     def export_dicts(self):
         """Returns list of dictionaries to use in de-identification process
@@ -80,11 +85,26 @@ def remove_words(text, Dictionary):
     """Returns a text with prohibited words removed, also creates user defined
     dictionary? """
     
-    self.myDict = Dictionary
-    allowed_words, prohibited_words = self.myDict.export_dicts()
+    myDict = Dictionary
+    allowed_words, prohibited_words = myDict.export_dicts()
     #remove punct from text
-    punct_pattern = re.compile(r'[^\w]+')
-    new_text = punct_pattern.split(text[:]
+    punct_pattern = re.compile(r'[".,:\[\]()!@#$%\^&*-=_+{\}|\\/`~; ]+')
+    new_text = punct_pattern.split(text[:])
+    for index, word in enumerate(new_text):
+        allowed = allowed_words.get(word.lower())
+        prohibited = prohibited_words.get(word.lower())
+        print "word is", word, allowed, prohibited
+        if (allowed == "User" and prohibited == "User") or \
+           (allowed == "Found" and prohibited == "Found"):
+            new_text[index] = '[Indeterminate]' + word
+        elif allowed == "User" or allowed == "Found":
+            pass
+        elif prohibited == "User" or prohibited == "Found":
+            if prohibited == "User":
+                new_text[index] = '[REDACTED][User]'
+            else:
+                new_text[index] = '[REDACTED][Default]'
+    return new_text
 def main():
 
     mydict = Dictionary()
@@ -92,6 +112,11 @@ def main():
     a,b = mydict.export_dicts()
     print len(a), len(b)
 
+    text = "Hello world this is vancomycin and I am     John Smith who clindamycin,\
+and this is the world that we: random pucn'ctuation; will sometimes] \
+kill us[all"
+    print text
+    print remove_words(text, mydict)
 if __name__ =="__main__":
     main()
 
