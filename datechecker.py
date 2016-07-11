@@ -97,7 +97,7 @@ def isDate(text):
                 
     
 def remove_dates(text):
-    """checks the given string for dates"""
+    """Returns a string of text with dates redacted"""
     text_without_dates = text[:]    
     #template to make regular expressions
     #finds words at begining, end , and anywhere in sentence
@@ -140,11 +140,11 @@ def main():
 ##    for date in dates:
 ##        print isDate(date), date
 
-    text = "hello world this is 2/20/2015 and i am here on 05/15 to speak with \
-            someone who 5.20.2014 5.2015 may be -5/2015  09/15 20/80"
+    text = "Hello world this is 2/2015 and 2/26 but not 2/5/2353 and vancomycin \
+is here to make John Lilly angry"
 
-    for date in dates:
-        print date, remove_dates(date), "did it work?"
+    print text
+    print remove_dates(text)
 
 if __name__ == "__main__":
     main()
