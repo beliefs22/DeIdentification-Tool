@@ -119,8 +119,6 @@ def remove_dates(text):
         for date in found_dates:
             matched_dates.append(date.group().strip())
 
-    print matched_dates, "found dates"
-
     for date in matched_dates[:]:
         #pass words that just look like dates
         if not isDate(date):

@@ -11,13 +11,14 @@ def remove_words(text, allowed, prohibited):
     #remove punct from text
     punct_pattern = re.compile(r'[".,:\[\]()!@#$%\^&*-=_+{\}|\\/`~; ]+')
     possible_words = list(set(punct_pattern.split(text[:])))
+    #remove empty strings found at weird punctuation places
+    possible_words = [word for word in possible_words if word != ""]
     modified_text = text[:]
     for word in(possible_words):
         allowed = allowed_words.get(word.lower())
         prohibited = prohibited_words.get(word.lower())
         if (allowed == "User" and prohibited == "User") or \
            (allowed == "Found" and prohibited == "Found"):
-            print "replacing" , word
             modified_text = \
                           modified_text.replace(
                               word, '[Indeterminate]' + word + " ")

@@ -39,7 +39,7 @@ class Subject:
 
         return self.subjectdata
 
-class CleanExcelFile:
+class CleanedExcelFile:
     """object representing cleaned excel file to be exported into csv"""
     def __init__(self, header_data, cleaned_subjects):
         self.headers = header_data
@@ -47,15 +47,22 @@ class CleanExcelFile:
 
 
     def create_csv(self, outfile_name):
+        print "creating csv"
+        print self.headers
+        print len(self.subjects)
+        print self.subjects
         with open(outfile_name,'w') as output:
             output_writer = csv.writer(output, dialect='excel')
-            csv.writerow(self.headers)
+            output_writer.writerow(self.headers)
+            print "wrote headers"
             for subject in self.subjects:
                 row = []
                 data_to_write = subject.getData()
                 for header in self.headers:
-                    row.append(data_to_write[header])
-                csv.writerow(self.headers)
+                    row.append(data_to_write[header].strip("\n"))
+                print "writing a row"
+                output_writer.writerow(row)
+        print "finished csv"
 
 
 
